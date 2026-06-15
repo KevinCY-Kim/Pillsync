@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PillSync - 맞춤형 영양제 매칭 플랫폼 프로토타입</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background decorative elements -->
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+
+        <header class="main-header">
+            <div class="logo">
+                <i class="fa-solid fa-prescription-bottle-medical logo-icon"></i>
+                <span class="brand-name">Pill<span>Sync</span></span>
+                <span class="badge">MVP Sandbox</span>
+            </div>
+            <p class="subtitle">식약처 데이터 기반 영양제 큐레이션 & 쿠팡 파트너스 연동 시뮬레이터</p>
+        </header>
+
+        <main class="content-grid">
+            <!-- Left Side: Interactive Mobile App Mockup -->
+            <section class="device-section">
+                <div class="section-title">
+                    <i class="fa-solid fa-mobile-screen-button"></i> 모바일 앱 프리뷰 (체험용)
+                </div>
+                
+                <div class="mobile-frame">
+                    <!-- Status Bar -->
+                    <div class="status-bar">
+                        <span class="time">09:41</span>
+                        <div class="icons">
+                            <i class="fa-solid fa-signal"></i>
+                            <i class="fa-solid fa-wifi"></i>
+                            <i class="fa-solid fa-battery-three-quarters"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- App Screen -->
+                    <div class="app-screen" id="app-screen">
+                        <!-- Navigation Bar -->
+                        <div class="app-nav">
+                            <button class="back-btn" id="app-back-btn" style="visibility: hidden;">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <div class="app-title">필싱크 (PillSync)</div>
+                            <div class="app-actions">
+                                <i class="fa-regular fa-bell"></i>
+                            </div>
+                        </div>
+
+                        <!-- Main Scrollable Content Area -->
+                        <div class="screen-content" id="screen-content">
+                            <!-- Dynamically injected screen contents -->
+                        </div>
+                        
+                        <!-- Bottom Sticky Banner (Coupang Disclaimer) -->
+                        <div class="coupang-partners-disclaimer" id="coupang-disclaimer" style="display: none;">
+                            * 이 추천 리스트는 쿠팡 파트너스 활동의 일환으로, 구매 시 일정액의 수수료를 제공받을 수 있으며 이는 앱 운영에 도움이 됩니다.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Database Schema and Administration Simulator -->
+            <section class="admin-section">
+                <div class="section-title">
+                    <i class="fa-solid fa-database"></i> 실시간 DB & 관리자 시스템 시뮬레이터
+                </div>
+                
+                <div class="admin-card">
+                    <div class="tab-header">
+                        <button class="tab-btn active" data-tab="db-view">
+                            <i class="fa-solid fa-table"></i> DB 스키마 뷰어
+                        </button>
+                        <button class="tab-btn" data-tab="add-category">
+                            <i class="fa-solid fa-plus-circle"></i> 신규 카테고리 추가
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: DB VIEW -->
+                    <div class="tab-content active" id="tab-db-view">
+                        <div class="db-tables">
+                            <div class="db-table-card">
+                                <h4><i class="fa-solid fa-list"></i> Categories (대분류 테이블)</h4>
+                                <div class="table-container">
+                                    <table id="categories-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>카테고리명</th>
+                                                <th>설명</th>
+                                                <th>아이콘</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- Dynamic --></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="db-table-card">
+                                <h4><i class="fa-solid fa-clipboard-question"></i> Symptoms (설문/선택지 테이블)</h4>
+                                <div class="table-container">
+                                    <table id="symptoms-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Cat_ID</th>
+                                                <th>선택 항목</th>
+                                                <th>매칭 키워드</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- Dynamic --></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="db-table-card">
+                                <h4><i class="fa-solid fa-flask"></i> Ingredients_Mapping (식약처 영양소 매칭)</h4>
+                                <div class="table-container">
+                                    <table id="ingredients-table">
+                                        <thead>
+                                            <tr>
+                                                <th>성분명</th>
+                                                <th>식약처 고시 기능성 요약</th>
+                                                <th>쿠팡 검색어</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- Dynamic --></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: ADD CATEGORY FORM -->
+                    <div class="tab-content" id="tab-add-category">
+                        <form id="new-category-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="cat-name">새 카테고리 이름 (예: 눈 건강, 간 건강, 숙취해소)</label>
+                                <input type="text" id="cat-name" placeholder="카테고리명을 입력하세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cat-desc">설명</label>
+                                <input type="text" id="cat-desc" placeholder="예: 건조하고 피로한 눈을 위한 맞춤 매칭" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cat-icon">아이콘 (FontAwesome 클래스)</label>
+                                <select id="cat-icon">
+                                    <option value="fa-eye">👁️ 눈 (fa-eye)</option>
+                                    <option value="fa-beer-mug-empty">🍺 술/간 (fa-beer-mug-empty)</option>
+                                    <option value="fa-brain">🧠 두뇌/기억력 (fa-brain)</option>
+                                    <option value="fa-heart">❤️ 심장/혈관 (fa-heart)</option>
+                                    <option value="fa-shield-halved">🛡️ 면역력 (fa-shield-halved)</option>
+                                    <option value="fa-bone">🦴 관절/뼈 (fa-bone)</option>
+                                </select>
+                            </div>
+
+                            <div class="divider">설문 선택지 및 식약처 성분 연동 정보</div>
+
+                            <div class="form-group">
+                                <label for="symptom-text">선택지 질문 (예: 건조하고 뻑뻑한 느낌이 자주 들어요)</label>
+                                <input type="text" id="symptom-text" placeholder="선택지에 표시될 문구" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="matched-ingredient">추천 영양소 (식약처 인정 원료)</label>
+                                <input type="text" id="matched-ingredient" placeholder="예: 루테인 지아잔틴, 아스타잔틴" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ingredient-desc">식약처 고시 기능성 내용</label>
+                                <textarea id="ingredient-desc" rows="3" placeholder="예: 황반색소밀도를 유지하여 눈 건강에 도움을 줄 수 있음" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="coupang-keyword">쿠팡 검색 최적화 키워드 (딥링크 매칭)</label>
+                                <input type="text" id="coupang-keyword" placeholder="예: 루테인지아잔틴 직구 추천" required>
+                            </div>
+
+                            <button type="submit" class="submit-btn">
+                                <i class="fa-solid fa-save"></i> DB 저장 및 모바일 즉시 반영
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>© 2026 PillSync Sandbox System. 개발 프로세스 검증용 웹 데모 및 기획서 지원 아티팩트.</p>
+        </footer>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
