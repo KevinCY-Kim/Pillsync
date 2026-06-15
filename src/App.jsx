@@ -24,7 +24,7 @@ const localSymptoms = [
   { id: 203, category_id: 2, text: "기초대사량이 낮아 살이 잘 찌고 운동 효과를 늘리고 싶어요", ingredient_id: "콜레우스포스콜리" },
   { id: 204, category_id: 2, text: "식사량 조절이 어렵고 뱃살 위주로 빠르게 체지방을 빼고 싶어요", ingredient_id: "시서스" },
   { id: 205, category_id: 2, text: "체지방 연소를 촉진하고 유산소 운동 수행 능력을 올리고 싶어요", ingredient_id: "L-카르니틴" },
-  
+
   // 탈모 & 모발 건강 증상 (5종)
   { id: 301, category_id: 3, text: "머리카락이 가늘어지고 자고 일어나면 베개에 숱이 눈에 띄게 줄어요", ingredient_id: "비오틴" },
   { id: 302, category_id: 3, text: "두피 영양이 부족해 모발에 윤기가 없고 푸석푸석해요", ingredient_id: "맥주효모" },
@@ -42,7 +42,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "260 mg (200% 충족)",
     high_dose_effect: "만성 피로 해소 및 간 세포막 보호 작용을 신속히 활성화하여 과로로 인한 일시적 간 수치 개선에 기여",
     side_effects: "과다 복용 시 위장 장애(설사, 복통)가 발생할 수 있습니다.",
-    intake_tip: "위장에 무리를 줄 수 있으므로 식사 직후 충분한 물과 함께 섭취하세요."
+    intake_tip: "위장에 무리를 줄 수 있으므로 식사 직후 충분한 물과 함께 섭취하세요.",
+    warning_trigger_text: "위장이 민감하여 평소 복통이나 설사가 자주 생깁니다.",
+    alternative_ingredient_id: "홍경천 추출물",
+    alternative_reason: "밀크씨슬 추출물은 위와 장을 강하게 자극하여 소화기 통증이나 설사를 일으킬 수 있으므로, 부작용 없이 부신 활력을 회복하는 홍경천 추출물을 안전한 피로 회복 대안으로 추천합니다."
   },
   "비타민B군": {
     name: "활성 비타민B 콤플렉스",
@@ -52,7 +55,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "100 mg (8,333% 충족)",
     high_dose_effect: "체내 대사를 급격히 가속화하여 즉각적인 활력을 불어넣고 젖산 축적을 억제하여 만성 피로 회복",
     side_effects: "고함량 섭취 시 소변이 형광 노란색으로 변하거나 일시적으로 불면증, 위장 장애가 발생할 수 있습니다.",
-    intake_tip: "에너지 생성을 도우므로 밤늦은 시간보다는 아침이나 낮 시간대 복용을 권장합니다."
+    intake_tip: "에너지 생성을 도우므로 밤늦은 시간보다는 아침이나 낮 시간대 복용을 권장합니다.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "홍경천 추출물": {
     name: "홍경천 추출물 (로디올라)",
@@ -62,7 +68,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "200 mg (100% 충족)",
     high_dose_effect: "스트레스로 인한 피로 개선 및 가슴 두근거림 완화 효과",
     side_effects: "일부 두통 및 어지러움, 혈압에 일시적 변동이 올 수 있습니다.",
-    intake_tip: "오전 또는 오후 섭취가 적당하며, 진정 성분이 있으므로 다른 약물과의 간섭에 주의하세요."
+    intake_tip: "오전 또는 오후 섭취가 적당하며, 진정 성분이 있으므로 다른 약물과의 간섭에 주의하세요.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "홍삼": {
     name: "홍삼 (진세노사이드)",
@@ -72,7 +81,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "15 mg (500% 충족)",
     high_dose_effect: "혈소판 응집 억제를 통한 혈액 흐름 개선, 기력 증진 및 면역 세포 활성화로 면역 증진 가속",
     side_effects: "체질에 따라 열감, 두통, 불면이 생길 수 있으므로 혈압이 높으신 분은 복용에 주의해야 합니다.",
-    intake_tip: "공복에 섭취 시 흡수율이 높아 아침 공복 복용을 권장하지만, 위가 약하면 식후에 드세요."
+    intake_tip: "공복에 섭취 시 흡수율이 높아 아침 공복 복용을 권장하지만, 위가 약하면 식후에 드세요.",
+    warning_trigger_text: "고혈압이 있거나 평소 몸에 열이 많고 가슴 두근거림이 잦습니다.",
+    alternative_ingredient_id: "L-테아닌",
+    alternative_reason: "홍삼은 혈관을 이완시키나 체질에 따라 교감신경을 흥분시켜 혈압 상승 및 가슴 두근거림을 초래할 수 있습니다. 대신 뇌 세포를 안정시켜 스트레스 긴장을 부드럽게 이완해주는 L-테아닌을 권장합니다."
   },
   "L-테아닌": {
     name: "L-테아닌 (L-Theanine)",
@@ -82,7 +94,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "200 mg (100% 충족)",
     high_dose_effect: "뇌의 α파 생성을 촉진하여 과도한 긴장 상태를 완화하고 숙면 및 심신 안정을 유도",
     side_effects: "진정 효과가 강해 과량 복용 시 급격한 졸음이나 현기증을 느낄 수 있습니다.",
-    intake_tip: "스트레스를 많이 받는 업무 시간 전이나 잠들기 1~2시간 전에 미온수와 복용하십시오."
+    intake_tip: "스트레스를 많이 받는 업무 시간 전이나 잠들기 1~2시간 전에 미온수와 복용하십시오.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "가르시니아": {
     name: "가르시니아 캄보지아 추출물 (HCA)",
@@ -92,7 +107,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "1,500 mg (100% 충족)",
     high_dose_effect: "탄수화물이 지방으로 변환되는 대사 경로를 차단하여, 섭취 후 체지방 축적률을 유의미하게 감소",
     side_effects: "과량 섭취 시 생리 주기가 불규칙해지거나 경미한 피부 가려움증, 두통이 발생할 수 있습니다. 간 손상 우려가 있는 경우 주의 필요.",
-    intake_tip: "탄수화물 흡수가 시작되기 전인 식사 30분~1시간 전에 복용해야 최적의 효과를 냅니다."
+    intake_tip: "탄수화물 흡수가 시작되기 전인 식사 30분~1시간 전에 복용해야 최적의 효과를 냅니다.",
+    warning_trigger_text: "생리 주기가 불규칙하거나 간 기능 우려가 있습니다.",
+    alternative_ingredient_id: "L-카르니틴",
+    alternative_reason: "가르시니아(HCA)는 드물게 호르몬 균형에 영향을 주어 생리불순이나 간독성을 유발할 수 있습니다. 대신 부작용 없이 체지방을 미토콘드리아로 유입하여 태우는 안전한 대사 촉진 성분인 L-카르니틴을 대안으로 추천합니다."
   },
   "녹차카테킨": {
     name: "녹차 추출물 (카테킨)",
@@ -102,7 +120,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "400 mg (100% 충족)",
     high_dose_effect: "체지방 강제 연소를 촉진하고 활성산소를 억제하는 강력한 항산화 및 콜레스테롤 저하 효과",
     side_effects: "카페인 함유로 불면, 두근거림이 유발될 수 있고, 공복 섭취 시 위장 장애나 간 독성 우려가 있습니다.",
-    intake_tip: "위장 자극을 최소화하고 식후 대사를 돕도록 식사 직후 30분 이내 복용을 강력히 권장합니다."
+    intake_tip: "위장 자극을 최소화하고 식후 대사를 돕도록 식사 직후 30분 이내 복용을 강력히 권장합니다.",
+    warning_trigger_text: "카페인에 극도로 예민하여 커피를 마시면 불면증이나 두근거림이 있습니다.",
+    alternative_ingredient_id: "콜레우스포스콜리",
+    alternative_reason: "녹차카테킨 제품은 녹차 유래 천연 카페인을 소량 함유하고 있어 민감한 분들께 심장 두근거림이나 불면증을 악화시킬 수 있습니다. 대신 천연 무카페인 성분으로 기초 대사를 안전하게 끌어올려주는 콜레우스포스콜리를 적극 권장합니다."
   },
   "콜레우스포스콜리": {
     name: "콜레우스 포스콜리 추출물",
@@ -112,17 +133,23 @@ const localIngredientsMapping = {
     high_dose_ratio: "50 mg (100% 충족)",
     high_dose_effect: "제지방(근육량)은 유지·보존하면서 순수 체지방의 연소와 대사율을 올려 기초대사량 증가 효과 유도",
     side_effects: "혈압을 낮추는 부작용이 있으므로 저혈압 환자나 항응고제 복용자는 주의가 필요합니다.",
-    intake_tip: "신체 대사를 높이기 위해 오전 활동을 시작하기 전 또는 운동 1시간 전에 섭취하십시오."
+    intake_tip: "신체 대사를 높이기 위해 오전 활동을 시작하기 전 또는 운동 1시간 전에 섭취하십시오.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "시서스": {
     name: "시서스 추출물 (Cissus)",
-    desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여 식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
+    desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
     keyword: "시서스 가루 다이어트 캡슐",
     kfda_daily_intake: "시서스 추출물 기준 300 mg",
     high_dose_ratio: "300 mg (100% 충족)",
     high_dose_effect: "지방 소화 효소인 리파아제를 방해하여 지방 흡수율을 낮추고 식욕 억제 호르몬 분비 촉진",
     side_effects: "우유, 밀, 계란, 조개류 성분 알레르기가 있는 사람은 두드러기 등 과민 반응이 올 수 있습니다.",
-    intake_tip: "가루 형태인 경우 아침 또는 낮 시간에 따뜻한 물에 타서 물 대용으로 조금씩 복용하세요."
+    intake_tip: "가루 형태인 경우 아침 또는 낮 시간에 따뜻한 물에 타서 물 대용으로 조금씩 복용하세요.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "L-카르니틴": {
     name: "L-카르니틴 타르트레이트",
@@ -132,7 +159,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "2,000 mg (100% 충족)",
     high_dose_effect: "체내 축적 지방산을 에너지를 만드는 세포(미토콘드리아)로 즉각 운반하여 운동 시 연소율 극대화",
     side_effects: "과량 복용 시 비린 맛의 땀 냄새가 나거나 메스꺼움, 소화불량 및 설사를 동반할 수 있습니다.",
-    intake_tip: "유산소 및 근력 운동의 시너지를 위해 운동 30분~1시간 전에 드시는 것을 적극 추천합니다."
+    intake_tip: "유산소 및 근력 운동의 시너지를 위해 운동 30분~1시간 전에 드시는 것을 적극 추천합니다.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "비오틴": {
     name: "비오틴 (Biotin / 비타민B7)",
@@ -142,7 +172,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "5,000 mcg (16,666% 충족)",
     high_dose_effect: "두피 모낭 세포의 케라틴 단백질 합성을 급격히 끌어올려 모발 성장 속도를 가속합니다.",
     side_effects: "과량의 비오틴 섭취 시 피지 분비가 폭발하여 여드름이나 뾰루지 등 트러블이 올라올 수 있습니다.",
-    intake_tip: "복용 시 물을 하루 1.5L 이상 섭취하여 수용성 비오틴 배출을 돕는 것이 좋습니다."
+    intake_tip: "복용 시 물을 하루 1.5L 이상 섭취하여 수용성 비오틴 배출을 돕는 것이 좋습니다.",
+    warning_trigger_text: "지성 피부라 평소 피지 분비가 많고 여드름이나 뾰루지가 잘 납니다.",
+    alternative_ingredient_id: "L-시스틴",
+    alternative_reason: "초고함량 비오틴은 지성 피부군에서 피지선을 과자극하여 모낭 트러블이나 뾰루지를 유발할 수 있습니다. 모발 단백질의 핵심 원료 구조를 튼튼하게 강화해주면서 피지 조절을 돕는 L-시스틴을 훌륭한 대안으로 추천합니다."
   },
   "맥주효모": {
     name: "건조 맥주효모 (Brewer's Yeast)",
@@ -152,7 +185,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "3,000 mg (100% 충족)",
     high_dose_effect: "모발 케라틴을 만드는 18종의 아미노산 원료를 혈액에 대량 공급하여 가늘어짐 and 탈모 방어",
     side_effects: "퓨린 함량이 매우 높으므로 통풍 기왕력이 있거나 요산 수치가 높은 분은 관절 통증을 발현합니다.",
-    intake_tip: "자연식품에 가까워 소화가 용이하나, 가스나 속 더부룩함을 느낀다면 식사 직후 복용하세요."
+    intake_tip: "자연식품에 가까워 소화가 용이하나, 가스나 속 더부룩함을 느낀다면식사 직후 복용하세요.",
+    warning_trigger_text: "통풍 기왕력이 있거나 요산 수치가 높아 관절이 자주 붓고 아픕니다.",
+    alternative_ingredient_id: "판토텐산",
+    alternative_reason: "맥주효모는 세포 증식을 돕는 퓨린(Purine) 함량이 극도로 높아 통풍 환자에게 급성 발작을 유발할 수 있습니다. 대신 퓨린 걱정이 전혀 없으면서 두피 모근 세포의 재생과 영양을 채워주는 판토텐산을 안전한 대안으로 권장합니다."
   },
   "아연": {
     name: "아연 (Zinc)",
@@ -162,7 +198,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "50 mg (588% 충족)",
     high_dose_effect: "체내 활성 산소를 제거하고 두피 세포막 면역력을 높여 환절기 비듬 및 급성 탈모를 방어합니다.",
     side_effects: "일일 상한 섭취량인 35mg 이상 장기 복용 시 메스꺼움이나 구토를 일으키며 구리 흡수를 저해할 수 있습니다.",
-    intake_tip: "아연은 위장벽 자극이 심한 편이므로 반드시 식후에 충분한 물과 함께 섭취하세요."
+    intake_tip: "아연은 위장벽 자극이 심한 편이므로 반드시 식후에 충분한 물과 함께 섭취하세요.",
+    warning_trigger_text: "평소 만성 위염이 있거나 속 쓰림, 소화불량 및 메스꺼움을 잘 느낍니다.",
+    alternative_ingredient_id: "맥주효모",
+    alternative_reason: "아연은 위장 점막을 직접적으로 강하게 자극하여 고함량 섭취 시 극심한 메스꺼움이나 쓰림을 유발하기 쉽습니다. 위장에 전혀 부담을 주지 않으면서 천연 아미노산 단백질 공급원이 되는 맥주효모를 대안으로 추천합니다."
   },
   "L-시스틴": {
     name: "L-시스틴 (L-Cystine)",
@@ -172,7 +211,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "500 mg (100% 충족)",
     high_dose_effect: "모발 강도를 유지하는 케라틴의 시스틴 황 결합 구조를 보강해 가늘어진 머리카락 끊어짐 방지",
     side_effects: "위장 장애 및 기관지 분비액 유발 우려가 있으므로 만성 천식 환자는 의사 상담이 권고됩니다.",
-    intake_tip: "체내 흡수와 단백질 합성 효율을 배가시키려면 비타민 C와 아침 식후 함께 복용하십시오."
+    intake_tip: "체내 흡수와 단백질 합성 효율을 배가시키려면 비타민 C와 아침 식후 함께 복용하십시오.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   },
   "판토텐산": {
     name: "판토텐산 (비타민B5)",
@@ -182,7 +224,10 @@ const localIngredientsMapping = {
     high_dose_ratio: "550 mg (11,000% 충족)",
     high_dose_effect: "피지 과잉 분비를 정상화하여 탈모성 지루성 두피염을 완화하고 모근 세포 재생 주기 단축",
     side_effects: "수용성 비타민으로 체내 축적이 없고 부작용이 거의 없으나 간혹 가벼운 복통이 생길 수 있습니다.",
-    intake_tip: "활력 비타민 계열이므로 가급적 낮 시간대(아침 또는 점심) 식후 섭취를 추천합니다."
+    intake_tip: "활력 비타민 계열이므로 가급적 낮 시간대(아침 또는 점심) 식후 섭취를 추천합니다.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
   }
 };
 
@@ -285,6 +330,7 @@ function App() {
 
   // UI Interactive States
   const [openGuides, setOpenGuides] = useState({}); // { [ingredientId]: boolean }
+  const [checkedWarnings, setCheckedWarnings] = useState({}); // { [ingredientId]: boolean }
 
   // Connection Mode State
   const [dbMode, setDbMode] = useState("Local DB");
@@ -430,7 +476,10 @@ function App() {
           high_dose_ratio: i.high_dose_ratio || "",
           high_dose_effect: i.high_dose_effect || "",
           side_effects: i.side_effects || "",
-          intake_tip: i.intake_tip || ""
+          intake_tip: i.intake_tip || "",
+          warning_trigger_text: i.warning_trigger_text || null,
+          alternative_ingredient_id: i.alternative_ingredient_id || null,
+          alternative_reason: i.alternative_reason || null
         };
       });
 
@@ -801,32 +850,43 @@ function App() {
                     <div className="section-tag">식약처 기능성 원료 분석</div>
                     <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
                       {matchedIngredientsList.map(ing => {
-                        const isHighDose = ing.high_dose_ratio && !ing.high_dose_ratio.includes("100%");
-                        const percentMatch = ing.high_dose_ratio ? ing.high_dose_ratio.match(/([\d,]+)%/) : null;
+                        const isWarningChecked = !!checkedWarnings[ing.id];
+                        const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
+                        const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
+
+                        const isHighDose = targetIng.high_dose_ratio && !targetIng.high_dose_ratio.includes("100%");
+                        const percentMatch = targetIng.high_dose_ratio ? targetIng.high_dose_ratio.match(/([\d,]+)%/) : null;
                         const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
                         const displayPercent = Math.min(rawPercent, 100);
-                        const isGuideOpen = !!openGuides[ing.id];
+                        const isGuideOpen = !!openGuides[targetIng.id];
 
                         return (
                           <div key={ing.id} className="ingredient-item">
-                            <div className="ing-name">
-                              <i className="fa-solid fa-capsules"></i> {ing.name}
+                            <div className="swapped-header">
+                              <div className="ing-name">
+                                <i className="fa-solid fa-capsules"></i> {targetIng.name}
+                              </div>
+                              {isWarningChecked && hasAlternative && (
+                                <span className="badge-alternative animate-fade">
+                                  <i className="fa-solid fa-triangle-exclamation"></i> 성분 대체 권장
+                                </span>
+                              )}
                             </div>
-                            <div className="ing-desc">{ing.desc}</div>
+                            <div className="ing-desc">{targetIng.desc}</div>
 
                             {/* 식약처 일일 권장량 및 충족율 게이지 */}
-                            {ing.kfda_daily_intake && (
+                            {targetIng.kfda_daily_intake && (
                               <div className="intake-meta">
                                 <div className="intake-row">
                                   <span className="intake-label">식약처 하루 권장량</span>
-                                  <span className="intake-val">{ing.kfda_daily_intake}</span>
+                                  <span className="intake-val">{targetIng.kfda_daily_intake}</span>
                                 </div>
-                                {ing.high_dose_ratio && (
+                                {targetIng.high_dose_ratio && (
                                   <>
                                     <div className="intake-row">
                                       <span className="intake-label">고함량 충족율</span>
                                       <span className={`intake-val ${isHighDose ? 'high-dose' : ''}`}>
-                                        {ing.high_dose_ratio}
+                                        {targetIng.high_dose_ratio}
                                       </span>
                                     </div>
                                     <div className="progress-container">
@@ -840,41 +900,67 @@ function App() {
                               </div>
                             )}
 
+                            {/* 대안 추천 상세 사유 출력 */}
+                            {isWarningChecked && hasAlternative && ing.alternative_reason && (
+                              <div className="alternative-reason-box animate-fade">
+                                <div className="alternative-reason-title">
+                                  <i className="fa-solid fa-circle-info"></i> 대안 추천 가이드
+                                </div>
+                                <div className="alternative-reason-desc">{ing.alternative_reason}</div>
+                              </div>
+                            )}
+
                             {/* 고함량 메리트 & 부작용 사전 가이드 아코디언 */}
-                            {(ing.high_dose_effect || ing.side_effects || ing.intake_tip) && (
+                            {(targetIng.high_dose_effect || targetIng.side_effects || targetIng.intake_tip) && (
                               <div className="details-toggle">
-                                <button className="details-header" onClick={() => toggleGuide(ing.id)}>
+                                <button className="details-header" onClick={() => toggleGuide(targetIng.id)}>
                                   <span>섭취 메리트 & 부작용 가이드</span>
                                   <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                                 </button>
                                 {isGuideOpen && (
                                   <div className="details-body animate-fade">
-                                    {ing.high_dose_effect && (
+                                    {targetIng.high_dose_effect && (
                                       <div className="info-block">
                                         <div className="info-block-title benefit">
                                           <i className="fa-solid fa-circle-check"></i> 고함량 섭취 메리트
                                         </div>
-                                        <p>{ing.high_dose_effect}</p>
+                                        <p>{targetIng.high_dose_effect}</p>
                                       </div>
                                     )}
-                                    {ing.side_effects && (
+                                    {targetIng.side_effects && (
                                       <div className="info-block">
                                         <div className="info-block-title warning">
                                           <i className="fa-solid fa-triangle-exclamation"></i> 발생 가능한 부작용
                                         </div>
-                                        <p>{ing.side_effects}</p>
+                                        <p>{targetIng.side_effects}</p>
                                       </div>
                                     )}
-                                    {ing.intake_tip && (
+                                    {targetIng.intake_tip && (
                                       <div className="info-block">
                                         <div className="info-block-title tip">
                                           <i className="fa-solid fa-lightbulb"></i> 권장 복용 팁
                                         </div>
-                                        <p>{ing.intake_tip}</p>
+                                        <p>{targetIng.intake_tip}</p>
                                       </div>
                                     )}
                                   </div>
                                 )}
+                              </div>
+                            )}
+
+                            {/* 기저 질환 / 부작용 트리거 체크박스 */}
+                            {ing.warning_trigger_text && (
+                              <div 
+                                className="alternative-trigger-box"
+                                onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
+                              >
+                                <input 
+                                  type="checkbox" 
+                                  className="alternative-checkbox" 
+                                  checked={isWarningChecked}
+                                  onChange={() => {}}
+                                />
+                                <span className="alternative-label">{ing.warning_trigger_text}</span>
                               </div>
                             )}
                           </div>
@@ -923,12 +1009,16 @@ function App() {
                     <div className="section-tag">쿠팡 최저가 딥링크 추천</div>
                     <div className="product-grid" style={{ marginTop: '8px' }}>
                       {matchedIngredientsList.map(ing => {
-                        const productsList = coupangProducts[ing.keyword] || defaultMockProducts;
+                        const isWarningChecked = !!checkedWarnings[ing.id];
+                        const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
+                        const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
+
+                        const productsList = coupangProducts[targetIng.keyword] || defaultMockProducts;
                         return productsList.map((prod, idx) => {
-                          const redirectUrl = `https://www.coupang.com/np/search?q=${encodeURIComponent(ing.keyword)}`;
+                          const redirectUrl = `https://www.coupang.com/np/search?q=${encodeURIComponent(targetIng.keyword)}`;
                           return (
                             <a 
-                              key={`${ing.id}-${idx}`}
+                              key={`${targetIng.id}-${idx}`}
                               href={redirectUrl} 
                               target="_blank" 
                               rel="noopener noreferrer"
