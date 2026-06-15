@@ -333,6 +333,21 @@ function App() {
   const [checkedWarnings, setCheckedWarnings] = useState({}); // { [ingredientId]: boolean }
   const [isKfdaModalOpen, setIsKfdaModalOpen] = useState(false);
 
+  // Responsive device separation states
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                       || window.innerWidth <= 768;
+      setIsMobileDevice(isMobile);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
   // Connection Mode State
   const [dbMode, setDbMode] = useState("Local DB");
 
@@ -698,7 +713,7 @@ function App() {
   );
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${isMobileDevice ? 'is-mobile-device' : ''} ${!showAdminPanel ? 'hide-admin-layout' : ''}`}>
       {/* Background Orbs */}
       <div className="glow-orb orb-1"></div>
       <div className="glow-orb orb-2"></div>
@@ -715,26 +730,43 @@ function App() {
       )}
 
       {/* Main App Title Header */}
-      <header className="main-header">
-        <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <i className="fa-solid fa-prescription-bottle-medical logo-icon"></i>
-          <span className="brand-name">Pill<span>Sync</span></span>
-          <span className="badge">Vite React Build</span>
-          <span 
-            className={`badge ${dbMode.includes('Connected') ? 'badge-success' : 'badge-local'}`}
-            onClick={toggleDbMode}
-            style={{ cursor: 'pointer' }}
-            title="클릭하여 로컬/Supabase 모드 강제 전환"
-          >
-            <i className={`fa-solid ${dbMode.includes('Connected') ? 'fa-cloud' : 'fa-database'}`} style={{ marginRight: '5px' }}></i>
-            {dbMode}
-          </span>
-        </div>
-        <p className="subtitle">식약처 데이터 기반 영양제 큐레이션 & 쿠팡 파트너스 연동 시뮬레이터</p>
-      </header>
+      {!isMobileDevice && (
+        <header className="main-header">
+          <div className="logo-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+              <i className="fa-solid fa-prescription-bottle-medical logo-icon"></i>
+              <span className="brand-name">Pill<span>Sync</span></span>
+              <span className="badge">Vite React Build</span>
+              <span 
+                className={`badge ${dbMode.includes('Connected') ? 'badge-success' : 'badge-local'}`}
+                onClick={toggleDbMode}
+                style={{ cursor: 'pointer' }}
+                title="클릭하여 로컬/Supabase 모드 강제 전환"
+              >
+                <i className={`fa-solid ${dbMode.includes('Connected') ? 'fa-cloud' : 'fa-database'}`} style={{ marginRight: '5px' }}></i>
+                {dbMode}
+              </span>
+            </div>
+
+            {/* 데모 관리자 토글 스위치 */}
+            <div className="admin-toggle-wrapper">
+              <span className="admin-toggle-label">⚙️ 데모 관리자 패널</span>
+              <label className="switch">
+                <input 
+                  type="checkbox" 
+                  checked={showAdminPanel} 
+                  onChange={() => setShowAdminPanel(!showAdminPanel)} 
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <p className="subtitle">식약처 데이터 기반 영양제 큐레이션 & 쿠팡 파트너스 연동 시뮬레이터</p>
+        </header>
+      )}
 
       {/* Dynamic Content Grid */}
-      <main className="content-grid">
+      <main className={`content-grid ${!showAdminPanel || isMobileDevice ? 'single-column' : ''}`}>
         
         {/* LEFT: Simulated mobile preview */}
         <section className="device-section">
@@ -1082,7 +1114,8 @@ function App() {
         </section>
 
         {/* RIGHT: Realtime Database administration view panel */}
-        <section className="admin-section">
+        {!isMobileDevice && showAdminPanel && (
+          <section className="admin-section animate-fade">
           <div className="section-title">
             <i className="fa-solid fa-database"></i> 실시간 DB & 관리자 시스템 시뮬레이터
           </div>
@@ -1334,13 +1367,16 @@ function App() {
 
           </div>
         </section>
-
+        )}
+ 
       </main>
 
       {/* Decorative page footer */}
-      <footer className="footer">
-        <p>© 2026 PillSync React System. 개발 프로세스 검증용 대화형 웹 데모.</p>
-      </footer>
+      {!isMobileDevice && (
+        <footer className="footer">
+          <p>© 2026 PillSync React System. 개발 프로세스 검증용 대화형 웹 데모.</p>
+        </footer>
+      )}
 
       {/* KFDA Report Modal Dialog Overlay */}
       <KfdaReportModal 
