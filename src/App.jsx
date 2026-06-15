@@ -1426,16 +1426,17 @@ function App() {
       )}
 
       {/* KFDA Report Modal Dialog Overlay */}
-      <KfdaReportModal 
-        isOpen={isKfdaModalOpen} 
-        onClose={() => setIsKfdaModalOpen(false)} 
-        ingredientsMapping={ingredientsMapping} 
+      <KfdaReportModal
+        isOpen={isKfdaModalOpen}
+        onClose={() => setIsKfdaModalOpen(false)}
+        ingredientsMapping={ingredientsMapping}
+        matchedIngredientIds={matchedIngredientsList.map(i => i.id)}
       />
     </div>
   );
 }
 
-function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
+function KfdaReportModal({ isOpen, onClose, ingredientsMapping, matchedIngredientIds }) {
   if (!isOpen) return null;
 
   const kfdaData = [
@@ -1591,6 +1592,10 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
     }
   ];
 
+  const filteredKfdaData = kfdaData
+    .map(cat => ({ ...cat, items: cat.items.filter(item => matchedIngredientIds.includes(item.key)) }))
+    .filter(cat => cat.items.length > 0);
+
   return (
     <div className="kfda-modal-overlay" onClick={onClose}>
       <div className="kfda-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -1619,7 +1624,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
             </a>
           </div>
 
-          {kfdaData.map((cat, cIdx) => (
+          {filteredKfdaData.map((cat, cIdx) => (
             <div key={cIdx} className="kfda-category-section">
               <div className="kfda-category-title">
                 <i className="fa-solid fa-circle-chevron-right"></i> {cat.category}
