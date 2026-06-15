@@ -489,7 +489,7 @@ function App() {
         name: c.name,
         desc: c.description || c.desc || "",
         icon: c.icon_class || c.icon || "fa-capsules",
-        class: c.class || `cat-custom-${c.id}`
+        class: c.class || (c.id === 1 ? 'cat-fatigue' : c.id === 2 ? 'cat-diet' : c.id === 3 ? 'cat-hair' : `cat-custom-${c.id}`)
       }));
 
       // Map Supabase 'symptoms' columns to frontend structure
