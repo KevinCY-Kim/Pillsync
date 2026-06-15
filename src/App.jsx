@@ -233,12 +233,10 @@ const localIngredientsMapping = {
 
 const initialCoupangProducts = {
   "밀크씨슬 실리마린 직구": [
-    { brand: "나우푸드 (Now Foods)", title: "실리마린 밀크씨슬 추출물 300mg, 200베지캡슐", price: 18450, rating: 4.8, reviews: 24502, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" },
-    { brand: "캘리포니아 골드 뉴트리션", title: "실리마린 컴플렉스 밀크씨슬 300mg, 120베지캡슐", price: 12100, rating: 4.7, reviews: 15309, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "나우푸드 (Now Foods)", title: "실리마린 밀크씨슬 추출물 300mg, 200베지캡슐", price: 18450, rating: 4.8, reviews: 24502, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "고함량 비타민B 컴플렉스": [
-    { brand: "솔가 (Solgar)", title: "B-콤플렉스 100 메가용량, 100식물성캡슐", price: 22400, rating: 4.9, reviews: 8402, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" },
-    { brand: "얼라이브 (Alive)", title: "원스데일리 퓨어에너지 활성 비타민B 다량 함유 멀티비타민 60정", price: 19800, rating: 4.8, reviews: 31052, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "솔가 (Solgar)", title: "B-콤플렉스 100 메가용량, 100식물성캡슐", price: 22400, rating: 4.9, reviews: 8402, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "홍경천 로디올라 스트레스": [
     { brand: "라이프 익스텐션", title: "로디올라 홍경천 추출물 250mg, 60베지캡슐", price: 15700, rating: 4.6, reviews: 3890, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
@@ -250,8 +248,7 @@ const initialCoupangProducts = {
     { brand: "나우푸드 (Now Foods)", title: "L-테아닌 200mg 더블 스트렝스, 120베지캡슐", price: 21900, rating: 4.7, reviews: 5491, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "가르시니아 HCA 다이어트": [
-    { brand: "에버비키니", title: "콜레올로지 컷팅 가르시니아 HCA 더블 112정 (4주분)", price: 26900, rating: 4.7, reviews: 14201, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" },
-    { brand: "이너셋", title: "가르시니아 캄보지아 트리플 다이어트 3중 기능성 60정", price: 8900, rating: 4.5, reviews: 7800, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "에버비키니", title: "콜레올로지 컷팅 가르시니아 HCA 더블 112정 (4주분)", price: 26900, rating: 4.7, reviews: 14201, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
   ],
   "녹차카테킨 다이어트보조제": [
     { brand: "그린몬스터", title: "다이어트 스페셜 2인1 카테킨 플러스 90정 (30일분)", price: 13400, rating: 4.6, reviews: 9283, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
@@ -266,12 +263,10 @@ const initialCoupangProducts = {
     { brand: "나우푸드 (Now Foods)", title: "L-카르니틴 1000mg 고함량, 100타블렛", price: 23100, rating: 4.8, reviews: 9403, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "비오틴 5000mcg 고함량": [
-    { brand: "솔가 (Solgar)", title: "고함량 비오틴 5000mcg, 100식물성캡슐", price: 16500, rating: 4.9, reviews: 19803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" },
-    { brand: "내츄럴플러스", title: "맥주효모 비오틴 10000 60정", price: 11900, rating: 4.7, reviews: 5691, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "솔가 (Solgar)", title: "고함량 비오틴 5000mcg, 100식물성캡슐", price: 16500, rating: 4.9, reviews: 19803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "국산 맥주효모 환 대용량": [
-    { brand: "자연의품격", title: "유기농 국산 맥주효모 환 3g x 30포", price: 14900, rating: 4.8, reviews: 4322, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" },
-    { brand: "한움", title: "국산 맥주효모 분말 가루 대용량 1kg", price: 13900, rating: 4.6, reviews: 819, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "자연의품격", title: "유기농 국산 맥주효모 환 3g x 30포", price: 14900, rating: 4.8, reviews: 4322, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "아연 영양제 징크": [
     { brand: "나우푸드 (Now Foods)", title: "글루코네이트 아연 50mg, 250정", price: 9800, rating: 4.8, reviews: 18239, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
