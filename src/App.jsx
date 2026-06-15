@@ -1097,7 +1097,7 @@ function App() {
 
                     <div className="section-tag">쿠팡 관련 상품 안내</div>
                     <p style={{ fontSize: '0.65rem', color: '#6B7280', margin: '4px 0 8px', padding: '0 2px' }}>
-                      ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요. 이 링크는 쿠팡 파트너스 활동의 일환으로 수수료를 제공받을 수 있습니다.
+                      ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요.
                     </p>
                     <div className="product-grid" style={{ marginTop: '4px' }}>
                       {matchedIngredientsList.map(ing => {
