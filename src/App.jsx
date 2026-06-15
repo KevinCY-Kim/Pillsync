@@ -1105,7 +1105,7 @@ function App() {
               {/* Bottom Sticky Banner (Coupang Disclaimer) */}
               {activeScreen === 'result' && (
                 <div className="coupang-partners-disclaimer">
-                  * 이 추천 리스트는 쿠팡 파트너스 활동의 일환으로, 구매 시 일정액의 수수료를 제공받을 수 있으며 이는 앱 운영에 도움이 됩니다.
+                  이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
                 </div>
               )}
             </div>
