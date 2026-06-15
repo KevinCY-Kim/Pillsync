@@ -324,6 +324,20 @@ function App() {
     }));
   };
 
+  // Toggle between Local DB fallback and Supabase Connected mode for testing/development
+  const toggleDbMode = () => {
+    if (dbMode === "Supabase Connected") {
+      setCategories(localCategories);
+      setSymptoms(localSymptoms);
+      setIngredientsMapping(localIngredientsMapping);
+      setSynergyCombinations(localSynergyCombinations);
+      setDbMode("Local DB (Forced)");
+      showToast("로컬 오프라인 모드로 강제 전환되었습니다. (식약처 권장량/시너지가 정상 작동합니다)");
+    } else {
+      loadDatabase();
+    }
+  };
+
   // Load database from Supabase or Fallback
   const loadDatabase = async () => {
     if (!isSupabaseConfigured) {
@@ -656,7 +670,12 @@ function App() {
           <i className="fa-solid fa-prescription-bottle-medical logo-icon"></i>
           <span className="brand-name">Pill<span>Sync</span></span>
           <span className="badge">Vite React Build</span>
-          <span className={`badge ${dbMode.includes('Connected') ? 'badge-success' : 'badge-local'}`}>
+          <span 
+            className={`badge ${dbMode.includes('Connected') ? 'badge-success' : 'badge-local'}`}
+            onClick={toggleDbMode}
+            style={{ cursor: 'pointer' }}
+            title="클릭하여 로컬/Supabase 모드 강제 전환"
+          >
             <i className={`fa-solid ${dbMode.includes('Connected') ? 'fa-cloud' : 'fa-database'}`} style={{ marginRight: '5px' }}></i>
             {dbMode}
           </span>
