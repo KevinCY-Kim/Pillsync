@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 // ==========================================================
@@ -317,6 +317,7 @@ const localSynergyCombinations = [
 
 function App() {
   // DB States
+  const isFirstLoadRef = useRef(true);
   const [categories, setCategories] = useState(localCategories);
   const [symptoms, setSymptoms] = useState(localSymptoms);
   const [ingredientsMapping, setIngredientsMapping] = useState(localIngredientsMapping);
@@ -522,7 +523,7 @@ function App() {
       setIngredientsMapping(transformedIngredientsMapping);
       setSynergyCombinations(transformedSynergy);
       setDbMode("Supabase Connected");
-      if (!isSilent) {
+      if (!isSilent && !isFirstLoadRef.current) {
         showToast("Supabase 클라우드 DB 연동 완료!");
       }
 
@@ -533,11 +534,13 @@ function App() {
       setIngredientsMapping(localIngredientsMapping);
       setSynergyCombinations(localSynergyCombinations);
       setDbMode("Local DB (Fallback)");
+    } finally {
+      isFirstLoadRef.current = false;
     }
   };
 
   useEffect(() => {
-    loadDatabase();
+    loadDatabase(true);
   }, []);
 
   // Switch to category questionnaire
