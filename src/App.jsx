@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 // ==========================================================
-// Offline Local Mock DB Fallback Data (식약처 공인 15종 성분)
+// Offline Local Mock DB Fallback Data (식약처 고시 데이터 참조 15종 성분)
 // ==========================================================
 const localCategories = [
-  { id: 1, name: "피로 개선", desc: "만성 피로와 활력 저하로 고민하는 직장인 맞춤형", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
-  { id: 2, name: "다이어트", desc: "체지방 감소와 탄수화물 컷팅이 필요한 분을 위한 맞춤형", icon: "fa-person-running", class: "cat-diet" },
-  { id: 3, name: "탈모 & 모발 건강", desc: "모근 약화와 머리숱 감소가 절박한 분들을 위한 맞춤형", icon: "fa-feather", class: "cat-hair" }
+  { id: 1, name: "피로 개선", desc: "만성 피로와 활력 저하 고민 유형별 관련 성분 안내", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
+  { id: 2, name: "다이어트", desc: "체지방 감소와 탄수화물 조절 고민 유형별 관련 성분 안내", icon: "fa-person-running", class: "cat-diet" },
+  { id: 3, name: "탈모 & 모발 건강", desc: "모근 약화와 모발 건강 고민 유형별 관련 성분 안내", icon: "fa-feather", class: "cat-hair" }
 ];
 
 const localSymptoms = [
@@ -803,7 +803,7 @@ function App() {
               </div>
             )}
           </div>
-          <p className="subtitle">식약처 공인 건강 고민 맞춤 영양 매칭 및 분석 플랫폼</p>
+          <p className="subtitle">식약처 고시 데이터 기반 건강 고민 유형별 영양 성분 안내 플랫폼</p>
         </header>
       )}
 
@@ -852,8 +852,8 @@ function App() {
                 {activeScreen === 'home' && (
                   <div className="animate-fade">
                     <div className="welcome-box">
-                      <h2>나에게 딱 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양제 성분 조합</span> 찾기</h2>
-                      <p>질병 진단이나 처방이 아닌, 식약처 기능성 고시 데이터에 기반하여 고민 해결에 최적화된 맞춤 성분을 30초 만에 추천합니다.</p>
+                      <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양 성분 정보</span> 안내</h2>
+                      <p>질병 진단이나 처방이 아닌, 식약처 고시 기능성 데이터에 기반하여 건강 고민 유형별 관련 성분 정보를 안내합니다. 구체적인 섭취 여부는 전문가와 상담하시기 바랍니다.</p>
                     </div>
 
                     <div className="section-tag">건강 고민 선택</div>
@@ -910,7 +910,7 @@ function App() {
                       onClick={handleSubmitSurvey}
                       style={{ width: '100%' }}
                     >
-                      맞춤 영양소 매칭 완료 <i className="fa-solid fa-wand-magic-sparkles"></i>
+                      성분 정보 안내 시작 <i className="fa-solid fa-wand-magic-sparkles"></i>
                     </button>
                   </div>
                 )}
@@ -919,9 +919,9 @@ function App() {
                 {activeScreen === 'result' && selectedCategory && (
                   <div className="animate-fade">
                     <div className="result-header">
-                      <div className="result-badge">식약처 고시 기반 매칭</div>
-                      <h3>당신을 위한 맞춤 영양 조합</h3>
-                      <p>{selectedCategory.name} 설문 기준 추천 성분입니다.</p>
+                      <div className="result-badge">식약처 고시 데이터 기반 안내</div>
+                      <h3>고민 유형별 관련 영양 성분 안내</h3>
+                      <p>{selectedCategory.name} 고민 유형 기준 관련 성분 정보입니다. 섭취 전 전문가 상담을 권장합니다.</p>
                     </div>
 
                     <div className="section-tag">식약처 기능성 원료 분석</div>
@@ -945,7 +945,7 @@ function App() {
                               </div>
                               {isWarningChecked && hasAlternative && (
                                 <span className="badge-alternative animate-fade">
-                                  <i className="fa-solid fa-triangle-exclamation"></i> 성분 대체 권장
+                                  <i className="fa-solid fa-triangle-exclamation"></i> 대안 성분 참고 안내
                                 </span>
                               )}
                             </div>
@@ -981,7 +981,7 @@ function App() {
                             {isWarningChecked && hasAlternative && ing.alternative_reason && (
                               <div className="alternative-reason-box animate-fade">
                                 <div className="alternative-reason-title">
-                                  <i className="fa-solid fa-circle-info"></i> 대안 추천 가이드
+                                  <i className="fa-solid fa-circle-info"></i> 대안 성분 참고 정보
                                 </div>
                                 <div className="alternative-reason-desc">{ing.alternative_reason}</div>
                               </div>
@@ -1027,17 +1027,22 @@ function App() {
 
                             {/* 기저 질환 / 부작용 트리거 체크박스 */}
                             {ing.warning_trigger_text && (
-                              <div 
-                                className="alternative-trigger-box"
-                                onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
-                              >
-                                <input 
-                                  type="checkbox" 
-                                  className="alternative-checkbox" 
-                                  checked={isWarningChecked}
-                                  onChange={() => {}}
-                                />
-                                <span className="alternative-label">{ing.warning_trigger_text}</span>
+                              <div>
+                                <div
+                                  className="alternative-trigger-box"
+                                  onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    className="alternative-checkbox"
+                                    checked={isWarningChecked}
+                                    onChange={() => {}}
+                                  />
+                                  <span className="alternative-label">{ing.warning_trigger_text}</span>
+                                </div>
+                                <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
+                                  ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
+                                </p>
                               </div>
                             )}
                           </div>
@@ -1048,7 +1053,7 @@ function App() {
                     {/* 3a. 식약처 고시 기반 시너지 추천 패키지 */}
                     {activeSynergies.length > 0 && (
                       <div className="animate-fade" style={{ marginTop: '16px' }}>
-                        <div className="section-tag">🔥 식약처 고시 기반 시너지 추천</div>
+                        <div className="section-tag">식약처 고시 데이터 기반 복합 성분 참고 정보</div>
                         <div className="synergy-list" style={{ marginTop: '8px' }}>
                           {activeSynergies.map(syn => (
                             <div key={syn.id} className="synergy-card">
@@ -1080,18 +1085,21 @@ function App() {
 
                     <div className="fda-box" style={{ marginTop: '16px' }}>
                       <i className="fa-solid fa-circle-info"></i>
-                      <div>본 안내는 식약처 고시 데이터 기반 가이드이며, 약사법에 저촉되지 않는 단순 정보 매칭입니다. 특정 질병 치료는 전문의와 상담하십시오.</div>
+                      <div>본 안내는 식약처 기능성 원료 고시 데이터를 참조한 정보 제공 목적의 서비스이며, 특정 제품·성분의 효능·효과를 보장하거나 의학적 진단·처방을 대체하지 않습니다. 건강기능식품 섭취 전 전문 의료인 또는 약사와 반드시 상담하시기 바랍니다.</div>
                     </div>
 
                     <button 
                       className="kfda-open-btn animate-fade" 
                       onClick={() => setIsKfdaModalOpen(true)}
                     >
-                      <i className="fa-solid fa-file-shield"></i> 식약처 공인 부작용 & 대안 매칭 가이드 보기
+                      <i className="fa-solid fa-file-shield"></i> 식약처 고시 데이터 기반 부작용 & 대안 성분 참고 정보 보기
                     </button>
 
-                    <div className="section-tag">쿠팡 최저가 딥링크 추천</div>
-                    <div className="product-grid" style={{ marginTop: '8px' }}>
+                    <div className="section-tag">쿠팡 관련 상품 안내</div>
+                    <p style={{ fontSize: '0.65rem', color: '#6B7280', margin: '4px 0 8px', padding: '0 2px' }}>
+                      ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요. 이 링크는 쿠팡 파트너스 활동의 일환으로 수수료를 제공받을 수 있습니다.
+                    </p>
+                    <div className="product-grid" style={{ marginTop: '4px' }}>
                       {matchedIngredientsList.map(ing => {
                         const isWarningChecked = !!checkedWarnings[ing.id];
                         const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
@@ -1413,7 +1421,7 @@ function App() {
       {/* Decorative page footer */}
       {!isMobileDevice && (
         <footer className="footer">
-          <p>© 2026 PillSync. All Rights Reserved. 식약처 고시 건강기능식품 영양소 맞춤 매칭 서비스.</p>
+          <p>© 2026 PillSync. All Rights Reserved. 식약처 고시 데이터 참조 건강기능식품 성분 정보 안내 서비스. 본 서비스는 의료 행위가 아니며 전문가 상담을 대체하지 않습니다.</p>
         </footer>
       )}
 
@@ -1588,7 +1596,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
       <div className="kfda-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="kfda-modal-header">
           <div className="kfda-modal-title">
-            <i className="fa-solid fa-file-shield"></i> 식약처 공인 부작용 & 대안 매칭 가이드
+            <i className="fa-solid fa-file-shield"></i> 식약처 고시 데이터 기반 부작용 & 대안 성분 참고 정보
           </div>
           <button className="kfda-modal-close" onClick={onClose}>
             <i className="fa-solid fa-xmark"></i>
@@ -1597,7 +1605,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
         <div className="kfda-modal-body">
           <div className="kfda-modal-disclaimer">
             <strong>[법적 면책 고지]</strong><br />
-            본 정보는 대한민국 식품의약품안전처(MFDS)의 기능성 원료 고시 및 건강기능식품 공전을 기반으로 작성된 학술 참고 자료입니다. 특정 질병의 진단 및 치료를 대체할 수 없으며, 의약품을 복용 중이거나 치료를 요하는 경우 반드시 전문 의료인과 상담하시기 바랍니다.
+            본 정보는 대한민국 식품의약품안전처(MFDS) 기능성 원료 고시 및 건강기능식품 공전을 참조하여 작성된 일반 정보 제공 자료입니다. 식약처가 본 서비스의 추천 방식이나 매칭 로직을 승인·인증한 사실이 없으며, 특정 질병의 진단·치료·예방을 목적으로 하지 않습니다. 건강기능식품 섭취 전 반드시 전문 의료인 또는 약사와 상담하시기 바랍니다.
           </div>
 
           <div className="kfda-law-links">
@@ -1628,7 +1636,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
                     </div>
                     <div className="kfda-ing-details">
                       <div className="kfda-ing-detail-row">
-                        <span className="kfda-ing-detail-label">식약처 공인 기능성</span>
+                        <span className="kfda-ing-detail-label">식약처 고시 기능성 내용</span>
                         <span className="kfda-ing-detail-value">{ingData.desc || "에너지 대사 및 건강 증진 도움"}</span>
                       </div>
                       <div className="kfda-ing-detail-row">
