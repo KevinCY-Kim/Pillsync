@@ -956,3 +956,204 @@ tr:hover td {
     from { transform: translateX(120%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
+
+/* ==========================================================
+   ADVANCED INTAKE & SYNERGY STYLES (NEW)
+   ========================================================== */
+
+/* Intake Progress Bar & Badges */
+.intake-meta {
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.intake-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.intake-label {
+    color: var(--text-muted);
+}
+
+.intake-val {
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.intake-val.high-dose {
+    color: #F87171; /* High dose warning pink */
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+    transition: width 0.8s ease-out;
+}
+
+.progress-bar.high-dose-fill {
+    background: linear-gradient(90deg, var(--color-accent), var(--color-primary), #F43F5E);
+}
+
+/* High Dose Effect, Side Effects, & Intake Tip */
+.details-toggle {
+    margin-top: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.details-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.details-header:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.details-body {
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.info-block {
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.info-block-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.info-block-title.benefit { color: var(--color-secondary); }
+.info-block-title.warning { color: #FB923C; } /* Orange warning */
+.info-block-title.tip { color: var(--color-accent); }
+
+.info-block p {
+    color: #E5E7EB;
+}
+
+/* Synergy Combination Cards */
+.synergy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.synergy-card {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(16, 185, 129, 0.05) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 16px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.synergy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+}
+
+.synergy-card:hover {
+    border-color: rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+}
+
+.synergy-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.synergy-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.synergy-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.synergy-ingredient-badge {
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: #DDD6FE;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.synergy-desc-text {
+    font-size: 0.72rem;
+    color: #D1D5DB;
+    line-height: 1.45;
+}
+
+.synergy-glow {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    filter: blur(30px);
+    opacity: 0.15;
+    top: -10px;
+    right: -10px;
+}
+

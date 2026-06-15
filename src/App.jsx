@@ -37,77 +37,152 @@ const localIngredientsMapping = {
   "밀크씨슬": {
     name: "밀크씨슬 추출물 (실리마린)",
     desc: "실리마린 성분이 간 세포막을 보호하고 항산화 작용을 돕고 피로 회복을 위한 간 건강 기능성을 식약처가 고시함",
-    keyword: "밀크씨슬 실리마린 직구"
+    keyword: "밀크씨슬 실리마린 직구",
+    kfda_daily_intake: "실리마린 기준 130 mg",
+    high_dose_ratio: "260 mg (200% 충족)",
+    high_dose_effect: "만성 피로 해소 및 간 세포막 보호 작용을 신속히 활성화하여 과로로 인한 일시적 간 수치 개선에 기여",
+    side_effects: "과다 복용 시 위장 장애(설사, 복통)가 발생할 수 있습니다.",
+    intake_tip: "위장에 무리를 줄 수 있으므로 식사 직후 충분한 물과 함께 섭취하세요."
   },
   "비타민B군": {
     name: "활성 비타민B 콤플렉스",
     desc: "수용성 비타민 B1, B2, B6, B12 복합체로 체내 에너지 생성 및 대사에 필수적이며 육체 피로 회복에 도움",
-    keyword: "고함량 비타민B 컴플렉스"
+    keyword: "고함량 비타민B 컴플렉스",
+    kfda_daily_intake: "비타민B1 기준 1.2 mg",
+    high_dose_ratio: "100 mg (8,333% 충족)",
+    high_dose_effect: "체내 대사를 급격히 가속화하여 즉각적인 활력을 불어넣고 젖산 축적을 억제하여 만성 피로 회복",
+    side_effects: "고함량 섭취 시 소변이 형광 노란색으로 변하거나 일시적으로 불면증, 위장 장애가 발생할 수 있습니다.",
+    intake_tip: "에너지 생성을 도우므로 밤늦은 시간보다는 아침이나 낮 시간대 복용을 권장합니다."
   },
   "홍경천 추출물": {
     name: "홍경천 추출물 (로디올라)",
     desc: "고산지대 자생 식물로 스트레스로 인한 피로를 개선하는 데 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
-    keyword: "홍경천 로디올라 스트레스"
+    keyword: "홍경천 로디올라 스트레스",
+    kfda_daily_intake: "로디올라오사이드 기준 200 mg",
+    high_dose_ratio: "200 mg (100% 충족)",
+    high_dose_effect: "스트레스로 인한 피로 개선 및 가슴 두근거림 완화 효과",
+    side_effects: "일부 두통 및 어지러움, 혈압에 일시적 변동이 올 수 있습니다.",
+    intake_tip: "오전 또는 오후 섭취가 적당하며, 진정 성분이 있으므로 다른 약물과의 간섭에 주의하세요."
   },
   "홍삼": {
     name: "홍삼 (진세노사이드)",
     desc: "사포닌(Rg1, Rb1, Rg3) 성분이 함유되어 면역력 증진, 피로 개선, 항산화에 도움을 줄 수 있는 대표 고시형 원료",
-    keyword: "홍삼정 에브리타임 스틱"
+    keyword: "홍삼정 에브리타임 스틱",
+    kfda_daily_intake: "진세노사이드 기준 3 mg",
+    high_dose_ratio: "15 mg (500% 충족)",
+    high_dose_effect: "혈소판 응집 억제를 통한 혈액 흐름 개선, 기력 증진 및 면역 세포 활성화로 면역 증진 가속",
+    side_effects: "체질에 따라 열감, 두통, 불면이 생길 수 있으므로 혈압이 높으신 분은 복용에 주의해야 합니다.",
+    intake_tip: "공복에 섭취 시 흡수율이 높아 아침 공복 복용을 권장하지만, 위가 약하면 식후에 드세요."
   },
   "L-테아닌": {
     name: "L-테아닌 (L-Theanine)",
     desc: "녹차에 들어있는 아미노산의 일종으로 스트레스로 인한 긴장 완화에 도움을 줄 수 있음을 식약처가 인정한 성분",
-    keyword: "나우푸드 L테아닌 200mg"
+    keyword: "나우푸드 L테아닌 200mg",
+    kfda_daily_intake: "200~250 mg",
+    high_dose_ratio: "200 mg (100% 충족)",
+    high_dose_effect: "뇌의 α파 생성을 촉진하여 과도한 긴장 상태를 완화하고 숙면 및 심신 안정을 유도",
+    side_effects: "진정 효과가 강해 과량 복용 시 급격한 졸음이나 현기증을 느낄 수 있습니다.",
+    intake_tip: "스트레스를 많이 받는 업무 시간 전이나 잠들기 1~2시간 전에 미온수와 복용하십시오."
   },
   "가르시니아": {
     name: "가르시니아 캄보지아 추출물 (HCA)",
     desc: "과피 추출물인 HCA가 탄수화물이 지방으로 합성되는 것을 억제하여 체지방 감소에 도움을 주는 고시형 다이어트 원료",
-    keyword: "가르시니아 HCA 다이어트"
+    keyword: "가르시니아 HCA 다이어트",
+    kfda_daily_intake: "HCA 기준 750~2,800 mg",
+    high_dose_ratio: "1,500 mg (100% 충족)",
+    high_dose_effect: "탄수화물이 지방으로 변환되는 대사 경로를 차단하여, 섭취 후 체지방 축적률을 유의미하게 감소",
+    side_effects: "과량 섭취 시 생리 주기가 불규칙해지거나 경미한 피부 가려움증, 두통이 발생할 수 있습니다. 간 손상 우려가 있는 경우 주의 필요.",
+    intake_tip: "탄수화물 흡수가 시작되기 전인 식사 30분~1시간 전에 복용해야 최적의 효과를 냅니다."
   },
   "녹차카테킨": {
     name: "녹차 추출물 (카테킨)",
     desc: "카테킨 성분이 항산화 작용을 돕고 체지방 감소 및 혈중 콜레스테롤 수치 개선에 도움을 줄 수 있는 식약처 인증 성분",
-    keyword: "녹차카테킨 다이어트보조제"
+    keyword: "녹차카테킨 다이어트보조제",
+    kfda_daily_intake: "카테킨 기준 300~500 mg",
+    high_dose_ratio: "400 mg (100% 충족)",
+    high_dose_effect: "체지방 강제 연소를 촉진하고 활성산소를 억제하는 강력한 항산화 및 콜레스테롤 저하 효과",
+    side_effects: "카페인 함유로 불면, 두근거림이 유발될 수 있고, 공복 섭취 시 위장 장애나 간 독성 우려가 있습니다.",
+    intake_tip: "위장 자극을 최소화하고 식후 대사를 돕도록 식사 직후 30분 이내 복용을 강력히 권장합니다."
   },
   "콜레우스포스콜리": {
     name: "콜레우스 포스콜리 추출물",
     desc: "인도 전통 약재식물 추출물로 제지방량(근육량)은 보존하고 체지방을 감소시키는 기능성을 개별인정받은 원료",
-    keyword: "콜레우스 포스콜리 포스콜린"
+    keyword: "콜레우스 포스콜리 포스콜린",
+    kfda_daily_intake: "포스콜린 기준 50 mg",
+    high_dose_ratio: "50 mg (100% 충족)",
+    high_dose_effect: "제지방(근육량)은 유지·보존하면서 순수 체지방의 연소와 대사율을 올려 기초대사량 증가 효과 유도",
+    side_effects: "혈압을 낮추는 부작용이 있으므로 저혈압 환자나 항응고제 복용자는 주의가 필요합니다.",
+    intake_tip: "신체 대사를 높이기 위해 오전 활동을 시작하기 전 또는 운동 1시간 전에 섭취하십시오."
   },
   "시서스": {
     name: "시서스 추출물 (Cissus)",
     desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여 식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
-    keyword: "시서스 가루 다이어트 캡슐"
+    keyword: "시서스 가루 다이어트 캡슐",
+    kfda_daily_intake: "시서스 추출물 기준 300 mg",
+    high_dose_ratio: "300 mg (100% 충족)",
+    high_dose_effect: "지방 소화 효소인 리파아제를 방해하여 지방 흡수율을 낮추고 식욕 억제 호르몬 분비 촉진",
+    side_effects: "우유, 밀, 계란, 조개류 성분 알레르기가 있는 사람은 두드러기 등 과민 반응이 올 수 있습니다.",
+    intake_tip: "가루 형태인 경우 아침 또는 낮 시간에 따뜻한 물에 타서 물 대용으로 조금씩 복용하세요."
   },
   "L-카르니틴": {
     name: "L-카르니틴 타르트레이트",
     desc: "체내 지방산을 미토콘드리아로 운반하여 에너지로 연소시키는 과정을 활성화하고 체지방 감소에 도움을 주는 기능성 원료",
-    keyword: "L카르니틴 1000mg 추천"
+    keyword: "L카르니틴 1000mg 추천",
+    kfda_daily_intake: "L-카르니틴 타르트레이트 기준 2,000 mg",
+    high_dose_ratio: "2,000 mg (100% 충족)",
+    high_dose_effect: "체내 축적 지방산을 에너지를 만드는 세포(미토콘드리아)로 즉각 운반하여 운동 시 연소율 극대화",
+    side_effects: "과량 복용 시 비린 맛의 땀 냄새가 나거나 메스꺼움, 소화불량 및 설사를 동반할 수 있습니다.",
+    intake_tip: "유산소 및 근력 운동의 시너지를 위해 운동 30분~1시간 전에 드시는 것을 적극 추천합니다."
   },
   "비오틴": {
     name: "비오틴 (Biotin / 비타민B7)",
     desc: "지방, 탄수화물, 단백질 대사와 에너지 생성에 필수적이며 모발의 주 성분인 케라틴 단백질 합성을 촉진하는 성분",
-    keyword: "비오틴 5000mcg 고함량"
+    keyword: "비오틴 5000mcg 고함량",
+    kfda_daily_intake: "30 mcg",
+    high_dose_ratio: "5,000 mcg (16,666% 충족)",
+    high_dose_effect: "두피 모낭 세포의 케라틴 단백질 합성을 급격히 끌어올려 모발 성장 속도를 가속합니다.",
+    side_effects: "과량의 비오틴 섭취 시 피지 분비가 폭발하여 여드름이나 뾰루지 등 트러블이 올라올 수 있습니다.",
+    intake_tip: "복용 시 물을 하루 1.5L 이상 섭취하여 수용성 비오틴 배출을 돕는 것이 좋습니다."
   },
   "맥주효모": {
     name: "건조 맥주효모 (Brewer's Yeast)",
     desc: "단백질(아미노산 18종), 비타민 B군, 셀레늄이 풍부하여 모발 및 두피에 영양을 직접 공급하고 모발 건강을 돕는 필수 원료",
-    keyword: "국산 맥주효모 환 대용량"
+    keyword: "국산 맥주효모 환 대용량",
+    kfda_daily_intake: "건조 맥주효모 기준 3,000 mg",
+    high_dose_ratio: "3,000 mg (100% 충족)",
+    high_dose_effect: "모발 케라틴을 만드는 18종의 아미노산 원료를 혈액에 대량 공급하여 가늘어짐 and 탈모 방어",
+    side_effects: "퓨린 함량이 매우 높으므로 통풍 기왕력이 있거나 요산 수치가 높은 분은 관절 통증을 발현합니다.",
+    intake_tip: "자연식품에 가까워 소화가 용이하나, 가스나 속 더부룩함을 느낀다면 식사 직후 복용하세요."
   },
   "아연": {
     name: "아연 (Zinc)",
     desc: "정상적인 면역기능과 세포분열에 필수적이며 모낭 세포의 성장을 돕고 탈모 완화 영양소 공급에 중요역할을 함",
-    keyword: "아연 영양제 징크"
+    keyword: "아연 영양제 징크",
+    kfda_daily_intake: "8.5 mg",
+    high_dose_ratio: "50 mg (588% 충족)",
+    high_dose_effect: "체내 활성 산소를 제거하고 두피 세포막 면역력을 높여 환절기 비듬 및 급성 탈모를 방어합니다.",
+    side_effects: "일일 상한 섭취량인 35mg 이상 장기 복용 시 메스꺼움이나 구토를 일으키며 구리 흡수를 저해할 수 있습니다.",
+    intake_tip: "아연은 위장벽 자극이 심한 편이므로 반드시 식후에 충분한 물과 함께 섭취하세요."
   },
   "L-시스틴": {
     name: "L-시스틴 (L-Cystine)",
     desc: "모발 단백질인 케라틴의 구조를 형성하는 황 함유 아미노산으로 가늘어진 모발을 강화하고 끊어짐 방지에 기여함",
-    keyword: "L시스테인 500mg 직구"
+    keyword: "L시스테인 500mg 직구",
+    kfda_daily_intake: "L-시스틴 기준 500 mg",
+    high_dose_ratio: "500 mg (100% 충족)",
+    high_dose_effect: "모발 강도를 유지하는 케라틴의 시스틴 황 결합 구조를 보강해 가늘어진 머리카락 끊어짐 방지",
+    side_effects: "위장 장애 및 기관지 분비액 유발 우려가 있으므로 만성 천식 환자는 의사 상담이 권고됩니다.",
+    intake_tip: "체내 흡수와 단백질 합성 효율을 배가시키려면 비타민 C와 아침 식후 함께 복용하십시오."
   },
   "판토텐산": {
     name: "판토텐산 (비타민B5)",
     desc: "코엔자임 A 합성에 관여하여 세포 재생을 돕고 두피 장벽 강화 및 모근의 탄력과 힘을 개선하는 에너지 대사 영양소",
-    keyword: "판토텐산 550mg 추천"
+    keyword: "판토텐산 550mg 추천",
+    kfda_daily_intake: "5 mg",
+    high_dose_ratio: "550 mg (11,000% 충족)",
+    high_dose_effect: "피지 과잉 분비를 정상화하여 탈모성 지루성 두피염을 완화하고 모근 세포 재생 주기 단축",
+    side_effects: "수용성 비타민으로 체내 축적이 없고 부작용이 거의 없으나 간혹 가벼운 복통이 생길 수 있습니다.",
+    intake_tip: "활력 비타민 계열이므로 가급적 낮 시간대(아침 또는 점심) 식후 섭취를 추천합니다."
   }
 };
 
@@ -169,12 +244,47 @@ const defaultMockProducts = [
   { brand: "나우푸드 (Now Foods)", title: "아스타잔틴 4mg 항산화 포뮬러, 90소프트젤", price: 19800, rating: 4.7, reviews: 4120, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
 ];
 
+const localSynergyCombinations = [
+  { 
+    id: 1, 
+    name: "활력 부스터 시너지 패키지", 
+    synergy_effect: "해독 대사 촉진 및 신진대사 에너지 폭발", 
+    recommendation_reason: "밀크씨슬이 간의 노폐물 분해(해독)를 처리하는 동안, 비타민B군이 해독 프로세스에 에너지를 공급하고 대사 효율을 극대화하여 만성 피로의 원인을 근본적으로 도려냅니다.",
+    ingredients: ["비타민B군", "밀크씨슬"]
+  },
+  { 
+    id: 2, 
+    name: "부신 피로 리셋 패키지", 
+    synergy_effect: "코르티솔 호르몬 조절 및 뇌파 긴장 완화", 
+    recommendation_reason: "홍경천이 스트레스 호르몬인 코르티솔 분비를 억제하여 지친 부신 피로를 달래주고, 테아닌이 알파파를 활성화하여 긴장된 뇌 세포를 안정시켜 최적의 수면 질과 휴식 상태를 선사합니다.",
+    ingredients: ["L-테아닌", "홍경천 추출물"]
+  },
+  { 
+    id: 3, 
+    name: "모근 밀착 방어 패키지", 
+    synergy_effect: "모발 단백질 풍부한 원료 공급 ➔ 합성 가속 ➔ 모낭 세포분열 정상화", 
+    recommendation_reason: "맥주효모가 모발 케라틴의 원료(아미노산 18종)를 대량으로 투입하고, 고함량 비오틴이 이 원료들을 모발 세포로 신속하게 합성하며, 아연이 모근 세포의 분열을 가속화해 숱이 비는 탈모를 3중으로 빈틈없이 차단합니다.",
+    ingredients: ["비오틴", "맥주효모", "아연"]
+  },
+  { 
+    id: 4, 
+    name: "체지방 이중 컷팅 패키지", 
+    synergy_effect: "신규 탄수화물 유입 차단 + 기존 축적 체지방 강제 연소", 
+    recommendation_reason: "가르시니아가 밥/빵 등의 신규 탄수화물이 지방으로 변환되는 길목을 차단하고, 카테킨이 에피갈로카테킨 갈레이트(EGCG) 대사 작용을 자극하여 이미 축적된 내장지방과 피하지방의 연소를 활성화시킵니다.",
+    ingredients: ["가르시니아", "녹차카테킨"]
+  }
+];
+
 function App() {
   // DB States
   const [categories, setCategories] = useState(localCategories);
   const [symptoms, setSymptoms] = useState(localSymptoms);
   const [ingredientsMapping, setIngredientsMapping] = useState(localIngredientsMapping);
   const [coupangProducts, setCoupangProducts] = useState(initialCoupangProducts);
+  const [synergyCombinations, setSynergyCombinations] = useState(localSynergyCombinations);
+
+  // UI Interactive States
+  const [openGuides, setOpenGuides] = useState({}); // { [ingredientId]: boolean }
 
   // Connection Mode State
   const [dbMode, setDbMode] = useState("Local DB");
@@ -206,6 +316,14 @@ function App() {
     }, 4000);
   };
 
+  // Toggle guide details for ingredients
+  const toggleGuide = (ingId) => {
+    setOpenGuides(prev => ({
+      ...prev,
+      [ingId]: !prev[ingId]
+    }));
+  };
+
   // Load database from Supabase or Fallback
   const loadDatabase = async () => {
     if (!isSupabaseConfigured) {
@@ -231,11 +349,42 @@ function App() {
         .order('id');
       if (symError) throw symError;
 
-      // 3. Fetch Ingredients Mapping
+      // 3. Fetch Ingredients Mapping (including newly added columns)
       const { data: ingData, error: ingError } = await supabase
         .from('ingredients_mapping')
         .select('*');
       if (ingError) throw ingError;
+
+      // 4. Fetch Synergy Combinations
+      let transformedSynergy = localSynergyCombinations;
+      try {
+        const { data: synData, error: synError } = await supabase
+          .from('synergy_combinations')
+          .select('*');
+        
+        if (!synError && synData) {
+          const { data: synIngData, error: synIngError } = await supabase
+            .from('synergy_ingredients')
+            .select('*');
+
+          if (!synIngError && synIngData) {
+            transformedSynergy = synData.map(s => {
+              const relatedIngredients = synIngData
+                .filter(si => si.synergy_id === s.id)
+                .map(si => si.ingredient_id);
+              return {
+                id: s.id,
+                name: s.name,
+                synergy_effect: s.synergy_effect,
+                recommendation_reason: s.recommendation_reason,
+                ingredients: relatedIngredients
+              };
+            });
+          }
+        }
+      } catch (synErr) {
+        console.warn("[PillSync] Failed to fetch synergy tables. Falling back to local synergy combinations.", synErr);
+      }
 
       console.log("[PillSync] Supabase sync completed successfully!", { catData, symData, ingData });
 
@@ -262,13 +411,19 @@ function App() {
         transformedIngredientsMapping[i.id] = {
           name: i.name,
           desc: i.fda_functional_summary || i.desc || "",
-          keyword: i.coupang_search_keyword || i.keyword || ""
+          keyword: i.coupang_search_keyword || i.keyword || "",
+          kfda_daily_intake: i.kfda_daily_intake || "",
+          high_dose_ratio: i.high_dose_ratio || "",
+          high_dose_effect: i.high_dose_effect || "",
+          side_effects: i.side_effects || "",
+          intake_tip: i.intake_tip || ""
         };
       });
 
       setCategories(transformedCategories);
       setSymptoms(transformedSymptoms);
       setIngredientsMapping(transformedIngredientsMapping);
+      setSynergyCombinations(transformedSynergy);
       setDbMode("Supabase Connected");
       showToast("Supabase 클라우드 DB 연동 완료!");
 
@@ -277,6 +432,7 @@ function App() {
       setCategories(localCategories);
       setSymptoms(localSymptoms);
       setIngredientsMapping(localIngredientsMapping);
+      setSynergyCombinations(localSynergyCombinations);
       setDbMode("Local DB (Fallback)");
     }
   };
@@ -472,6 +628,11 @@ function App() {
   const currentSymptoms = symptoms.filter(s => s.category_id === currentCategoryId);
   const matchedIngredientsList = getMatchedIngredients();
 
+  // Calculate matching synergies based on user selections
+  const activeSynergies = synergyCombinations.filter(syn => 
+    syn.ingredients.every(ingId => matchedIngredientsList.some(m => m.id === ingId))
+  );
+
   return (
     <div className="app-container">
       {/* Background Orbs */}
@@ -620,17 +781,122 @@ function App() {
 
                     <div className="section-tag">식약처 기능성 원료 분석</div>
                     <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
-                      {matchedIngredientsList.map(ing => (
-                        <div key={ing.id} className="ingredient-item">
-                          <div className="ing-name">
-                            <i className="fa-solid fa-capsules"></i> {ing.name}
+                      {matchedIngredientsList.map(ing => {
+                        const isHighDose = ing.high_dose_ratio && !ing.high_dose_ratio.includes("100%");
+                        const percentMatch = ing.high_dose_ratio ? ing.high_dose_ratio.match(/([\d,]+)%/) : null;
+                        const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
+                        const displayPercent = Math.min(rawPercent, 100);
+                        const isGuideOpen = !!openGuides[ing.id];
+
+                        return (
+                          <div key={ing.id} className="ingredient-item">
+                            <div className="ing-name">
+                              <i className="fa-solid fa-capsules"></i> {ing.name}
+                            </div>
+                            <div className="ing-desc">{ing.desc}</div>
+
+                            {/* 식약처 일일 권장량 및 충족율 게이지 */}
+                            {ing.kfda_daily_intake && (
+                              <div className="intake-meta">
+                                <div className="intake-row">
+                                  <span className="intake-label">식약처 하루 권장량</span>
+                                  <span className="intake-val">{ing.kfda_daily_intake}</span>
+                                </div>
+                                {ing.high_dose_ratio && (
+                                  <>
+                                    <div className="intake-row">
+                                      <span className="intake-label">고함량 충족율</span>
+                                      <span className={`intake-val ${isHighDose ? 'high-dose' : ''}`}>
+                                        {ing.high_dose_ratio}
+                                      </span>
+                                    </div>
+                                    <div className="progress-container">
+                                      <div 
+                                        className={`progress-bar ${isHighDose ? 'high-dose-fill' : ''}`} 
+                                        style={{ width: `${displayPercent}%` }}
+                                      ></div>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            )}
+
+                            {/* 고함량 메리트 & 부작용 사전 가이드 아코디언 */}
+                            {(ing.high_dose_effect || ing.side_effects || ing.intake_tip) && (
+                              <div className="details-toggle">
+                                <button className="details-header" onClick={() => toggleGuide(ing.id)}>
+                                  <span>섭취 메리트 & 부작용 가이드</span>
+                                  <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                                </button>
+                                {isGuideOpen && (
+                                  <div className="details-body animate-fade">
+                                    {ing.high_dose_effect && (
+                                      <div className="info-block">
+                                        <div className="info-block-title benefit">
+                                          <i className="fa-solid fa-circle-check"></i> 고함량 섭취 메리트
+                                        </div>
+                                        <p>{ing.high_dose_effect}</p>
+                                      </div>
+                                    )}
+                                    {ing.side_effects && (
+                                      <div className="info-block">
+                                        <div className="info-block-title warning">
+                                          <i className="fa-solid fa-triangle-exclamation"></i> 발생 가능한 부작용
+                                        </div>
+                                        <p>{ing.side_effects}</p>
+                                      </div>
+                                    )}
+                                    {ing.intake_tip && (
+                                      <div className="info-block">
+                                        <div className="info-block-title tip">
+                                          <i className="fa-solid fa-lightbulb"></i> 권장 복용 팁
+                                        </div>
+                                        <p>{ing.intake_tip}</p>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
-                          <div className="ing-desc">{ing.desc}</div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
 
-                    <div className="fda-box">
+                    {/* 3a. 식약처 고시 기반 시너지 추천 패키지 */}
+                    {activeSynergies.length > 0 && (
+                      <div className="animate-fade" style={{ marginTop: '16px' }}>
+                        <div className="section-tag">🔥 식약처 고시 기반 시너지 추천</div>
+                        <div className="synergy-list" style={{ marginTop: '8px' }}>
+                          {activeSynergies.map(syn => (
+                            <div key={syn.id} className="synergy-card">
+                              <div className="synergy-glow"></div>
+                              <div className="synergy-title-row">
+                                <div className="synergy-title">
+                                  <i className="fa-solid fa-wand-magic-sparkles"></i>
+                                  {syn.name}
+                                </div>
+                              </div>
+                              <div className="synergy-badge-row">
+                                {syn.ingredients.map(ingId => (
+                                  <span key={ingId} className="synergy-ingredient-badge">
+                                    💊 {ingId}
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="synergy-desc-text" style={{ fontWeight: '700', color: 'var(--color-secondary)', marginBottom: '4px' }}>
+                                시너지 효과: {syn.synergy_effect}
+                              </div>
+                              <div className="synergy-desc-text">
+                                {syn.recommendation_reason}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="fda-box" style={{ marginTop: '16px' }}>
                       <i className="fa-solid fa-circle-info"></i>
                       <div>본 안내는 식약처 고시 데이터 기반 가이드이며, 약사법에 저촉되지 않는 단순 정보 매칭입니다. 특정 질병 치료는 전문의와 상담하십시오.</div>
                     </div>
@@ -788,8 +1054,11 @@ function App() {
                         <thead>
                           <tr>
                             <th>성분 키</th>
-                            <th>식약처 기능성 공인 요약</th>
-                            <th>쿠팡 검색 연동어</th>
+                            <th>식약처 기능성 요약</th>
+                            <th>일일 권장량</th>
+                            <th>고함량 기준</th>
+                            <th>주의 부작용</th>
+                            <th>쿠팡 검색어</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -799,10 +1068,48 @@ function App() {
                               <tr key={key}>
                                 <td><strong>{key}</strong></td>
                                 <td>{ing.desc}</td>
+                                <td>{ing.kfda_daily_intake || "-"}</td>
+                                <td>{ing.high_dose_ratio || "-"}</td>
+                                <td>{ing.side_effects ? ing.side_effects.substring(0, 30) + "..." : "-"}</td>
                                 <td><span className="keyword-badge">{ing.keyword}</span></td>
                               </tr>
                             );
                           })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* synergy_combinations table */}
+                  <div className="db-table-card">
+                    <h4><i className="fa-solid fa-wand-magic-sparkles"></i> Synergy_Combinations (추천 시너지 조합)</h4>
+                    <div className="table-container">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>조합명</th>
+                            <th>매칭 성분 목록</th>
+                            <th>시너지 효과 요약</th>
+                            <th>상세 추천 사유</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {synergyCombinations.map(syn => (
+                            <tr key={syn.id}>
+                              <td>{syn.id}</td>
+                              <td><strong>{syn.name}</strong></td>
+                              <td>
+                                {syn.ingredients.map(ingId => (
+                                  <span key={ingId} className="keyword-badge" style={{ marginRight: '4px' }}>
+                                    {ingId}
+                                  </span>
+                                ))}
+                              </td>
+                              <td>{syn.synergy_effect}</td>
+                              <td>{syn.recommendation_reason}</td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
