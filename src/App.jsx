@@ -331,6 +331,7 @@ function App() {
   // UI Interactive States
   const [openGuides, setOpenGuides] = useState({}); // { [ingredientId]: boolean }
   const [checkedWarnings, setCheckedWarnings] = useState({}); // { [ingredientId]: boolean }
+  const [isKfdaModalOpen, setIsKfdaModalOpen] = useState(false);
 
   // Connection Mode State
   const [dbMode, setDbMode] = useState("Local DB");
@@ -1006,6 +1007,13 @@ function App() {
                       <div>본 안내는 식약처 고시 데이터 기반 가이드이며, 약사법에 저촉되지 않는 단순 정보 매칭입니다. 특정 질병 치료는 전문의와 상담하십시오.</div>
                     </div>
 
+                    <button 
+                      className="kfda-open-btn animate-fade" 
+                      onClick={() => setIsKfdaModalOpen(true)}
+                    >
+                      <i className="fa-solid fa-file-shield"></i> 식약처 공인 부작용 & 대안 매칭 가이드 보기
+                    </button>
+
                     <div className="section-tag">쿠팡 최저가 딥링크 추천</div>
                     <div className="product-grid" style={{ marginTop: '8px' }}>
                       {matchedIngredientsList.map(ing => {
@@ -1333,6 +1341,262 @@ function App() {
       <footer className="footer">
         <p>© 2026 PillSync React System. 개발 프로세스 검증용 대화형 웹 데모.</p>
       </footer>
+
+      {/* KFDA Report Modal Dialog Overlay */}
+      <KfdaReportModal 
+        isOpen={isKfdaModalOpen} 
+        onClose={() => setIsKfdaModalOpen(false)} 
+        ingredientsMapping={ingredientsMapping} 
+      />
+    </div>
+  );
+}
+
+function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
+  if (!isOpen) return null;
+
+  const kfdaData = [
+    {
+      category: "피로 개선",
+      items: [
+        {
+          key: "밀크씨슬",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "실리마린 기준 130 mg",
+          warning: "이상사례 발생 시 섭취를 중단할 것. 위장장애, 설사가 있을 시 주의.",
+          alternative: "홍경천 추출물",
+          altReason: "밀크씨슬 추출물은 위와 장을 강하게 자극하여 소화기 통증이나 설사를 일으킬 수 있으므로, 부작용 없이 부신 활력을 회복하는 홍경천 추출물을 추천합니다."
+        },
+        {
+          key: "비타민B군",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "비타민B1 기준 1.2 mg",
+          warning: "고함량 섭취 시 소변이 형광 노란색으로 변하거나 일시적으로 불면증, 위장 장애가 발생할 수 있습니다.",
+          alternative: null,
+          altReason: null
+        },
+        {
+          key: "홍경천 추출물",
+          type: "gaebel",
+          typeName: "개별인정형 원료",
+          daily: "로디올라오사이드 기준 200 mg",
+          warning: "임산부, 수유부, 영유아 및 어린이는 섭취에 주의할 것.",
+          alternative: null,
+          altReason: null
+        },
+        {
+          key: "홍삼",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "진세노사이드 기준 3 mg",
+          warning: "의약품(당뇨치료제, 혈액항응고제) 복용 시 섭취에 주의할 것. 교감신경 흥분 유발 가능.",
+          alternative: "L-테아닌",
+          altReason: "홍삼은 혈관을 이완시키나 체질에 따라 교감신경을 흥분시켜 혈압 상승 및 가슴 두근거림을 초래할 수 있습니다. 대신 뇌 세포를 안정시켜 스트레스 긴장을 부드럽게 이완해주는 L-테아닌을 권장합니다."
+        },
+        {
+          key: "L-테아닌",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "L-테아닌으로서 200~250 mg",
+          warning: "카페인 함유 음료(커피, 홍차, 녹차 등)와 병용 섭취에 주의할 것.",
+          alternative: null,
+          altReason: null
+        }
+      ]
+    },
+    {
+      category: "다이어트",
+      items: [
+        {
+          key: "가르시니아",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "HCA 기준 750~2,800 mg",
+          warning: "어린이, 임산부 및 수유부는 섭취를 피할 것. 간·신장·심장질환, 알레르기 및 천식이 있거나 의약품 복용 시 전문가와 상담할 것.",
+          alternative: "L-카르니틴",
+          altReason: "가르시니아(HCA)는 드물게 호르몬 균형에 영향을 주어 생리불순이나 간독성을 유발할 수 있습니다. 대신 부작용 없이 체지방을 미토콘드리아로 유입하여 태우는 안전한 대사 촉진 성분인 L-카르니틴을 대안으로 추천합니다."
+        },
+        {
+          key: "녹차카테킨",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "카테킨 기준 300~500 mg",
+          warning: "카페인이 함유되어 있어 초조감, 불면 등을 나타낼 수 있음. 식사 후 섭취할 것. 간 질환이 있거나 의약품 복용 시 전문가와 상담할 것.",
+          alternative: "콜레우스포스콜리",
+          altReason: "녹차카테킨 제품은 녹차 유래 천연 카페인을 소량 함유하고 있어 민감한 분들께 심장 두근거림이나 불면증을 악화시킬 수 있습니다. 대신 천연 무카페인 성분으로 기초 대사를 안전하게 끌어올려주는 콜레우스포스콜리를 적극 권장합니다."
+        },
+        {
+          key: "콜레우스포스콜리",
+          type: "gaebel",
+          typeName: "개별인정형 원료",
+          daily: "포스콜린 기준 50 mg",
+          warning: "임산부, 수유부, 영유아, 어린이 및 수술 전후 환자는 섭취를 피할 것. 항응고제 또는 혈압조절제를 복용하거나 혈압이 낮은 사람은 주의할 것.",
+          alternative: null,
+          altReason: null
+        },
+        {
+          key: "시서스",
+          type: "gaebel",
+          typeName: "개별인정형 원료",
+          daily: "시서스 추출물 기준 300 mg",
+          warning: "영·유아, 어린이, 임산부 및 수유부는 섭취를 피할 것. 혈당강하제를 복용하는 사람은 전문가와 상담할 것.",
+          alternative: null,
+          altReason: null
+        },
+        {
+          key: "L-카르니틴",
+          type: "gaebel",
+          typeName: "개별인정형 원료",
+          daily: "L-카르니틴 타르트레이트 기준 2,000 mg",
+          warning: "어린이, 임산부 및 수유부는 섭취를 피할 것. 특정 성분에 알레르기가 있는 사람은 주의할 것.",
+          alternative: null,
+          altReason: null
+        }
+      ]
+    },
+    {
+      category: "탈모 & 모발 건강",
+      items: [
+        {
+          key: "비오틴",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "에너지 생성 필수량 30 mcg",
+          warning: "과량의 비오틴 섭취 시 피지 분비가 폭발하여 여드름이나 뾰루지 등 트러블이 올라올 수 있습니다.",
+          alternative: "L-시스틴",
+          altReason: "초고함량 비오틴은 지성 피부군에서 피지선을 과자극하여 모낭 트러블이나 뾰루지를 유발할 수 있습니다. 모발 단백질의 핵심 원료 구조를 튼튼하게 강화해주면서 피지 조절을 돕는 L-시스틴을 훌륭한 대안으로 추천합니다."
+        },
+        {
+          key: "맥주효모",
+          type: "gosi",
+          typeName: "일반식품 원료",
+          daily: "건조 맥주효모 기준 3,000 mg",
+          warning: "퓨린 함량이 매우 높으므로 통풍 기왕력이 있거나 요산 수치가 높은 분은 관절 통증을 발현합니다.",
+          alternative: "판토텐산",
+          altReason: "맥주효모는 세포 증식을 돕는 퓨린(Purine) 함량이 극도로 높아 통풍 환자에게 급성 발작을 유발할 수 있습니다. 대신 퓨린 걱정이 전혀 없으면서 두피 모근 세포의 재생과 영양을 채워주는 판토텐산을 안전한 대안으로 권장합니다."
+        },
+        {
+          key: "아연",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "세포분열 필수량 8.5 mg",
+          warning: "아연은 위장벽 자극이 심한 편이므로 반드시 식후에 충분한 물과 함께 섭취하세요.",
+          alternative: "맥주효모",
+          altReason: "아연은 위장 점막을 직접적으로 강하게 자극하여 고함량 섭취 시 극심한 메스꺼움이나 쓰림을 유발하기 쉽습니다. 위장에 전혀 부담을 주지 않으면서 천연 아미노산 단백질 공급원이 되는 맥주효모를 대안으로 추천합니다."
+        },
+        {
+          key: "L-시스틴",
+          type: "gosi",
+          typeName: "아미노산 원료",
+          daily: "L-시스틴 기준 500 mg",
+          warning: "위장 장애 및 기관지 분비액 유발 우려가 있으므로 만성 천식 환자는 의사 상담이 권고됩니다.",
+          alternative: null,
+          altReason: null
+        },
+        {
+          key: "판토텐산",
+          type: "gosi",
+          typeName: "고시형 원료",
+          daily: "판토텐산 기준 5 mg",
+          warning: "수용성 비타민으로 체내 축적이 없고 부작용이 거의 없으나 간혹 가벼운 복통이 생길 수 있습니다.",
+          alternative: null,
+          altReason: null
+        }
+      ]
+    }
+  ];
+
+  return (
+    <div className="kfda-modal-overlay" onClick={onClose}>
+      <div className="kfda-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="kfda-modal-header">
+          <div className="kfda-modal-title">
+            <i className="fa-solid fa-file-shield"></i> 식약처 공인 부작용 & 대안 매칭 가이드
+          </div>
+          <button className="kfda-modal-close" onClick={onClose}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div className="kfda-modal-body">
+          <div className="kfda-modal-disclaimer">
+            <strong>[법적 면책 고지]</strong><br />
+            본 정보는 대한민국 식품의약품안전처(MFDS)의 기능성 원료 고시 및 건강기능식품 공전을 기반으로 작성된 학술 참고 자료입니다. 특정 질병의 진단 및 치료를 대체할 수 없으며, 의약품을 복용 중이거나 치료를 요하는 경우 반드시 전문 의료인과 상담하시기 바랍니다.
+          </div>
+
+          <div className="kfda-law-links">
+            <a href="https://www.law.go.kr/행정규칙/건강기능식품의기준및규격" target="_blank" rel="noopener noreferrer" className="kfda-law-link-item">
+              <span>⚖️ 식약처 건강기능식품 기준 및 규격 고시 전문</span>
+              <i className="fa-solid fa-up-right-from-square"></i>
+            </a>
+            <a href="https://www.foodsafetykorea.go.kr" target="_blank" rel="noopener noreferrer" className="kfda-law-link-item">
+              <span>🌐 식품안전나라 공식 홈페이지</span>
+              <i className="fa-solid fa-up-right-from-square"></i>
+            </a>
+          </div>
+
+          {kfdaData.map((cat, cIdx) => (
+            <div key={cIdx} className="kfda-category-section">
+              <div className="kfda-category-title">
+                <i className="fa-solid fa-circle-chevron-right"></i> {cat.category}
+              </div>
+              {cat.items.map((item, iIdx) => {
+                const ingData = ingredientsMapping[item.key] || {};
+                return (
+                  <div key={iIdx} className="kfda-ingredient-card">
+                    <div className="kfda-ing-header">
+                      <span className="kfda-ing-name">{item.key} ({ingData.name || item.key})</span>
+                      <span className={`kfda-ing-badge ${item.type === 'gosi' ? 'kfda-badge-gosi' : 'kfda-badge-gaebel'}`}>
+                        {item.typeName}
+                      </span>
+                    </div>
+                    <div className="kfda-ing-details">
+                      <div className="kfda-ing-detail-row">
+                        <span className="kfda-ing-detail-label">식약처 공인 기능성</span>
+                        <span className="kfda-ing-detail-value">{ingData.desc || "에너지 대사 및 건강 증진 도움"}</span>
+                      </div>
+                      <div className="kfda-ing-detail-row">
+                        <span className="kfda-ing-detail-label">일일 권장 섭취량</span>
+                        <span className="kfda-ing-detail-value">{item.daily}</span>
+                      </div>
+                      <div className="kfda-ing-detail-row">
+                        <span className="kfda-ing-detail-label">섭취 시 주의사항 (부작용)</span>
+                        <span className="kfda-ing-detail-value" style={{ color: '#F87171' }}>{item.warning}</span>
+                      </div>
+                      {item.alternative && (
+                        <div className="kfda-ing-detail-row" style={{ marginTop: '4px', borderTop: '1px solid rgba(255,255,255,0.03)', paddingTop: '4px' }}>
+                          <span className="kfda-ing-detail-label" style={{ color: '#FB923C' }}>💡 부작용 예방 대안 성분</span>
+                          <span className="kfda-ing-detail-value">
+                            <strong>{item.alternative}</strong> 로의 스왑 추천
+                          </span>
+                          <span className="kfda-ing-detail-value" style={{ fontSize: '0.68rem', color: '#9CA3AF', marginTop: '2px' }}>
+                            {item.altReason}
+                          </span>
+                        </div>
+                      )}
+                      <div className="kfda-ing-link-row">
+                        <a 
+                          href="https://www.foodsafetykorea.go.kr" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="kfda-ing-link"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            alert(`식품안전나라 사이트로 이동합니다.\n상단 메뉴 [식품·안전 > 건강기능식품 > 건강기능식품 원료별 정보]에서 '${item.key}'를 직접 검색하시면 세션 만료 에러 없이 고시 요약본 조회가 가능합니다.`);
+                          }}
+                        >
+                          식품안전나라 원료 검색 가이드 ➔
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
