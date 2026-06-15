@@ -414,12 +414,12 @@ function App() {
       setDbMode("Local DB (Forced)");
       showToast("로컬 오프라인 모드로 강제 전환되었습니다. (식약처 권장량/시너지가 정상 작동합니다)");
     } else {
-      loadDatabase();
+      loadDatabase(false);
     }
   };
 
   // Load database from Supabase or Fallback
-  const loadDatabase = async () => {
+  const loadDatabase = async (isSilent = true) => {
     if (!isSupabaseConfigured) {
       console.log("[PillSync] Supabase is not configured. Running in Local Offline Mode.");
       setDbMode("Local DB");
@@ -522,7 +522,9 @@ function App() {
       setIngredientsMapping(transformedIngredientsMapping);
       setSynergyCombinations(transformedSynergy);
       setDbMode("Supabase Connected");
-      showToast("Supabase 클라우드 DB 연동 완료!");
+      if (!isSilent) {
+        showToast("Supabase 클라우드 DB 연동 완료!");
+      }
 
     } catch (err) {
       console.warn("[PillSync] Supabase connection failed or tables missing. Falling back to Local Mock DB. Error details:", err.message || err);
