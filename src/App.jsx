@@ -332,6 +332,7 @@ function App() {
   const [openGuides, setOpenGuides] = useState({}); // { [ingredientId]: boolean }
   const [checkedWarnings, setCheckedWarnings] = useState({}); // { [ingredientId]: boolean }
   const [isKfdaModalOpen, setIsKfdaModalOpen] = useState(false);
+  const [systemTime, setSystemTime] = useState("12:00");
 
   // Responsive device separation states
   const [isMobileDevice, setIsMobileDevice] = useState(false);
@@ -339,6 +340,15 @@ function App() {
   const [isAdminQueryActive, setIsAdminQueryActive] = useState(false);
 
   useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      setSystemTime(`${hours}:${minutes}`);
+    };
+    updateTime();
+    const clockInterval = setInterval(updateTime, 60000);
+
     const checkDevice = () => {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
                        || window.innerWidth <= 768;
@@ -355,7 +365,10 @@ function App() {
       setShowAdminPanel(true);
     }
 
-    return () => window.removeEventListener('resize', checkDevice);
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      clearInterval(clockInterval);
+    };
   }, []);
 
   // Connection Mode State
@@ -746,7 +759,7 @@ function App() {
             <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
               <i className="fa-solid fa-prescription-bottle-medical logo-icon"></i>
               <span className="brand-name">Pill<span>Sync</span></span>
-              <span className="badge">Vite React Build</span>
+              <span className="badge">v1.0.0 Live</span>
               <span 
                 className={`badge ${dbMode.includes('Connected') ? 'badge-success' : 'badge-local'}`}
                 onClick={toggleDbMode}
@@ -758,10 +771,10 @@ function App() {
               </span>
             </div>
 
-            {/* 데모 관리자 토글 스위치 (비밀 쿼리 스트링 ?admin=true 가 주소창에 있을 때만 노출) */}
+            {/* 관리자 토글 스위치 (비밀 쿼리 스트링 ?admin=true 가 주소창에 있을 때만 노출) */}
             {isAdminQueryActive && (
               <div className="admin-toggle-wrapper animate-fade">
-                <span className="admin-toggle-label">⚙️ 데모 관리자 패널</span>
+                <span className="admin-toggle-label">⚙️ 관리자 설정 패널</span>
                 <label className="switch">
                   <input 
                     type="checkbox" 
@@ -773,7 +786,7 @@ function App() {
               </div>
             )}
           </div>
-          <p className="subtitle">식약처 데이터 기반 영양제 큐레이션 & 쿠팡 파트너스 연동 시뮬레이터</p>
+          <p className="subtitle">식약처 공인 건강 고민 맞춤 영양 매칭 및 분석 플랫폼</p>
         </header>
       )}
 
@@ -783,13 +796,13 @@ function App() {
         {/* LEFT: Simulated mobile preview */}
         <section className="device-section">
           <div className="section-title">
-            <i className="fa-solid fa-mobile-screen-button"></i> 모바일 앱 프리뷰 (Vite Dev)
+            <i className="fa-solid fa-mobile-screen-button"></i> 모바일 서비스 화면
           </div>
 
           <div className="mobile-frame">
             {/* System Status Bar */}
             <div className="status-bar">
-              <span className="time">09:41</span>
+              <span className="time">{systemTime}</span>
               <div className="icons">
                 <i className="fa-solid fa-signal" style={{marginRight: '4px'}}></i>
                 <i className="fa-solid fa-wifi" style={{marginRight: '4px'}}></i>
@@ -1129,7 +1142,7 @@ function App() {
         {!isMobileDevice && showAdminPanel && (
           <section className="admin-section animate-fade">
           <div className="section-title">
-            <i className="fa-solid fa-database"></i> 실시간 DB & 관리자 시스템 시뮬레이터
+            <i className="fa-solid fa-database"></i> 실시간 DB & 관리자 설정 패널
           </div>
 
           <div className="admin-card">
@@ -1386,7 +1399,7 @@ function App() {
       {/* Decorative page footer */}
       {!isMobileDevice && (
         <footer className="footer">
-          <p>© 2026 PillSync React System. 개발 프로세스 검증용 대화형 웹 데모.</p>
+          <p>© 2026 PillSync. All Rights Reserved. 식약처 고시 건강기능식품 영양소 맞춤 매칭 서비스.</p>
         </footer>
       )}
 
