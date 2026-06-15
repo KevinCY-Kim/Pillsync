@@ -336,6 +336,7 @@ function App() {
   // Responsive device separation states
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [isAdminQueryActive, setIsAdminQueryActive] = useState(false);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -345,6 +346,15 @@ function App() {
     };
     checkDevice();
     window.addEventListener('resize', checkDevice);
+
+    // URL 쿼리 파라미터 확인 (?admin=true 일 때만 어드민 패널 토글 노출 및 활성화)
+    const params = new URLSearchParams(window.location.search);
+    const isAdmin = params.get('admin') === 'true';
+    setIsAdminQueryActive(isAdmin);
+    if (isAdmin) {
+      setShowAdminPanel(true);
+    }
+
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
@@ -748,18 +758,20 @@ function App() {
               </span>
             </div>
 
-            {/* 데모 관리자 토글 스위치 */}
-            <div className="admin-toggle-wrapper">
-              <span className="admin-toggle-label">⚙️ 데모 관리자 패널</span>
-              <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={showAdminPanel} 
-                  onChange={() => setShowAdminPanel(!showAdminPanel)} 
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
+            {/* 데모 관리자 토글 스위치 (비밀 쿼리 스트링 ?admin=true 가 주소창에 있을 때만 노출) */}
+            {isAdminQueryActive && (
+              <div className="admin-toggle-wrapper animate-fade">
+                <span className="admin-toggle-label">⚙️ 데모 관리자 패널</span>
+                <label className="switch">
+                  <input 
+                    type="checkbox" 
+                    checked={showAdminPanel} 
+                    onChange={() => setShowAdminPanel(!showAdminPanel)} 
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            )}
           </div>
           <p className="subtitle">식약처 데이터 기반 영양제 큐레이션 & 쿠팡 파트너스 연동 시뮬레이터</p>
         </header>
