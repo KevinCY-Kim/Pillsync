@@ -795,15 +795,17 @@ function App() {
           </div>
 
           <div className="mobile-frame">
-            {/* System Status Bar */}
-            <div className="status-bar">
-              <span className="time">{systemTime}</span>
-              <div className="icons">
-                <i className="fa-solid fa-signal" style={{marginRight: '4px'}}></i>
-                <i className="fa-solid fa-wifi" style={{marginRight: '4px'}}></i>
-                <i className="fa-solid fa-battery-three-quarters"></i>
+            {/* System Status Bar - Render only on desktop emulator, not on real mobile devices */}
+            {!isMobileDevice && (
+              <div className="status-bar">
+                <span className="time">{systemTime}</span>
+                <div className="icons">
+                  <i className="fa-solid fa-signal" style={{marginRight: '4px'}}></i>
+                  <i className="fa-solid fa-wifi" style={{marginRight: '4px'}}></i>
+                  <i className="fa-solid fa-battery-three-quarters"></i>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Simulated App Navigation Bar */}
             <div className="app-screen">

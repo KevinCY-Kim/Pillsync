@@ -1590,7 +1590,7 @@ input:checked + .slider:before {
 
 .is-mobile-device .app-screen {
     border-radius: 0 !important;
-    height: calc(100vh - 40px) !important; /* 상태바 공간 제외 */
+    height: 100vh !important; /* 상태바가 없으므로 전체 높이 차지 */
 }
 
 
