@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 // ==========================================================
-// Offline Local Mock DB Fallback Data
+// Offline Local Mock DB Fallback Data (식약처 공인 15종 성분)
 // ==========================================================
 const localCategories = [
   { id: 1, name: "피로 개선", desc: "만성 피로와 활력 저하로 고민하는 직장인 맞춤형", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
@@ -11,64 +11,103 @@ const localCategories = [
 ];
 
 const localSymptoms = [
+  // 피로 개선 증상 (5종)
   { id: 101, category_id: 1, text: "아침에 일어날 때 몸이 납덩이처럼 무거워요", ingredient_id: "밀크씨슬" },
   { id: 102, category_id: 1, text: "오후만 되면 집중력이 깨지고 쉽게 나른해져요", ingredient_id: "비타민B군" },
-  { id: 103, category_id: 1, text: "업무/학업 스트레스로 인해 가슴이 답답하고 지쳐요", ingredient_id: "홍경천 추출물" },
+  { id: 103, category_id: 1, text: "업무/학업 스트레스로 인해 쉽게 지치고 기력이 없어요", ingredient_id: "홍경천 추출물" },
+  { id: 104, category_id: 1, text: "만성적인 기력 저하가 있고 면역력이 쉽게 떨어져요", ingredient_id: "홍삼" },
+  { id: 105, category_id: 1, text: "가슴이 답답하고 긴장되며 스트레스를 자주 받아요", ingredient_id: "L-테아닌" },
   
-  { id: 201, category_id: 2, text: "밥, 빵, 면 등 탄수화물 섭취가 너무 많아요", ingredient_id: "가르시니아" },
-  { id: 202, category_id: 2, text: "기름진 음식을 좋아하고 체지방률이 높아요", ingredient_id: "녹차카테킨" },
-  { id: 203, category_id: 2, text: "다이어트 시 운동 수행 능력 및 기초대사량을 늘리고 싶어요", ingredient_id: "콜레우스포스콜리" },
+  // 다이어트 증상 (5종)
+  { id: 201, category_id: 2, text: "밥, 빵, 면 등 탄수화물 위주의 식사를 즐겨 먹어요", ingredient_id: "가르시니아" },
+  { id: 202, category_id: 2, text: "기름진 음식을 좋아하고 인바디 체지방률이 높게 나와요", ingredient_id: "녹차카테킨" },
+  { id: 203, category_id: 2, text: "기초대사량이 낮아 살이 잘 찌고 운동 효과를 늘리고 싶어요", ingredient_id: "콜레우스포스콜리" },
+  { id: 204, category_id: 2, text: "식사량 조절이 어렵고 뱃살 위주로 빠르게 체지방을 빼고 싶어요", ingredient_id: "시서스" },
+  { id: 205, category_id: 2, text: "체지방 연소를 촉진하고 유산소 운동 수행 능력을 올리고 싶어요", ingredient_id: "L-카르니틴" },
   
-  { id: 301, category_id: 3, text: "머리카락이 가늘어지고 자고 일어나면 베개에 많이 빠져요", ingredient_id: "비오틴" },
-  { id: 302, category_id: 3, text: "두피가 건조하고 가려우며 모발 윤기가 없어요", ingredient_id: "맥주효모" },
-  { id: 303, category_id: 3, text: "모발 강도와 손톱 끝이 쉽게 갈라져 영양이 부족해요", ingredient_id: "아연" }
+  // 탈모 & 모발 건강 증상 (5종)
+  { id: 301, category_id: 3, text: "머리카락이 가늘어지고 자고 일어나면 베개에 숱이 눈에 띄게 줄어요", ingredient_id: "비오틴" },
+  { id: 302, category_id: 3, text: "두피 영양이 부족해 모발에 윤기가 없고 푸석푸석해요", ingredient_id: "맥주효모" },
+  { id: 303, category_id: 3, text: "두피 각질이나 비듬이 늘어 두피 환경 및 면역을 케어하고 싶어요", ingredient_id: "아연" },
+  { id: 304, category_id: 3, text: "머리카락이 쉽게 끊어지고 가늘어지는 연모화 현상이 느껴져요", ingredient_id: "L-시스틴" },
+  { id: 305, category_id: 3, text: "두피가 붉게 올라오고 모근의 탄력과 힘이 약해진 것 같아요", ingredient_id: "판토텐산" }
 ];
 
 const localIngredientsMapping = {
   "밀크씨슬": {
-    name: "밀크씨슬 (실리마린)",
-    desc: "간 세포막을 보호하고 항산화 작용을 통해 간 건강에 도움을 줄 수 있음 (식약처 인정 기능성 원료)",
+    name: "밀크씨슬 추출물 (실리마린)",
+    desc: "실리마린 성분이 간 세포막을 보호하고 항산화 작용을 돕고 피로 회복을 위한 간 건강 기능성을 식약처가 고시함",
     keyword: "밀크씨슬 실리마린 직구"
   },
   "비타민B군": {
     name: "활성 비타민B 콤플렉스",
-    desc: "체내 에너지 생성 및 대사에 필수적인 영양소로 육체 피로 회복에 도움을 줄 수 있음",
+    desc: "수용성 비타민 B1, B2, B6, B12 복합체로 체내 에너지 생성 및 대사에 필수적이며 육체 피로 회복에 도움",
     keyword: "고함량 비타민B 컴플렉스"
   },
   "홍경천 추출물": {
-    name: "홍경천 추출물",
-    desc: "스트레스로 인한 피로 개선에 도움을 줄 수 있음 (식약처 기능성 고시 원료)",
+    name: "홍경천 추출물 (로디올라)",
+    desc: "고산지대 자생 식물로 스트레스로 인한 피로를 개선하는 데 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
     keyword: "홍경천 로디올라 스트레스"
+  },
+  "홍삼": {
+    name: "홍삼 (진세노사이드)",
+    desc: "사포닌(Rg1, Rb1, Rg3) 성분이 함유되어 면역력 증진, 피로 개선, 항산화에 도움을 줄 수 있는 대표 고시형 원료",
+    keyword: "홍삼정 에브리타임 스틱"
+  },
+  "L-테아닌": {
+    name: "L-테아닌 (L-Theanine)",
+    desc: "녹차에 들어있는 아미노산의 일종으로 스트레스로 인한 긴장 완화에 도움을 줄 수 있음을 식약처가 인정한 성분",
+    keyword: "나우푸드 L테아닌 200mg"
   },
   "가르시니아": {
     name: "가르시니아 캄보지아 추출물 (HCA)",
-    desc: "탄수화물이 지방으로 합성되는 것을 억제하여 체지방 감소에 도움을 줄 수 있음",
+    desc: "과피 추출물인 HCA가 탄수화물이 지방으로 합성되는 것을 억제하여 체지방 감소에 도움을 주는 고시형 다이어트 원료",
     keyword: "가르시니아 HCA 다이어트"
   },
   "녹차카테킨": {
     name: "녹차 추출물 (카테킨)",
-    desc: "항산화, 체지방 감소, 혈중 콜레스테롤 개선에 도움을 줄 수 있음",
+    desc: "카테킨 성분이 항산화 작용을 돕고 체지방 감소 및 혈중 콜레스테롤 수치 개선에 도움을 줄 수 있는 식약처 인증 성분",
     keyword: "녹차카테킨 다이어트보조제"
   },
   "콜레우스포스콜리": {
     name: "콜레우스 포스콜리 추출물",
-    desc: "체지방 감소에 도움을 줄 수 있음 (개별인정형 원료)",
+    desc: "인도 전통 약재식물 추출물로 제지방량(근육량)은 보존하고 체지방을 감소시키는 기능성을 개별인정받은 원료",
     keyword: "콜레우스 포스콜리 포스콜린"
+  },
+  "시서스": {
+    name: "시서스 추출물 (Cissus)",
+    desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여 식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
+    keyword: "시서스 가루 다이어트 캡슐"
+  },
+  "L-카르니틴": {
+    name: "L-카르니틴 타르트레이트",
+    desc: "체내 지방산을 미토콘드리아로 운반하여 에너지로 연소시키는 과정을 활성화하고 체지방 감소에 도움을 주는 기능성 원료",
+    keyword: "L카르니틴 1000mg 추천"
   },
   "비오틴": {
     name: "비오틴 (Biotin / 비타민B7)",
-    desc: "지방, 탄수화물, 단백질 대사와 에너지 생성에 필요하며 모발 수치 활성화에 관여함",
+    desc: "지방, 탄수화물, 단백질 대사와 에너지 생성에 필수적이며 모발의 주 성분인 케라틴 단백질 합성을 촉진하는 성분",
     keyword: "비오틴 5000mcg 고함량"
   },
   "맥주효모": {
-    name: "맥주효모 (Brewer's Yeast)",
-    desc: "모발의 구성 성분인 아미노산과 단백질이 풍부하여 두피 영양 공급 및 모발 탄력 유지에 도움",
-    keyword: "맥주효모 환 분말 대용량"
+    name: "건조 맥주효모 (Brewer's Yeast)",
+    desc: "단백질(아미노산 18종), 비타민 B군, 셀레늄이 풍부하여 모발 및 두피에 영양을 직접 공급하고 모발 건강을 돕는 필수 원료",
+    keyword: "국산 맥주효모 환 대용량"
   },
   "아연": {
     name: "아연 (Zinc)",
-    desc: "정상적인 면역 기능과 세포 분열에 필수적이며 모낭 세포 증식에 관여함",
+    desc: "정상적인 면역기능과 세포분열에 필수적이며 모낭 세포의 성장을 돕고 탈모 완화 영양소 공급에 중요역할을 함",
     keyword: "아연 영양제 징크"
+  },
+  "L-시스틴": {
+    name: "L-시스틴 (L-Cystine)",
+    desc: "모발 단백질인 케라틴의 구조를 형성하는 황 함유 아미노산으로 가늘어진 모발을 강화하고 끊어짐 방지에 기여함",
+    keyword: "L시스테인 500mg 직구"
+  },
+  "판토텐산": {
+    name: "판토텐산 (비타민B5)",
+    desc: "코엔자임 A 합성에 관여하여 세포 재생을 돕고 두피 장벽 강화 및 모근의 탄력과 힘을 개선하는 에너지 대사 영양소",
+    keyword: "판토텐산 550mg 추천"
   }
 };
 
@@ -84,6 +123,12 @@ const initialCoupangProducts = {
   "홍경천 로디올라 스트레스": [
     { brand: "라이프 익스텐션", title: "로디올라 홍경천 추출물 250mg, 60베지캡슐", price: 15700, rating: 4.6, reviews: 3890, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
+  "홍삼정 에브리타임 스틱": [
+    { brand: "정관장", title: "홍삼정 에브리타임 스틱형 10ml x 30포", price: 74200, rating: 4.9, reviews: 12402, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "나우푸드 L테아닌 200mg": [
+    { brand: "나우푸드 (Now Foods)", title: "L-테아닌 200mg 더블 스트렝스, 120베지캡슐", price: 21900, rating: 4.7, reviews: 5491, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  ],
   "가르시니아 HCA 다이어트": [
     { brand: "에버비키니", title: "콜레올로지 컷팅 가르시니아 HCA 더블 112정 (4주분)", price: 26900, rating: 4.7, reviews: 14201, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" },
     { brand: "이너셋", title: "가르시니아 캄보지아 트리플 다이어트 3중 기능성 60정", price: 8900, rating: 4.5, reviews: 7800, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
@@ -94,15 +139,28 @@ const initialCoupangProducts = {
   "콜레우스 포스콜리 포스콜린": [
     { brand: "푸드올로지", title: "콜레올로지 빨간통 다이어트 콜레우스 포스콜리 60정", price: 35800, rating: 4.8, reviews: 45091, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
+  "시서스 가루 다이어트 캡슐": [
+    { brand: "해외직구", title: "시서스 추출물 1000mg 고농축 120캡슐", price: 28900, rating: 4.6, reviews: 3102, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "L카르니틴 1000mg 추천": [
+    { brand: "나우푸드 (Now Foods)", title: "L-카르니틴 1000mg 고함량, 100타블렛", price: 23100, rating: 4.8, reviews: 9403, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+  ],
   "비오틴 5000mcg 고함량": [
     { brand: "솔가 (Solgar)", title: "고함량 비오틴 5000mcg, 100식물성캡슐", price: 16500, rating: 4.9, reviews: 19803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" },
     { brand: "내츄럴플러스", title: "맥주효모 비오틴 10000 60정", price: 11900, rating: 4.7, reviews: 5691, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
-  "맥주효모 환 분말 대용량": [
-    { brand: "자연의품격", title: "유기농 국산 맥주효모 환 3g x 30포", price: 14900, rating: 4.8, reviews: 4322, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  "국산 맥주효모 환 대용량": [
+    { brand: "자연의품격", title: "유기농 국산 맥주효모 환 3g x 30포", price: 14900, rating: 4.8, reviews: 4322, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" },
+    { brand: "한움", title: "국산 맥주효모 분말 가루 대용량 1kg", price: 13900, rating: 4.6, reviews: 819, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "아연 영양제 징크": [
     { brand: "나우푸드 (Now Foods)", title: "글루코네이트 아연 50mg, 250정", price: 9800, rating: 4.8, reviews: 18239, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "L시스테인 500mg 직구": [
+    { brand: "나우푸드 (Now Foods)", title: "L-시스테인 500mg (아미노산), 100정", price: 14500, rating: 4.7, reviews: 11094, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "판토텐산 550mg 추천": [
+    { brand: "솔가 (Solgar)", title: "판토텐산 550mg 고함량 비타민B5, 100식물성캡슐", price: 18200, rating: 4.8, reviews: 6502, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ]
 };
 
