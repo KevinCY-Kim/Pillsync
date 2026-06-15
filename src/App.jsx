@@ -38,6 +38,7 @@ const localIngredientsMapping = {
     name: "밀크씨슬 추출물 (실리마린)",
     desc: "실리마린 성분이 간 세포막을 보호하고 항산화 작용을 돕고 피로 회복을 위한 간 건강 기능성을 식약처가 고시함",
     keyword: "밀크씨슬 실리마린 직구",
+    coupang_link: "https://link.coupang.com/a/eA5jqbcCGq",
     kfda_daily_intake: "실리마린 기준 130 mg",
     high_dose_ratio: "260 mg (200% 충족)",
     high_dose_effect: "만성 피로 해소 및 간 세포막 보호 작용을 신속히 활성화하여 과로로 인한 일시적 간 수치 개선에 기여",
@@ -51,6 +52,7 @@ const localIngredientsMapping = {
     name: "활성 비타민B 콤플렉스",
     desc: "수용성 비타민 B1, B2, B6, B12 복합체로 체내 에너지 생성 및 대사에 필수적이며 육체 피로 회복에 도움",
     keyword: "고함량 비타민B 컴플렉스",
+    coupang_link: "https://link.coupang.com/a/eA5C8k5o9Q",
     kfda_daily_intake: "비타민B1 기준 1.2 mg",
     high_dose_ratio: "100 mg (8,333% 충족)",
     high_dose_effect: "체내 대사를 급격히 가속화하여 즉각적인 활력을 불어넣고 젖산 축적을 억제하여 만성 피로 회복",
@@ -64,6 +66,7 @@ const localIngredientsMapping = {
     name: "홍경천 추출물 (로디올라)",
     desc: "고산지대 자생 식물로 스트레스로 인한 피로를 개선하는 데 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
     keyword: "홍경천 로디올라 스트레스",
+    coupang_link: "https://link.coupang.com/a/eA5HxP9cVo",
     kfda_daily_intake: "로디올라오사이드 기준 200 mg",
     high_dose_ratio: "200 mg (100% 충족)",
     high_dose_effect: "스트레스로 인한 피로 개선 및 가슴 두근거림 완화 효과",
@@ -77,6 +80,7 @@ const localIngredientsMapping = {
     name: "홍삼 (진세노사이드)",
     desc: "사포닌(Rg1, Rb1, Rg3) 성분이 함유되어 면역력 증진, 피로 개선, 항산화에 도움을 줄 수 있는 대표 고시형 원료",
     keyword: "홍삼정 에브리타임 스틱",
+    coupang_link: "https://link.coupang.com/a/eA5Lf855Lo",
     kfda_daily_intake: "진세노사이드 기준 3 mg",
     high_dose_ratio: "15 mg (500% 충족)",
     high_dose_effect: "혈소판 응집 억제를 통한 혈액 흐름 개선, 기력 증진 및 면역 세포 활성화로 면역 증진 가속",
@@ -90,6 +94,7 @@ const localIngredientsMapping = {
     name: "L-테아닌 (L-Theanine)",
     desc: "녹차에 들어있는 아미노산의 일종으로 스트레스로 인한 긴장 완화에 도움을 줄 수 있음을 식약처가 인정한 성분",
     keyword: "나우푸드 L테아닌 200mg",
+    coupang_link: "https://link.coupang.com/a/eBhysg0XQq",
     kfda_daily_intake: "200~250 mg",
     high_dose_ratio: "200 mg (100% 충족)",
     high_dose_effect: "뇌의 α파 생성을 촉진하여 과도한 긴장 상태를 완화하고 숙면 및 심신 안정을 유도",
@@ -103,6 +108,7 @@ const localIngredientsMapping = {
     name: "가르시니아 캄보지아 추출물 (HCA)",
     desc: "과피 추출물인 HCA가 탄수화물이 지방으로 합성되는 것을 억제하여 체지방 감소에 도움을 주는 고시형 다이어트 원료",
     keyword: "가르시니아 HCA 다이어트",
+    coupang_link: "https://link.coupang.com/a/eBhBdKUhQi",
     kfda_daily_intake: "HCA 기준 750~2,800 mg",
     high_dose_ratio: "1,500 mg (100% 충족)",
     high_dose_effect: "탄수화물이 지방으로 변환되는 대사 경로를 차단하여, 섭취 후 체지방 축적률을 유의미하게 감소",
@@ -116,6 +122,7 @@ const localIngredientsMapping = {
     name: "녹차 추출물 (카테킨)",
     desc: "카테킨 성분이 항산화 작용을 돕고 체지방 감소 및 혈중 콜레스테롤 수치 개선에 도움을 줄 수 있는 식약처 인증 성분",
     keyword: "녹차카테킨 다이어트보조제",
+    coupang_link: "https://link.coupang.com/a/eA52o5qJ6y",
     kfda_daily_intake: "카테킨 기준 300~500 mg",
     high_dose_ratio: "400 mg (100% 충족)",
     high_dose_effect: "체지방 강제 연소를 촉진하고 활성산소를 억제하는 강력한 항산화 및 콜레스테롤 저하 효과",
@@ -129,6 +136,7 @@ const localIngredientsMapping = {
     name: "콜레우스 포스콜리 추출물",
     desc: "인도 전통 약재식물 추출물로 제지방량(근육량)은 보존하고 체지방을 감소시키는 기능성을 개별인정받은 원료",
     keyword: "콜레우스 포스콜리 포스콜린",
+    coupang_link: "https://link.coupang.com/a/eA55qNL8eq",
     kfda_daily_intake: "포스콜린 기준 50 mg",
     high_dose_ratio: "50 mg (100% 충족)",
     high_dose_effect: "제지방(근육량)은 유지·보존하면서 순수 체지방의 연소와 대사율을 올려 기초대사량 증가 효과 유도",
@@ -142,6 +150,7 @@ const localIngredientsMapping = {
     name: "시서스 추출물 (Cissus)",
     desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
     keyword: "시서스 가루 다이어트 캡슐",
+    coupang_link: "https://link.coupang.com/a/eA57rDuxUW",
     kfda_daily_intake: "시서스 추출물 기준 300 mg",
     high_dose_ratio: "300 mg (100% 충족)",
     high_dose_effect: "지방 소화 효소인 리파아제를 방해하여 지방 흡수율을 낮추고 식욕 억제 호르몬 분비 촉진",
@@ -155,6 +164,7 @@ const localIngredientsMapping = {
     name: "L-카르니틴 타르트레이트",
     desc: "체내 지방산을 미토콘드리아로 운반하여 에너지로 연소시키는 과정을 활성화하고 체지방 감소에 도움을 주는 기능성 원료",
     keyword: "L카르니틴 1000mg 추천",
+    coupang_link: "https://link.coupang.com/a/eA58XohllI",
     kfda_daily_intake: "L-카르니틴 타르트레이트 기준 2,000 mg",
     high_dose_ratio: "2,000 mg (100% 충족)",
     high_dose_effect: "체내 축적 지방산을 에너지를 만드는 세포(미토콘드리아)로 즉각 운반하여 운동 시 연소율 극대화",
@@ -168,6 +178,7 @@ const localIngredientsMapping = {
     name: "비오틴 (Biotin / 비타민B7)",
     desc: "지방, 탄수화물, 단백질 대사와 에너지 생성에 필수적이며 모발의 주 성분인 케라틴 단백질 합성을 촉진하는 성분",
     keyword: "비오틴 5000mcg 고함량",
+    coupang_link: "https://link.coupang.com/a/eA6bJ34pa0",
     kfda_daily_intake: "30 mcg",
     high_dose_ratio: "5,000 mcg (16,666% 충족)",
     high_dose_effect: "두피 모낭 세포의 케라틴 단백질 합성을 급격히 끌어올려 모발 성장 속도를 가속합니다.",
@@ -181,6 +192,7 @@ const localIngredientsMapping = {
     name: "건조 맥주효모 (Brewer's Yeast)",
     desc: "단백질(아미노산 18종), 비타민 B군, 셀레늄이 풍부하여 모발 및 두피에 영양을 직접 공급하고 모발 건강을 돕는 필수 원료",
     keyword: "국산 맥주효모 환 대용량",
+    coupang_link: "https://link.coupang.com/a/eA6dOezLMa",
     kfda_daily_intake: "건조 맥주효모 기준 3,000 mg",
     high_dose_ratio: "3,000 mg (100% 충족)",
     high_dose_effect: "모발 케라틴을 만드는 18종의 아미노산 원료를 혈액에 대량 공급하여 가늘어짐 and 탈모 방어",
@@ -194,6 +206,7 @@ const localIngredientsMapping = {
     name: "아연 (Zinc)",
     desc: "정상적인 면역기능과 세포분열에 필수적이며 모낭 세포의 성장을 돕고 탈모 완화 영양소 공급에 중요역할을 함",
     keyword: "아연 영양제 징크",
+    coupang_link: "https://link.coupang.com/a/eA6fl2caya",
     kfda_daily_intake: "8.5 mg",
     high_dose_ratio: "50 mg (588% 충족)",
     high_dose_effect: "체내 활성 산소를 제거하고 두피 세포막 면역력을 높여 환절기 비듬 및 급성 탈모를 방어합니다.",
@@ -206,7 +219,8 @@ const localIngredientsMapping = {
   "L-시스틴": {
     name: "L-시스틴 (L-Cystine)",
     desc: "모발 단백질인 케라틴의 구조를 형성하는 황 함유 아미노산으로 가늘어진 모발을 강화하고 끊어짐 방지에 기여함",
-    keyword: "L시스테인 500mg 직구",
+    keyword: "L시스틴 500mg 직구",
+    coupang_link: "https://link.coupang.com/a/eA6gX6Bntk",
     kfda_daily_intake: "L-시스틴 기준 500 mg",
     high_dose_ratio: "500 mg (100% 충족)",
     high_dose_effect: "모발 강도를 유지하는 케라틴의 시스틴 황 결합 구조를 보강해 가늘어진 머리카락 끊어짐 방지",
@@ -220,6 +234,7 @@ const localIngredientsMapping = {
     name: "판토텐산 (비타민B5)",
     desc: "코엔자임 A 합성에 관여하여 세포 재생을 돕고 두피 장벽 강화 및 모근의 탄력과 힘을 개선하는 에너지 대사 영양소",
     keyword: "판토텐산 550mg 추천",
+    coupang_link: "https://link.coupang.com/a/eA6iR34jNA",
     kfda_daily_intake: "5 mg",
     high_dose_ratio: "550 mg (11,000% 충족)",
     high_dose_effect: "피지 과잉 분비를 정상화하여 탈모성 지루성 두피염을 완화하고 모근 세포 재생 주기 단축",
@@ -271,8 +286,8 @@ const initialCoupangProducts = {
   "아연 영양제 징크": [
     { brand: "나우푸드 (Now Foods)", title: "글루코네이트 아연 50mg, 250정", price: 9800, rating: 4.8, reviews: 18239, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
-  "L시스테인 500mg 직구": [
-    { brand: "나우푸드 (Now Foods)", title: "L-시스테인 500mg (아미노산), 100정", price: 14500, rating: 4.7, reviews: 11094, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  "L시스틴 500mg 직구": [
+    { brand: "나우푸드 (Now Foods)", title: "L-시스틴 500mg (L-Cystine 아미노산), 100정", price: 14500, rating: 4.7, reviews: 11094, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "판토텐산 550mg 추천": [
     { brand: "솔가 (Solgar)", title: "판토텐산 550mg 고함량 비타민B5, 100식물성캡슐", price: 18200, rating: 4.8, reviews: 6502, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
@@ -507,6 +522,7 @@ function App() {
           name: i.name,
           desc: i.fda_functional_summary || i.desc || "",
           keyword: i.coupang_search_keyword || i.keyword || "",
+          coupang_link: i.coupang_link || null,
           kfda_daily_intake: i.kfda_daily_intake || "",
           high_dose_ratio: i.high_dose_ratio || "",
           high_dose_effect: i.high_dose_effect || "",
@@ -666,7 +682,8 @@ function App() {
       const newIngredientObj = {
         name: newIngredientName,
         desc: newIngredientDesc,
-        keyword: newCoupangKeyword
+        keyword: newCoupangKeyword,
+        coupang_link: null
       };
       setIngredientsMapping({
         ...ingredientsMapping,
@@ -1082,11 +1099,11 @@ function App() {
 
                         const productsList = coupangProducts[targetIng.keyword] || defaultMockProducts;
                         return productsList.map((prod, idx) => {
-                          const redirectUrl = `https://www.coupang.com/np/search?q=${encodeURIComponent(targetIng.keyword)}`;
+                          const redirectUrl = targetIng.coupang_link || `https://www.coupang.com/np/search?q=${encodeURIComponent(targetIng.keyword)}`;
                           return (
-                            <a 
-                              key={`${targetIng.id}-${idx}`}
-                              href={redirectUrl} 
+                            <a
+                              key={`${ing.id}-${targetIng.id}-${idx}`}
+                              href={redirectUrl}
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="product-card"
@@ -1528,7 +1545,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping }) {
         },
         {
           key: "맥주효모",
-          type: "gosi",
+          type: "gaebel",
           typeName: "일반식품 원료",
           daily: "건조 맥주효모 기준 3,000 mg",
           warning: "퓨린 함량이 매우 높으므로 통풍 기왕력이 있거나 요산 수치가 높은 분은 관절 통증을 발현합니다.",
