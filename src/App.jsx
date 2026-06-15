@@ -1090,11 +1090,6 @@ function App() {
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="product-card"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                alert(`쿠팡 파트너스 딥링크 리다이렉션:\n[${prod.brand}] ${prod.title}\n\n클릭 시 본인의 파트너스 서브아이디 및 링크로 실제 쿠팡 앱이 자동 실행됩니다.`);
-                                window.open(redirectUrl, '_blank');
-                              }}
                             >
                               <div className="prod-img-box">
                                 <img src={prod.img} alt={prod.title} />
