@@ -771,19 +771,20 @@ function App() {
       // Map Supabase 'ingredients_mapping' list to frontend lookup dict
       const transformedIngredientsMapping = {};
       ingData.forEach(i => {
+        const localIng = localIngredientsMapping[i.id] || {};
         transformedIngredientsMapping[i.id] = {
           name: i.name,
-          desc: i.fda_functional_summary || i.desc || "",
+          desc: localIng.desc || i.fda_functional_summary || i.desc || "",
           keyword: i.coupang_search_keyword || i.keyword || "",
           coupang_link: i.coupang_link || null,
           kfda_daily_intake: i.kfda_daily_intake || "",
           high_dose_ratio: i.high_dose_ratio || "",
-          high_dose_effect: i.high_dose_effect || "",
-          side_effects: i.side_effects || "",
-          intake_tip: i.intake_tip || "",
-          warning_trigger_text: i.warning_trigger_text || null,
+          high_dose_effect: localIng.high_dose_effect || i.high_dose_effect || "",
+          side_effects: localIng.side_effects || i.side_effects || "",
+          intake_tip: localIng.intake_tip || i.intake_tip || "",
+          warning_trigger_text: localIng.warning_trigger_text || i.warning_trigger_text || null,
           alternative_ingredient_id: i.alternative_ingredient_id || null,
-          alternative_reason: i.alternative_reason || null
+          alternative_reason: localIng.alternative_reason || i.alternative_reason || null
         };
       });
 
