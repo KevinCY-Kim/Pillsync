@@ -7,7 +7,10 @@ import { supabase, isSupabaseConfigured } from './supabaseClient';
 const localCategories = [
   { id: 1, name: "피로 개선", desc: "만성 피로와 활력 저하 고민 유형별 관련 성분 안내", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
   { id: 2, name: "다이어트", desc: "체지방 감소와 탄수화물 조절 고민 유형별 관련 성분 안내", icon: "fa-person-running", class: "cat-diet" },
-  { id: 3, name: "탈모 & 모발 건강", desc: "모근 약화와 모발 건강 고민 유형별 관련 성분 안내", icon: "fa-feather", class: "cat-hair" }
+  { id: 3, name: "탈모 & 모발 건강", desc: "모근 약화와 모발 건강 고민 유형별 관련 성분 안내", icon: "fa-feather", class: "cat-hair" },
+  { id: 4, name: "눈 건강", desc: "침침함과 눈 피로 고민 유형별 관련 성분 안내", icon: "fa-eye", class: "cat-eye" },
+  { id: 5, name: "혈행 개선", desc: "혈액 순환과 중성지질 고민 유형별 관련 성분 안내", icon: "fa-heartbeat", class: "cat-blood" },
+  { id: 6, name: "수면 & 스트레스", desc: "잠 못 드는 밤과 누적된 긴장 고민 유형별 관련 성분 안내", icon: "fa-moon", class: "cat-sleep" }
 ];
 
 const localSymptoms = [
@@ -30,7 +33,28 @@ const localSymptoms = [
   { id: 302, category_id: 3, text: "두피 영양이 부족해 모발에 윤기가 없고 푸석푸석해요", ingredient_id: "맥주효모" },
   { id: 303, category_id: 3, text: "두피 각질이나 비듬이 늘어 두피 환경 및 면역을 케어하고 싶어요", ingredient_id: "아연" },
   { id: 304, category_id: 3, text: "머리카락이 쉽게 끊어지고 가늘어지는 연모화 현상이 느껴져요", ingredient_id: "L-시스틴" },
-  { id: 305, category_id: 3, text: "두피가 붉게 올라오고 모근의 탄력과 힘이 약해진 것 같아요", ingredient_id: "판토텐산" }
+  { id: 305, category_id: 3, text: "두피가 붉게 올라오고 모근의 탄력과 힘이 약해진 것 같아요", ingredient_id: "판토텐산" },
+
+  // 눈 건강 증상 (5종)
+  { id: 401, category_id: 4, text: "스마트폰이나 모니터를 오래 보면 눈이 쉽게 피로하고 침침해요", ingredient_id: "헤마토코쿠스 추출물" },
+  { id: 402, category_id: 4, text: "나이가 들면서 황반색소 밀도가 줄어 시야가 흐릿하고 침침해요", ingredient_id: "루테인지아잔틴" },
+  { id: 403, category_id: 4, text: "어두운 곳에서 시각 적응이 어렵고 눈이 건조하고 뻑뻑해요", ingredient_id: "헤마토코쿠스 추출물" },
+  { id: 404, category_id: 4, text: "야간 운전 시 빛 번짐이 심하고 초점 맞추기가 어려워요", ingredient_id: "루테인지아잔틴" },
+  { id: 405, category_id: 4, text: "컴퓨터 작업 시 눈이 침침해서 자주 깜빡이고 피로감을 크게 느껴요", ingredient_id: "헤마토코쿠스 추출물" },
+
+  // 혈행 개선 증상 (5종)
+  { id: 501, category_id: 5, text: "평소 육류나 기름진 음식을 많이 섭취하여 혈중 중성지질이 신경 쓰여요", ingredient_id: "오메가3" },
+  { id: 502, category_id: 5, text: "손발이 쉽게 차가워지고 전신 혈액 순환이 원활하지 않은 것 같아요", ingredient_id: "은행잎 추출물" },
+  { id: 503, category_id: 5, text: "기억력이 최근 들어 예전 같지 않고 자꾸 깜빡깜빡 잊어버려요", ingredient_id: "은행잎 추출물" },
+  { id: 504, category_id: 5, text: "인스턴트 식습관으로 혈관 건강 및 깨끗한 혈류를 관리하고 싶어요", ingredient_id: "오메가3" },
+  { id: 505, category_id: 5, text: "두뇌 활동이 많아 뇌 혈류 공급을 늘리고 기억력을 개선하고 싶어요", ingredient_id: "은행잎 추출물" },
+
+  // 수면 & 스트레스 증상 (5종)
+  { id: 601, category_id: 6, text: "잠자리에 누워도 생각과 고민이 많아 쉽게 잠들기 어려워요", ingredient_id: "감태 추출물" },
+  { id: 602, category_id: 6, text: "매일 밤 자다 깨다를 반복해서 깊은 잠(숙면)을 이루기 힘들어요", ingredient_id: "락티움" },
+  { id: 603, category_id: 6, text: "일상이나 직장에서 만성적인 긴장 상태가 지속되어 릴렉스가 필요해요", ingredient_id: "L-테아닌" },
+  { id: 604, category_id: 6, text: "아침에 깨어났을 때 개운하지 않고 수면 부족으로 온종일 멍해요", ingredient_id: "감태 추출물" },
+  { id: 605, category_id: 6, text: "수면 시간이 불규칙하고 심신의 안정을 취하고 싶어요", ingredient_id: "락티움" }
 ];
 
 const localIngredientsMapping = {
@@ -243,6 +267,90 @@ const localIngredientsMapping = {
     warning_trigger_text: null,
     alternative_ingredient_id: null,
     alternative_reason: null
+  },
+  "루테인지아잔틴": {
+    name: "루테인지아잔틴 복합추출물",
+    desc: "황반색소 밀도를 유지하여 노화로 인한 눈 건강 관리를 돕는 성분으로 식약처 기능성이 인정됨",
+    keyword: "루테인지아잔틴 복합추출물 추천",
+    coupang_link: null,
+    kfda_daily_intake: "루테인지아잔틴 단일/복합 기준 10~20 mg",
+    high_dose_ratio: "20 mg (100% 충족)",
+    high_dose_effect: "황반색소 밀도를 최대로 유지하여 시각 명료도 유지 및 황반 변성 등 노화 현상 예방에 기여",
+    side_effects: "과다 섭취 시 피부가 일시적으로 황색으로 변할 수 있습니다.",
+    intake_tip: "지용성 성분이므로 식사 중 또는 식사 직후 복용해야 흡수가 잘 됩니다.",
+    warning_trigger_text: "흡연자이거나 평소 황색 피부 변색 등의 피부 과민 반응이 잦습니다.",
+    alternative_ingredient_id: "헤마토코쿠스 추출물",
+    alternative_reason: "루테인지아잔틴은 카로티노이드 성분으로 장기 고함량 복용 시 흡연자의 폐 질환 발생 위험이나 황색피부증을 유발할 수 있습니다. 대신 눈 피로 해소에 집중하면서 부작용 우려가 적은 헤마토코쿠스 추출물(아스타잔틴)을 추천합니다."
+  },
+  "헤마토코쿠스 추출물": {
+    name: "헤마토코쿠스 추출물 (아스타잔틴)",
+    desc: "초강력 항산화 물질로 눈의 피로도 개선에 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
+    keyword: "아스타잔틴 헤마토코쿠스 눈피로",
+    coupang_link: null,
+    kfda_daily_intake: "아스타잔틴 기준 4~12 mg",
+    high_dose_ratio: "12 mg (100% 충족)",
+    high_dose_effect: "눈의 초점 조절력 회복을 촉진하고 망막 혈류량을 증가시켜 눈 피로를 완화합니다.",
+    side_effects: "과량 섭취 시 일시적으로 대변 색이 붉게 변하거나 피부가 붉어질 수 있습니다.",
+    intake_tip: "지용성이므로 식사 후에 섭취하는 것이 흡수율을 극대화합니다.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
+  },
+  "오메가3": {
+    name: "정제어유 (EPA 및 DHA 함유 유지)",
+    desc: "혈중 중성지질 개선 및 혈행 개선에 도움을 줄 수 있는 식약처 고시 필수 불포화지방산",
+    keyword: "rtg 오메가3 고함량",
+    coupang_link: null,
+    kfda_daily_intake: "EPA와 DHA의 합 기준 500~2,000 mg",
+    high_dose_ratio: "1,000 mg (200% 충족)",
+    high_dose_effect: "혈액 응고를 억제하여 원활한 혈액 순환 및 중성지질 강하 작용을 돕습니다.",
+    side_effects: "어유 특유의 생선 비린내가 올라오거나 소화불량이 발생할 수 있으며, 혈액 응고를 방해하므로 수술을 앞둔 분은 주의해야 합니다.",
+    intake_tip: "비린내와 위장 자극을 줄이기 위해 기름진 식사 직후 또는 도중에 복용하세요.",
+    warning_trigger_text: "평소 비린내에 아주 민감하여 오메가3 복용 시 메스꺼움이나 트림으로 인한 구토감이 생깁니다.",
+    alternative_ingredient_id: "은행잎 추출물",
+    alternative_reason: "동물성 오메가3는 어유의 어취와 소화 불량, 혹은 혈액 응고 억제로 인한 멍 발생 등의 부작용을 일으킬 수 있습니다. 대신 냄새가 전혀 없고 미세 혈류를 촉진하는 허브 성분인 은행잎 추출물을 대안으로 권장합니다."
+  },
+  "은행잎 추출물": {
+    name: "은행잎 추출물 (플라보놀 배당체)",
+    desc: "혈행 개선 및 기억력 개선에 도움을 줄 수 있음을 식약처가 인정한 대표 허브 원료",
+    keyword: "은행잎 추출물 징코 빌로바",
+    coupang_link: null,
+    kfda_daily_intake: "플라보놀 배당체 기준 24~36 mg",
+    high_dose_ratio: "36 mg (150% 충족)",
+    high_dose_effect: "말초 혈관을 확장하여 혈액 순환을 개선하고 뇌 혈류량을 늘려 기억력 증진을 도울 수 있습니다.",
+    side_effects: "일시적인 두통, 어지러움, 소화불량 및 출혈 경향이 증가할 수 있습니다.",
+    intake_tip: "위장 장애를 줄이기 위해 식후 충분한 물과 섭취하시고, 수술 전후 3~4일 동안은 섭취를 중단하세요.",
+    warning_trigger_text: null,
+    alternative_ingredient_id: null,
+    alternative_reason: null
+  },
+  "감태 추출물": {
+    name: "감태 추출물 (디엑콜)",
+    desc: "제주 청정 해역 감태에서 추출한 플로로탄닌 성분으로 수면의 질 개선에 도움을 줄 수 있는 개별인정 원료",
+    keyword: "감태추출물 수면 영양제",
+    coupang_link: null,
+    kfda_daily_intake: "디엑콜 기준 30 mg",
+    high_dose_ratio: "30 mg (100% 충족)",
+    high_dose_effect: "자연적인 수면 상태를 유도하고 자다가 깨는 현상과 수면 중 호흡 장애 등을 경감하여 숙면 유지",
+    side_effects: "과다 복용 시 다음날 오전까지 경미한 나른함이나 나른한 졸음이 지속될 수 있습니다.",
+    intake_tip: "잠들기 30분~1시간 전에 따뜻한 물과 함께 복용하시는 것이 가장 이상적입니다.",
+    warning_trigger_text: "평소 해조류 알레르기가 있거나 갑상선 질환(요오드 제한 필요)이 있습니다.",
+    alternative_ingredient_id: "락티움",
+    alternative_reason: "감태 추출물은 요오드 성분이 소량 함유되어 갑상선 항진증 환자 등에게 자극이 될 수 있고, 해조류 알레르기가 있는 분들께 가려움을 줄 수 있습니다. 우유 유래 단백질 분해물로 수면 리듬을 편안하게 조절해주는 락티움을 대안으로 권장합니다."
+  },
+  "락티움": {
+    name: "유청단백가수분해물 (락티움)",
+    desc: "우유 단백질을 미세 분해하여 스트레스로 인한 긴장 완화 및 수면 질 개선에 도움을 주는 성분",
+    keyword: "락티움 수면제 대용 추천",
+    coupang_link: null,
+    kfda_daily_intake: "알파에스1카제인 기준 2.2~3.2 mg",
+    high_dose_ratio: "300 mg (100% 충족)",
+    high_dose_effect: "스트레스 호르몬인 코르티솔 분비를 조절하고 가바(GABA) 수용체를 활성화하여 깊은 잠 유도",
+    side_effects: "우유 알레르기가 있거나 유당불내증이 심한 경우 설사나 복통을 유발할 수 있습니다.",
+    intake_tip: "신경 진정 작용이 뛰어나므로 저녁 식사 후 또는 취침 1시간 전 복용을 권장합니다.",
+    warning_trigger_text: "유당불내증이 심하여 우유나 유제품을 먹으면 설사나 복통을 자주 겪습니다.",
+    alternative_ingredient_id: "L-테아닌",
+    alternative_reason: "락티움은 우유 단백질 가수분해물로서 심한 유당불내증이 있는 환자에게 소화기 가스나 설사를 유발할 수 있습니다. 대신 우유 유래 성분이 전혀 없고 뇌파를 이완시켜 긴장 완화에 탁월한 효능을 가진 L-테아닌을 권장합니다."
   }
 };
 
@@ -291,6 +399,24 @@ const initialCoupangProducts = {
   ],
   "판토텐산 550mg 추천": [
     { brand: "솔가 (Solgar)", title: "판토텐산 550mg 고함량 비타민B5, 100식물성캡슐", price: 18200, rating: 4.8, reviews: 6502, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "루테인지아잔틴 복합추출물 추천": [
+    { brand: "안국건강", title: "루테인 지아잔틴 미니 60캡슐", price: 19800, rating: 4.8, reviews: 12503, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "아스타잔틴 헤마토코쿠스 눈피로": [
+    { brand: "뉴트리원", title: "루테인 지아잔틴 164 아스타잔틴 30캡슐", price: 15900, rating: 4.7, reviews: 4892, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "rtg 오메가3 고함량": [
+    { brand: "종근당건강", title: "프로메가 알티지 오메가3 듀얼 60캡슐", price: 18900, rating: 4.8, reviews: 32091, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "은행잎 추출물 징코 빌로바": [
+    { brand: "네이처메이드", title: "징코 빌로바 은행잎 추출물 120mg, 100캡슐", price: 21500, rating: 4.6, reviews: 3402, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "감태추출물 수면 영양제": [
+    { brand: "휴럼", title: "제주 감태추출물 수면 건강 60정", price: 28000, rating: 4.6, reviews: 1803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+  ],
+  "락티움 수면제 대용 추천": [
+    { brand: "수면미학", title: "락티움 수면 건강 솔루션 30정", price: 24500, rating: 4.7, reviews: 2901, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ]
 };
 
@@ -325,8 +451,29 @@ const localSynergyCombinations = [
     id: 4, 
     name: "체지방 이중 컷팅 패키지", 
     synergy_effect: "탄수화물의 지방 전환 억제 + 체지방 감소 지원",
-    recommendation_reason: "가르시니아(HCA)가 탄수화물이 체지방으로 전환되는 과정을 억제하고, 카테킨(EGCG)이 체지방 감소와 항산화에 도움을 줄 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
+    recommendation_reason: "가르시니아(HCA)가 탄수화물이 체지방으로 전환되는 과정을 억제하고, 카테킨(EGCG)이 체지방 감소 and 항산화에 도움을 줄 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
     ingredients: ["가르시니아", "녹차카테킨"]
+  },
+  { 
+    id: 5, 
+    name: "스마트 기기 집중 케어 패키지", 
+    synergy_effect: "눈 피로 개선 + 활력 대사 증진",
+    recommendation_reason: "헤마토코쿠스 추출물이 전자기기 사용으로 지친 눈의 피로도 개선을 돕고, 비타민B군이 에너지 생성과 피로 개선에 기여하여 시너지 효과를 줄 수 있는 조합입니다.",
+    ingredients: ["비타민B군", "헤마토코쿠스 추출물"]
+  },
+  { 
+    id: 6, 
+    name: "혈행 & 순환 밸런스 패키지", 
+    synergy_effect: "혈액 순환 원활 + 혈중 중성지질 강하",
+    recommendation_reason: "오메가3가 혈액 응고를 방지하고 중성지질을 낮추어 피의 흐름을 돕고, 은행잎 추출물이 혈관을 확장해 말초까지 골고루 순환을 촉진하는 배가 조합입니다.",
+    ingredients: ["오메가3", "은행잎 추출물"]
+  },
+  { 
+    id: 7, 
+    name: "딥 슬립 스트레스 릴리프 패키지", 
+    synergy_effect: "수면 질 개선 + 신경 안정 및 긴장 완화",
+    recommendation_reason: "락티움이 뇌의 이완과 수면 호르몬 안정을 도와 깊은 잠을 유도하며, L-테아닌이 낮과 밤 동안 쌓인 스트레스로 인한 긴장 상태를 부드럽게 완화해 주는 꿀잠 최적 조합입니다.",
+    ingredients: ["락티움", "L-테아닌"]
   }
 ];
 
