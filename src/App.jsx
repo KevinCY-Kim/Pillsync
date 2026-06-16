@@ -749,7 +749,7 @@ function App() {
       const transformedCategories = catData.map(c => ({
         id: c.id,
         name: c.name,
-        desc: c.description || c.desc || "",
+        desc: (c.description || c.desc || "").replace(/\s+and\s+/g, "와 "),
         icon: c.icon_class || c.icon || "fa-capsules",
         class: c.class || (
           c.id === 1 ? 'cat-fatigue' :

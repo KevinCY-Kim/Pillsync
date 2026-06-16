@@ -273,7 +273,7 @@ UPDATE ingredients_mapping SET alternative_ingredient_id = 'L-테아닌' WHERE i
 -- 8c. Categories
 INSERT INTO categories (id, name, description, icon_class) VALUES
 (1, '피로 개선', '만성 피로와 활력 저하로 고민하는 직장인 맞춤형', 'fa-battery-three-quarters'),
-(2, '다이어트', '체지방 감소 and 탄수화물 컷팅이 필요한 분을 위한 맞춤형', 'fa-person-running'),
+(2, '다이어트', '체지방 감소와 탄수화물 컷팅이 필요한 분을 위한 맞춤형', 'fa-person-running'),
 (3, '탈모 & 모발 건강', '모근 약화와 머리숱 감소가 절박한 분들을 위한 맞춤형', 'fa-feather'),
 (4, '눈 건강', '침침함과 눈 피로로 고민하는 현대인 맞춤형', 'fa-eye'),
 (5, '혈행 개선', '혈액 순환과 기억력 감퇴를 케어하는 맞춤형', 'fa-heartbeat'),
