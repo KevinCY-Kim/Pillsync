@@ -1,0 +1,27 @@
+{
+  "short_name": "필싱크",
+  "name": "PillSync - 맞춤형 영양제 매칭 플랫폼",
+  "description": "식약처 고시 데이터 기반 건강 고민 유형별 영양 성분 안내 플랫폼",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "pillsync_icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "pillsync_icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "display": "standalone",
+  "orientation": "portrait"
+}

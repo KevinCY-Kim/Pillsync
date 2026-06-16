@@ -344,6 +344,76 @@ function App() {
   const [checkedWarnings, setCheckedWarnings] = useState({}); // { [ingredientId]: boolean }
   const [isKfdaModalOpen, setIsKfdaModalOpen] = useState(false);
   const [systemTime, setSystemTime] = useState("12:00");
+  const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  
+  // 1. 하이브리드 앱 설치 여부 감지 (Standalone 미디어 쿼리 + LocalStorage 백업)
+  const [isAppInstalled, setIsAppInstalled] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      return isStandalone || localStorage.getItem('pillsync_installed') === 'true';
+    }
+    return false;
+  });
+
+  // 2. 배지 30일 숨김 기한 감지 및 파싱
+  const [hideBadgeState, setHideBadgeState] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hideUntil = localStorage.getItem('pillsync_hide_badge_until');
+      if (hideUntil) {
+        if (Date.now() < parseInt(hideUntil, 10)) {
+          return true; // 30일 경과 전이므로 숨김 유지
+        } else {
+          localStorage.removeItem('pillsync_hide_badge_until'); // 기한이 지났으므로 복구
+        }
+      }
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      console.log('[PillSync PWA] beforeinstallprompt event captured.');
+    };
+
+    const handleAppInstalled = () => {
+      localStorage.setItem('pillsync_installed', 'true');
+      setIsAppInstalled(true);
+      setDeferredPrompt(null);
+      showToast("🎉 PillSync가 홈 화면에 추가되었습니다!");
+      console.log('[PillSync PWA] App installed successfully.');
+    };
+
+    // 실시간 디스플레이 모드 전환 감지 리스너
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleModeChange = (e) => {
+      if (e.matches) {
+        localStorage.setItem('pillsync_installed', 'true');
+        setIsAppInstalled(true);
+      }
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleModeChange);
+    } else {
+      mediaQuery.addListener(handleModeChange);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleModeChange);
+      } else {
+        mediaQuery.removeListener(handleModeChange);
+      }
+    };
+  }, []);
 
   // Responsive device separation states
   const [isMobileDevice, setIsMobileDevice] = useState(false);
@@ -381,6 +451,24 @@ function App() {
       clearInterval(clockInterval);
     };
   }, []);
+
+  const handleInstallApp = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          localStorage.setItem('pillsync_installed', 'true');
+          setIsAppInstalled(true);
+          console.log('[PillSync PWA] User accepted installation.');
+        } else {
+          console.log('[PillSync PWA] User dismissed installation.');
+        }
+        setDeferredPrompt(null);
+      });
+    } else {
+      setIsBookmarkModalOpen(true);
+    }
+  };
 
   // Connection Mode State
   const [dbMode, setDbMode] = useState("Local DB");
@@ -840,7 +928,14 @@ function App() {
                   <i className="fa-solid fa-chevron-left"></i>
                 </button>
                 <div className="app-title">필싱크 (PillSync)</div>
-                <div className="app-actions">
+                <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button 
+                    onClick={handleInstallApp}
+                    style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
+                    title="즐겨찾기 가이드"
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </button>
                   <i className="fa-regular fa-bell"></i>
                 </div>
               </div>
@@ -852,6 +947,33 @@ function App() {
                 {activeScreen === 'home' && (
                   <div className="animate-fade">
                     <div className="welcome-box">
+                      {!isAppInstalled && !hideBadgeState && (
+                        <div 
+                          className="bookmark-welcome-badge animate-pulse-subtle" 
+                          onClick={handleInstallApp}
+                          style={{ justifyContent: 'space-between', display: 'inline-flex', width: 'fit-content' }}
+                        >
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                            <span className="sparkle-icon">✨</span>
+                            <span>홈 화면에 추가하고 편하게 방문하기</span>
+                            <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.65rem' }}></i>
+                          </span>
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const hideDays = 30;
+                              const expiryTime = Date.now() + hideDays * 24 * 60 * 60 * 1000;
+                              localStorage.setItem('pillsync_hide_badge_until', expiryTime.toString());
+                              setHideBadgeState(true);
+                              showToast("즐겨찾기 안내가 30일간 숨겨집니다.");
+                            }}
+                            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', padding: '0 4px', marginLeft: '8px', display: 'flex', alignItems: 'center' }}
+                            title="30일 동안 숨기기"
+                          >
+                            <i className="fa-solid fa-xmark" style={{ fontSize: '0.75rem' }}></i>
+                          </button>
+                        </div>
+                      )}
                       <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양 성분 정보</span> 안내</h2>
                       <p>질병 진단이나 처방이 아닌, 식약처 고시 기능성 데이터에 기반하여 건강 고민 유형별 관련 성분 정보를 안내합니다. 구체적인 섭취 여부는 전문가와 상담하시기 바랍니다.</p>
                     </div>
@@ -923,6 +1045,36 @@ function App() {
                       <h3>고민 유형별 관련 영양 성분 안내</h3>
                       <p>{selectedCategory.name} 고민 유형 기준 관련 성분 정보입니다. 섭취 전 전문가 상담을 권장합니다.</p>
                     </div>
+
+                    {!isAppInstalled && (
+                      <div 
+                        className="bookmark-welcome-badge animate-pulse-subtle"
+                        onClick={handleInstallApp}
+                        style={{
+                          background: 'rgba(139, 92, 246, 0.12)',
+                          border: '1px solid rgba(139, 92, 246, 0.25)',
+                          borderRadius: '12px',
+                          padding: '12px 14px',
+                          marginTop: '12px',
+                          marginBottom: '4px',
+                          fontSize: '0.78rem',
+                          color: '#DDD6FE',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '8px',
+                          width: '100%',
+                          textAlign: 'left'
+                        }}
+                      >
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, lineHeight: '1.45' }}>
+                          <span style={{ fontSize: '0.95rem' }}>📌</span>
+                          <span><strong>이 진단 결과를 나중에 다시 편하게 보려면</strong><br />지금 홈 화면에 바로 추가해 두세요!</span>
+                        </span>
+                        <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', color: 'var(--color-primary)', marginLeft: '6px' }}></i>
+                      </div>
+                    )}
 
                     <div className="section-tag">식약처 기능성 원료 분석</div>
                     <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
@@ -1141,7 +1293,7 @@ function App() {
                       })}
                     </div>
 
-                    <button className="reset-btn" onClick={handleReset} style={{ width: '100%' }}>
+                    <button className="reset-btn" onClick={handleReset} style={{ width: '100%', marginBottom: '70px' }}>
                       <i className="fa-solid fa-house"></i> 건강고민 다시 선택
                     </button>
                   </div>
@@ -1151,9 +1303,19 @@ function App() {
 
               {/* Bottom Sticky Banner (Coupang Disclaimer) */}
               {activeScreen === 'result' && (
-                <div className="coupang-partners-disclaimer">
-                  이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
-                </div>
+                <>
+                  {!isAppInstalled && !hideBadgeState && (
+                    <div className="bookmark-floating-bar animate-fade">
+                      <div className="floating-text">💡 영양제 새로 바꿀 때마다 바로 검사하기</div>
+                      <button className="floating-btn" onClick={handleInstallApp}>
+                        <i className="fa-solid fa-mobile-screen"></i> {deferredPrompt ? '폰 화면에 즉시 앱 추가 (1초)' : '폰 화면에 즐겨찾기 추가 (3초)'}
+                      </button>
+                    </div>
+                  )}
+                  <div className="coupang-partners-disclaimer">
+                    이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+                  </div>
+                </>
               )}
             </div>
 
@@ -1432,6 +1594,12 @@ function App() {
         ingredientsMapping={ingredientsMapping}
         matchedIngredientIds={matchedIngredientsList.map(i => i.id)}
       />
+
+      {/* Bookmark Guide Modal */}
+      <BookmarkGuideModal
+        isOpen={isBookmarkModalOpen}
+        onClose={() => setIsBookmarkModalOpen(false)}
+      />
     </div>
   );
 }
@@ -1683,6 +1851,149 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping, matchedIngredien
               })}
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==========================================================
+// PWA / Bookmark Add to Home Screen Guide Modal Component
+// ==========================================================
+function BookmarkGuideModal({ isOpen, onClose }) {
+  if (!isOpen) return null;
+
+  const [activeTab, setActiveTab] = useState('ios');
+
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (/android/i.test(ua)) {
+      setActiveTab('android');
+    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+      setActiveTab('ios');
+    } else {
+      setActiveTab('pc');
+    }
+  }, [isOpen]);
+
+  return (
+    <div className="bookmark-modal-overlay" onClick={onClose}>
+      <div className="bookmark-modal-content animate-scale-up" onClick={(e) => e.stopPropagation()}>
+        <div className="bookmark-modal-header">
+          <div className="bookmark-modal-title">
+            <i className="fa-solid fa-star" style={{ color: '#FBBF24' }}></i> PillSync 즐겨찾기 추가
+          </div>
+          <button className="bookmark-modal-close" onClick={onClose}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div className="bookmark-modal-body">
+          <p className="bookmark-intro-text">
+            영양제가 새로 바뀌거나 몸 상태가 달라졌을 때, 언제든 원클릭으로 다시 검사할 수 있도록 홈 화면에 추가해보세요!
+          </p>
+
+          {/* Device Tabs */}
+          <div className="bookmark-tabs">
+            <button 
+              className={`bookmark-tab-btn ${activeTab === 'ios' ? 'active' : ''}`}
+              onClick={() => setActiveTab('ios')}
+            >
+              <i className="fa-brands fa-apple"></i> iOS Safari
+            </button>
+            <button 
+              className={`bookmark-tab-btn ${activeTab === 'android' ? 'active' : ''}`}
+              onClick={() => setActiveTab('android')}
+            >
+              <i className="fa-brands fa-android"></i> Android
+            </button>
+            <button 
+              className={`bookmark-tab-btn ${activeTab === 'pc' ? 'active' : ''}`}
+              onClick={() => setActiveTab('pc')}
+            >
+              <i className="fa-solid fa-desktop"></i> PC 북마크
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          <div className="bookmark-tab-content">
+            {activeTab === 'ios' && (
+              <div className="guide-steps animate-fade">
+                <div className="guide-step">
+                  <div className="step-num">1</div>
+                  <div className="step-text">
+                    아이폰/아이패드 <strong>Safari 브라우저</strong>로 접속한 후, 하단 툴바의 <strong>공유 버튼 <i className="fa-solid fa-share-from-square" style={{ color: 'var(--color-accent)' }}></i></strong>을 탭합니다.
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">2</div>
+                  <div className="step-text">
+                    공유 메뉴 리스트를 아래로 스크롤하여 <strong>'홈 화면에 추가' <i className="fa-regular fa-square-plus" style={{ color: 'var(--color-secondary)' }}></i></strong> 항목을 찾아서 탭합니다.
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">3</div>
+                  <div className="step-text">
+                    우측 상단의 <strong>'추가'</strong> 버튼을 클릭하면 폰 화면에 PillSync 바로가기 앱 아이콘이 생성됩니다.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'android' && (
+              <div className="guide-steps animate-fade">
+                <div className="guide-step">
+                  <div className="step-num">1</div>
+                  <div className="step-text">
+                    <strong>Chrome</strong> 또는 <strong>삼성 인터넷</strong> 브라우저에서 우측 상단(혹은 하단)의 <strong>더보기 버튼 <i className="fa-solid fa-ellipsis-vertical" style={{ color: 'var(--text-muted)' }}></i> / <i className="fa-solid fa-bars" style={{ color: 'var(--text-muted)' }}></i></strong>을 탭합니다.
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">2</div>
+                  <div className="step-text">
+                    메뉴 리스트에서 <strong>'홈 화면에 추가'</strong> (또는 <strong>'앱 설치'</strong>) 항목을 찾아 탭합니다.
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">3</div>
+                  <div className="step-text">
+                    등록 확인 팝업이 뜨면 <strong>'추가'</strong> 버튼을 눌러 홈 화면 추가를 완료합니다.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'pc' && (
+              <div className="guide-steps animate-fade">
+                <div className="guide-step">
+                  <div className="step-num">1</div>
+                  <div className="step-text">
+                    브라우저 주소창 우측에 있는 <strong>별표(⭐) 아이콘</strong>을 클릭하여 북마크로 빠르게 등록할 수 있습니다.
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">2</div>
+                  <div className="step-text">
+                    또는 아래의 키보드 단축키를 눌러 바로 추가해보세요:
+                    <div className="shortcut-box">
+                      <div>Windows: <kbd>Ctrl</kbd> + <kbd>D</kbd></div>
+                      <div>Mac: <kbd>Cmd</kbd> + <kbd>D</kbd></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="guide-step">
+                  <div className="step-num">3</div>
+                  <div className="step-text">
+                    <strong>북마크바 표시</strong> 단축키(<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>)를 누르면 상단바에서 언제든지 빠르게 원클릭 접속할 수 있습니다.
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="bookmark-modal-footer">
+          <button className="confirm-btn" onClick={onClose}>확인했습니다</button>
         </div>
       </div>
     </div>

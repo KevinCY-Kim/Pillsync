@@ -1593,4 +1593,331 @@ input:checked + .slider:before {
     height: 100vh !important; /* 상태바가 없으므로 전체 높이 차지 */
 }
 
+/* ==========================================================
+   BOOKMARK & ADD TO HOME SCREEN UX STYLES
+   ========================================================== */
+
+/* Welcome Badge on Home Screen */
+.bookmark-welcome-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(16, 185, 129, 0.12));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #DDD6FE;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+.bookmark-welcome-badge:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(16, 185, 129, 0.2));
+    border-color: rgba(139, 92, 246, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+}
+
+.bookmark-welcome-badge .sparkle-icon {
+    font-size: 0.8rem;
+    color: #FBBF24;
+}
+
+/* Pulse Animation for Welcome Badge */
+.bookmark-welcome-badge.animate-pulse-subtle {
+    animation: pulse-subtle 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-subtle {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25);
+        border-color: rgba(139, 92, 246, 0.45);
+    }
+}
+
+/* Floating Sticky CTA Bar on Result Page */
+.bookmark-floating-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px;
+    background: linear-gradient(to top, #090D16 90%, rgba(9, 13, 22, 0.95));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 15;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+}
+
+.bookmark-floating-bar .floating-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #A78BFA;
+    text-align: center;
+    letter-spacing: -0.2px;
+}
+
+.bookmark-floating-bar .floating-btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    transition: var(--transition-smooth);
+}
+
+.bookmark-floating-bar .floating-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.45);
+}
+
+.bookmark-floating-bar .floating-btn i {
+    font-size: 0.9rem;
+}
+
+/* Bookmark Guide Modal */
+.bookmark-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(4, 6, 11, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.25s ease-out;
+}
+
+.bookmark-modal-content {
+    background: #0d1221;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 420px;
+    padding: 22px;
+    box-shadow: var(--shadow-premium), 0 0 40px rgba(139, 92, 246, 0.1);
+    position: relative;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bookmark-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bookmark-modal-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bookmark-modal-close {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+}
+
+.bookmark-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+.bookmark-intro-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Modal Tabs styling */
+.bookmark-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.bookmark-tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: var(--transition-smooth);
+}
+
+.bookmark-tab-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.bookmark-tab-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(59, 130, 246, 0.25));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Steps content */
+.bookmark-tab-content {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 16px;
+    min-height: 190px;
+}
+
+.guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.guide-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.step-text {
+    font-size: 0.8rem;
+    color: #E5E7EB;
+    line-height: 1.5;
+}
+
+.step-text strong {
+    color: var(--color-secondary);
+}
+
+.step-text i {
+    margin: 0 2px;
+}
+
+/* Keyboard / Shortcuts styling */
+.shortcut-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+kbd {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.bookmark-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.confirm-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--color-secondary), rgba(16, 185, 129, 0.8));
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.confirm-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+/* Modal animation */
+.animate-scale-up {
+    animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
 
