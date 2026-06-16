@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 
 // ==========================================================
@@ -275,21 +276,21 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eCuMq6pJds",
     kfda_daily_intake: "루테인지아잔틴 단일/복합 기준 10~20 mg",
     high_dose_ratio: "20 mg (100% 충족)",
-    high_dose_effect: "황반색소 밀도를 최대로 유지하여 시각 명료도 유지 및 황반 변성 등 노화 현상 예방에 기여",
+    high_dose_effect: "황반색소 밀도 유지를 도와 노화로 인한 눈 건강 관리에 기여할 수 있습니다.",
     side_effects: "과다 섭취 시 피부가 일시적으로 황색으로 변할 수 있습니다.",
     intake_tip: "지용성 성분이므로 식사 중 또는 식사 직후 복용해야 흡수가 잘 됩니다.",
     warning_trigger_text: "흡연자이거나 평소 황색 피부 변색 등의 피부 과민 반응이 잦습니다.",
     alternative_ingredient_id: "헤마토코쿠스 추출물",
-    alternative_reason: "루테인지아잔틴은 카로티노이드 성분으로 장기 고함량 복용 시 흡연자의 폐 질환 발생 위험이나 황색피부증을 유발할 수 있습니다. 대신 눈 피로 해소에 집중하면서 부작용 우려가 적은 헤마토코쿠스 추출물(아스타잔틴)을 추천합니다."
+    alternative_reason: "루테인지아잔틴은 카로티노이드 성분으로 장기 고함량 복용 시 일부 민감한 분들께 피부 황색 변색이 나타날 수 있습니다. 대신 눈의 피로도 개선에 도움을 줄 수 있는 헤마토코쿠스 추출물(아스타잔틴)을 대안으로 참고하실 수 있습니다."
   },
   "헤마토코쿠스 추출물": {
     name: "헤마토코쿠스 추출물 (아스타잔틴)",
-    desc: "초강력 항산화 물질로 눈의 피로도 개선에 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
+    desc: "항산화 작용을 하는 카로티노이드 성분으로 눈의 피로도 개선에 도움을 줄 수 있음을 식약처가 인정한 기능성 원료",
     keyword: "아스타잔틴 헤마토코쿠스 눈피로",
     coupang_link: "https://link.coupang.com/a/eCuO6slpIa",
     kfda_daily_intake: "아스타잔틴 기준 4~12 mg",
     high_dose_ratio: "12 mg (100% 충족)",
-    high_dose_effect: "눈의 초점 조절력 회복을 촉진하고 망막 혈류량을 증가시켜 눈 피로를 완화합니다.",
+    high_dose_effect: "강력한 항산화 작용을 바탕으로 눈의 피로도 개선에 도움을 줄 수 있습니다.",
     side_effects: "과량 섭취 시 일시적으로 대변 색이 붉게 변하거나 피부가 붉어질 수 있습니다.",
     intake_tip: "지용성이므로 식사 후에 섭취하는 것이 흡수율을 극대화합니다.",
     warning_trigger_text: null,
@@ -303,12 +304,12 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eCuSvrXOAS",
     kfda_daily_intake: "EPA와 DHA의 합 기준 500~2,000 mg",
     high_dose_ratio: "1,000 mg (200% 충족)",
-    high_dose_effect: "혈액 응고를 억제하여 원활한 혈액 순환 및 중성지질 강하 작용을 돕습니다.",
+    high_dose_effect: "혈중 중성지질 개선 및 혈행 개선에 도움을 줄 수 있습니다.",
     side_effects: "어유 특유의 생선 비린내가 올라오거나 소화불량이 발생할 수 있으며, 혈액 응고를 방해하므로 수술을 앞둔 분은 주의해야 합니다.",
     intake_tip: "비린내와 위장 자극을 줄이기 위해 기름진 식사 직후 또는 도중에 복용하세요.",
     warning_trigger_text: "평소 비린내에 아주 민감하여 오메가3 복용 시 메스꺼움이나 트림으로 인한 구토감이 생깁니다.",
     alternative_ingredient_id: "은행잎 추출물",
-    alternative_reason: "동물성 오메가3는 어유의 어취와 소화 불량, 혹은 혈액 응고 억제로 인한 멍 발생 등의 부작용을 일으킬 수 있습니다. 대신 냄새가 전혀 없고 미세 혈류를 촉진하는 허브 성분인 은행잎 추출물을 대안으로 권장합니다."
+    alternative_reason: "동물성 오메가3는 어유 특유의 어취나 소화 불량, 혹은 혈액 응고 지연으로 인한 멍 발생 등의 부작용을 일으킬 수 있습니다. 대신 냄새 부담이 없고 혈행 개선에 도움을 줄 수 있는 은행잎 추출물을 대안으로 참고하실 수 있습니다."
   },
   "은행잎 추출물": {
     name: "은행잎 추출물 (플라보놀 배당체)",
@@ -317,7 +318,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eCuVVZenOS",
     kfda_daily_intake: "플라보놀 배당체 기준 24~36 mg",
     high_dose_ratio: "36 mg (150% 충족)",
-    high_dose_effect: "말초 혈관을 확장하여 혈액 순환을 개선하고 뇌 혈류량을 늘려 기억력 증진을 도울 수 있습니다.",
+    high_dose_effect: "혈행 개선과 기억력 개선에 도움을 줄 수 있습니다.",
     side_effects: "일시적인 두통, 어지러움, 소화불량 및 출혈 경향이 증가할 수 있습니다.",
     intake_tip: "위장 장애를 줄이기 위해 식후 충분한 물과 섭취하시고, 수술 전후 3~4일 동안은 섭취를 중단하세요.",
     warning_trigger_text: null,
@@ -331,7 +332,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eCuX301KE0",
     kfda_daily_intake: "디엑콜 기준 30 mg",
     high_dose_ratio: "30 mg (100% 충족)",
-    high_dose_effect: "자연적인 수면 상태를 유도하고 자다가 깨는 현상과 수면 중 호흡 장애 등을 경감하여 숙면 유지",
+    high_dose_effect: "수면의 질 개선에 도움을 줄 수 있으며, 잠들기까지 걸리는 시간 감소에 기여할 수 있습니다.",
     side_effects: "과다 복용 시 다음날 오전까지 경미한 나른함이나 나른한 졸음이 지속될 수 있습니다.",
     intake_tip: "잠들기 30분~1시간 전에 따뜻한 물과 함께 복용하시는 것이 가장 이상적입니다.",
     warning_trigger_text: "평소 해조류 알레르기가 있거나 갑상선 질환(요오드 제한 필요)이 있습니다.",
@@ -345,12 +346,12 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eCu0lvb4Me",
     kfda_daily_intake: "알파에스1카제인 기준 2.2~3.2 mg",
     high_dose_ratio: "300 mg (100% 충족)",
-    high_dose_effect: "스트레스 호르몬인 코르티솔 분비를 조절하고 가바(GABA) 수용체를 활성화하여 깊은 잠 유도",
+    high_dose_effect: "스트레스로 인한 긴장 완화와 수면의 질 개선에 도움을 줄 수 있습니다.",
     side_effects: "우유 알레르기가 있거나 유당불내증이 심한 경우 설사나 복통을 유발할 수 있습니다.",
     intake_tip: "신경 진정 작용이 뛰어나므로 저녁 식사 후 또는 취침 1시간 전 복용을 권장합니다.",
     warning_trigger_text: "유당불내증이 심하여 우유나 유제품을 먹으면 설사나 복통을 자주 겪습니다.",
     alternative_ingredient_id: "L-테아닌",
-    alternative_reason: "락티움은 우유 단백질 가수분해물로서 심한 유당불내증이 있는 환자에게 소화기 가스나 설사를 유발할 수 있습니다. 대신 우유 유래 성분이 전혀 없고 뇌파를 이완시켜 긴장 완화에 탁월한 효능을 가진 L-테아닌을 권장합니다."
+    alternative_reason: "락티움은 우유 단백질 가수분해물로서 심한 유당불내증이 있는 분들께 소화기 불편감을 유발할 수 있습니다. 대신 우유 유래 성분이 없으면서 긴장 완화에 도움을 줄 수 있는 L-테아닌을 대안으로 참고하실 수 있습니다."
   }
 };
 
@@ -451,7 +452,7 @@ const localSynergyCombinations = [
     id: 4, 
     name: "체지방 이중 컷팅 패키지", 
     synergy_effect: "탄수화물의 지방 전환 억제 + 체지방 감소 지원",
-    recommendation_reason: "가르시니아(HCA)가 탄수화물이 체지방으로 전환되는 과정을 억제하고, 카테킨(EGCG)이 체지방 감소 and 항산화에 도움을 줄 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
+    recommendation_reason: "가르시니아(HCA)가 탄수화물이 체지방으로 전환되는 과정을 억제하고, 카테킨(EGCG)이 체지방 감소와 항산화에 도움을 줄 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
     ingredients: ["가르시니아", "녹차카테킨"]
   },
   { 
@@ -465,19 +466,29 @@ const localSynergyCombinations = [
     id: 6, 
     name: "혈행 & 순환 밸런스 패키지", 
     synergy_effect: "혈액 순환 원활 + 혈중 중성지질 강하",
-    recommendation_reason: "오메가3가 혈액 응고를 방지하고 중성지질을 낮추어 피의 흐름을 돕고, 은행잎 추출물이 혈관을 확장해 말초까지 골고루 순환을 촉진하는 배가 조합입니다.",
+    recommendation_reason: "오메가3가 중성지질 개선과 혈행 개선에 도움을 주고, 은행잎 추출물이 말초 혈행 개선과 기억력 개선에 기여할 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
     ingredients: ["오메가3", "은행잎 추출물"]
   },
   { 
     id: 7, 
     name: "딥 슬립 스트레스 릴리프 패키지", 
     synergy_effect: "수면 질 개선 + 신경 안정 및 긴장 완화",
-    recommendation_reason: "락티움이 뇌의 이완과 수면 호르몬 안정을 도와 깊은 잠을 유도하며, L-테아닌이 낮과 밤 동안 쌓인 스트레스로 인한 긴장 상태를 부드럽게 완화해 주는 꿀잠 최적 조합입니다.",
+    recommendation_reason: "락티움이 스트레스로 인한 긴장 완화와 수면의 질 개선에 도움을 주고, L-테아닌이 긴장 완화에 기여하여 심신 안정을 함께 지원할 수 있는 조합입니다.",
     ingredients: ["락티움", "L-테아닌"]
   }
 ];
 
 function App() {
+  // Notification Toast State
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
+  };
+
   // DB States
   const isFirstLoadRef = useRef(true);
   const [categories, setCategories] = useState(localCategories);
@@ -564,8 +575,20 @@ function App() {
 
   // Responsive device separation states
   const [isMobileDevice, setIsMobileDevice] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [isAdminQueryActive, setIsAdminQueryActive] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('admin') === 'true';
+    }
+    return false;
+  });
+  const [isAdminQueryActive] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('admin') === 'true';
+    }
+    return false;
+  });
 
   useEffect(() => {
     const updateTime = () => {
@@ -584,14 +607,6 @@ function App() {
     };
     checkDevice();
     window.addEventListener('resize', checkDevice);
-
-    // URL 쿼리 파라미터 확인 (?admin=true 일 때만 어드민 패널 토글 노출 및 활성화)
-    const params = new URLSearchParams(window.location.search);
-    const isAdmin = params.get('admin') === 'true';
-    setIsAdminQueryActive(isAdmin);
-    if (isAdmin) {
-      setShowAdminPanel(true);
-    }
 
     return () => {
       window.removeEventListener('resize', checkDevice);
@@ -640,15 +655,7 @@ function App() {
   const [newIngredientDesc, setNewIngredientDesc] = useState('');
   const [newCoupangKeyword, setNewCoupangKeyword] = useState('');
 
-  // Notification Toast State
-  const [toastMessage, setToastMessage] = useState(null);
 
-  const showToast = (message) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 4000);
-  };
 
   // Toggle guide details for ingredients
   const toggleGuide = (ingId) => {
@@ -795,6 +802,7 @@ function App() {
 
   useEffect(() => {
     loadDatabase(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Switch to category questionnaire
@@ -2069,21 +2077,22 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping, matchedIngredien
 // ==========================================================
 // PWA / Bookmark Add to Home Screen Guide Modal Component
 // ==========================================================
+function getDeviceDefaultTab() {
+  if (typeof window === 'undefined') return 'ios';
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(ua)) {
+    return 'android';
+  } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+    return 'ios';
+  } else {
+    return 'pc';
+  }
+}
+
 function BookmarkGuideModal({ isOpen, onClose }) {
+  const [activeTab, setActiveTab] = useState(getDeviceDefaultTab);
+
   if (!isOpen) return null;
-
-  const [activeTab, setActiveTab] = useState('ios');
-
-  useEffect(() => {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    if (/android/i.test(ua)) {
-      setActiveTab('android');
-    } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-      setActiveTab('ios');
-    } else {
-      setActiveTab('pc');
-    }
-  }, [isOpen]);
 
   return (
     <div className="bookmark-modal-overlay" onClick={onClose}>
