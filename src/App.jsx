@@ -55,7 +55,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA5C8k5o9Q",
     kfda_daily_intake: "비타민B1 기준 1.2 mg",
     high_dose_ratio: "100 mg (8,333% 충족)",
-    high_dose_effect: "체내 대사를 급격히 가속화하여 즉각적인 활력을 불어넣고 젖산 축적을 억제하여 만성 피로 회복",
+    high_dose_effect: "체내 에너지 대사를 활성화하여 활력 회복을 돕고 젖산 축적을 줄이는 데 기여합니다.",
     side_effects: "고함량 섭취 시 소변이 형광 노란색으로 변하거나 일시적으로 불면증, 위장 장애가 발생할 수 있습니다.",
     intake_tip: "에너지 생성을 도우므로 밤늦은 시간보다는 아침이나 낮 시간대 복용을 권장합니다.",
     warning_trigger_text: null,
@@ -83,7 +83,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA5Lf855Lo",
     kfda_daily_intake: "진세노사이드 기준 3 mg",
     high_dose_ratio: "15 mg (500% 충족)",
-    high_dose_effect: "혈소판 응집 억제를 통한 혈액 흐름 개선, 기력 증진 및 면역 세포 활성화로 면역 증진 가속",
+    high_dose_effect: "기력 증진과 면역력 향상에 도움을 줄 수 있으며, 항산화 작용을 통해 활력 회복을 지원합니다.",
     side_effects: "체질에 따라 열감, 두통, 불면이 생길 수 있으므로 혈압이 높으신 분은 복용에 주의해야 합니다.",
     intake_tip: "공복에 섭취 시 흡수율이 높아 아침 공복 복용을 권장하지만, 위가 약하면 식후에 드세요.",
     warning_trigger_text: "고혈압이 있거나 평소 몸에 열이 많고 가슴 두근거림이 잦습니다.",
@@ -125,7 +125,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA52o5qJ6y",
     kfda_daily_intake: "카테킨 기준 300~500 mg",
     high_dose_ratio: "400 mg (100% 충족)",
-    high_dose_effect: "체지방 강제 연소를 촉진하고 활성산소를 억제하는 강력한 항산화 및 콜레스테롤 저하 효과",
+    high_dose_effect: "체지방 감소와 항산화 작용을 돕고, 혈중 콜레스테롤 수치 개선에 기여할 수 있습니다.",
     side_effects: "카페인 함유로 불면, 두근거림이 유발될 수 있고, 공복 섭취 시 위장 장애나 간 독성 우려가 있습니다.",
     intake_tip: "위장 자극을 최소화하고 식후 대사를 돕도록 식사 직후 30분 이내 복용을 강력히 권장합니다.",
     warning_trigger_text: "카페인에 극도로 예민하여 커피를 마시면 불면증이나 두근거림이 있습니다.",
@@ -153,7 +153,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA57rDuxUW",
     kfda_daily_intake: "시서스 추출물 기준 300 mg",
     high_dose_ratio: "300 mg (100% 충족)",
-    high_dose_effect: "지방 소화 효소인 리파아제를 방해하여 지방 흡수율을 낮추고 식욕 억제 호르몬 분비 촉진",
+    high_dose_effect: "지방 소화 효소인 리파아제 활성을 억제하여 체지방 감소와 식사량 조절에 도움을 줄 수 있습니다.",
     side_effects: "우유, 밀, 계란, 조개류 성분 알레르기가 있는 사람은 두드러기 등 과민 반응이 올 수 있습니다.",
     intake_tip: "가루 형태인 경우 아침 또는 낮 시간에 따뜻한 물에 타서 물 대용으로 조금씩 복용하세요.",
     warning_trigger_text: null,
@@ -181,7 +181,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA6bJ34pa0",
     kfda_daily_intake: "30 mcg",
     high_dose_ratio: "5,000 mcg (16,666% 충족)",
-    high_dose_effect: "두피 모낭 세포의 케라틴 단백질 합성을 급격히 끌어올려 모발 성장 속도를 가속합니다.",
+    high_dose_effect: "두피 모낭의 케라틴 단백질 합성을 지원하여 모발 건강 개선에 도움을 줄 수 있습니다.",
     side_effects: "과량의 비오틴 섭취 시 피지 분비가 폭발하여 여드름이나 뾰루지 등 트러블이 올라올 수 있습니다.",
     intake_tip: "복용 시 물을 하루 1.5L 이상 섭취하여 수용성 비오틴 배출을 돕는 것이 좋습니다.",
     warning_trigger_text: "지성 피부라 평소 피지 분비가 많고 여드름이나 뾰루지가 잘 납니다.",
@@ -209,7 +209,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA6fl2caya",
     kfda_daily_intake: "8.5 mg",
     high_dose_ratio: "50 mg (588% 충족)",
-    high_dose_effect: "체내 활성 산소를 제거하고 두피 세포막 면역력을 높여 환절기 비듬 및 급성 탈모를 방어합니다.",
+    high_dose_effect: "항산화 작용을 통해 두피 세포 건강을 지원하고 모낭 세포 성장에 도움을 줄 수 있습니다.",
     side_effects: "일일 상한 섭취량인 35mg 이상 장기 복용 시 메스꺼움이나 구토를 일으키며 구리 흡수를 저해할 수 있습니다.",
     intake_tip: "아연은 위장벽 자극이 심한 편이므로 반드시 식후에 충분한 물과 함께 섭취하세요.",
     warning_trigger_text: "평소 만성 위염이 있거나 속 쓰림, 소화불량 및 메스꺼움을 잘 느낍니다.",
@@ -237,7 +237,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA6iR34jNA",
     kfda_daily_intake: "5 mg",
     high_dose_ratio: "550 mg (11,000% 충족)",
-    high_dose_effect: "피지 과잉 분비를 정상화하여 탈모성 지루성 두피염을 완화하고 모근 세포 재생 주기 단축",
+    high_dose_effect: "피지 분비 조절을 돕고 두피 환경 개선 및 모근 세포 재생에 기여할 수 있습니다.",
     side_effects: "수용성 비타민으로 체내 축적이 없고 부작용이 거의 없으나 간혹 가벼운 복통이 생길 수 있습니다.",
     intake_tip: "활력 비타민 계열이므로 가급적 낮 시간대(아침 또는 점심) 식후 섭취를 추천합니다.",
     warning_trigger_text: null,
@@ -303,29 +303,29 @@ const localSynergyCombinations = [
   { 
     id: 1, 
     name: "활력 부스터 시너지 패키지", 
-    synergy_effect: "해독 대사 촉진 및 신진대사 에너지 폭발", 
-    recommendation_reason: "밀크씨슬이 간의 노폐물 분해(해독)를 처리하는 동안, 비타민B군이 해독 프로세스에 에너지를 공급하고 대사 효율을 극대화하여 만성 피로의 원인을 근본적으로 도려냅니다.",
+    synergy_effect: "간 건강 지원 + 에너지 대사 활성화",
+    recommendation_reason: "밀크씨슬이 간 세포 보호와 항산화를 돕는 동안, 비타민B군이 체내 에너지 생성 대사를 지원하여 피로 회복에 함께 기여할 수 있는 조합입니다.",
     ingredients: ["비타민B군", "밀크씨슬"]
   },
   { 
     id: 2, 
     name: "부신 피로 리셋 패키지", 
-    synergy_effect: "코르티솔 호르몬 조절 및 뇌파 긴장 완화", 
-    recommendation_reason: "홍경천이 스트레스 호르몬인 코르티솔 분비를 억제하여 지친 부신 피로를 달래주고, 테아닌이 알파파를 활성화하여 긴장된 뇌 세포를 안정시켜 최적의 수면 질과 휴식 상태를 선사합니다.",
+    synergy_effect: "스트레스로 인한 피로 개선 + 긴장 완화",
+    recommendation_reason: "홍경천이 스트레스로 인한 피로 개선에 도움을 주고, L-테아닌이 긴장 완화에 기여하여 심신 안정을 함께 지원할 수 있는 조합입니다.",
     ingredients: ["L-테아닌", "홍경천 추출물"]
   },
   { 
     id: 3, 
     name: "모근 밀착 방어 패키지", 
-    synergy_effect: "모발 단백질 풍부한 원료 공급 ➔ 합성 가속 ➔ 모낭 세포분열 정상화", 
-    recommendation_reason: "맥주효모가 모발 케라틴의 원료(아미노산 18종)를 대량으로 투입하고, 고함량 비오틴이 이 원료들을 모발 세포로 신속하게 합성하며, 아연이 모근 세포의 분열을 가속화해 숱이 비는 탈모를 3중으로 빈틈없이 차단합니다.",
+    synergy_effect: "모발 영양 공급 + 케라틴 합성 지원 + 두피 세포 건강",
+    recommendation_reason: "맥주효모가 모발 케라틴의 원료인 아미노산 18종을 공급하고, 비오틴이 케라틴 단백질 합성을 지원하며, 아연이 모낭 세포의 정상적인 성장을 돕는 조합입니다. 모발 건강 전반을 함께 관리할 수 있습니다.",
     ingredients: ["비오틴", "맥주효모", "아연"]
   },
   { 
     id: 4, 
     name: "체지방 이중 컷팅 패키지", 
-    synergy_effect: "신규 탄수화물 유입 차단 + 기존 축적 체지방 강제 연소", 
-    recommendation_reason: "가르시니아가 밥/빵 등의 신규 탄수화물이 지방으로 변환되는 길목을 차단하고, 카테킨이 에피갈로카테킨 갈레이트(EGCG) 대사 작용을 자극하여 이미 축적된 내장지방과 피하지방의 연소를 활성화시킵니다.",
+    synergy_effect: "탄수화물의 지방 전환 억제 + 체지방 감소 지원",
+    recommendation_reason: "가르시니아(HCA)가 탄수화물이 체지방으로 전환되는 과정을 억제하고, 카테킨(EGCG)이 체지방 감소와 항산화에 도움을 줄 수 있는 조합입니다. 식약처 고시 기능성 원료를 함께 활용하는 참고 정보입니다.",
     ingredients: ["가르시니아", "녹차카테킨"]
   }
 ];
@@ -935,7 +935,7 @@ function App() {
             <div className="question-box">
               <div className="section-tag">{selectedCategory.name} 분석</div>
               <div className="question-title" style={{ marginTop: '8px' }}>
-                현재 몸에서 느껴지는 불편한 증상을 모두 선택해주세요. (중복 선택 가능)
+                해당하는 건강 고민을 모두 선택해주세요. (중복 선택 가능)
               </div>
 
               <div className="options-list">
@@ -1211,7 +1211,7 @@ function App() {
                           <div className="price-row">
                             <span className="prod-price">{prod.price.toLocaleString()}원</span>
                             <span className="buy-btn">
-                              <i className="fa-solid fa-shopping-cart"></i> 쿠팡 최저가
+                              <i className="fa-solid fa-shopping-cart"></i> 쿠팡 바로가기
                             </span>
                           </div>
                         </div>
@@ -1313,10 +1313,10 @@ function App() {
               <div className="brand-badge">식약처 공시 데이터 기반</div>
               <h1 className="brand-title">
                 영양제 바꿀 때마다<br />
-                <span>3초 만에 과다복용 체크</span>
+                <span>내 고민 유형별 성분 정보 한눈에</span>
               </h1>
               <p className="brand-desc">
-                대한민국 식품의약품안전처(MFDS)의 건강기능식품 고시 정보를 기반으로 영양 성분 배합 상태를 자가진단합니다. 과다복용 부작용과 체질 맞춤형 대안 성분을 팩트 데이터로 투명하게 보여드립니다.
+                대한민국 식품의약품안전처(MFDS)의 건강기능식품 고시 데이터를 바탕으로, 건강 고민 유형에 맞는 관련 성분 정보와 섭취 주의사항을 안내합니다. 의학적 진단이나 처방을 대체하지 않으며, 섭취 전 전문가 상담을 권장합니다.
               </p>
 
               <div className="trust-points">
@@ -1343,7 +1343,7 @@ function App() {
                   </div>
                   <div className="cta-info">
                     <h4>PillSync 바탕화면 앱 추가</h4>
-                    <p>언제든지 바탕화면에서 3초 만에 바로 진단할 수 있도록 바로가기를 간편 등록하세요.</p>
+                    <p>언제든지 바탕화면에서 바로 성분 정보를 확인할 수 있도록 바로가기를 등록해 두세요.</p>
                   </div>
                   <i className="fa-solid fa-chevron-right cta-arrow"></i>
                 </div>
