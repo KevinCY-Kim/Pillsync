@@ -1312,8 +1312,9 @@ function App() {
             <section className="pillsync-brand-panel animate-fade">
               <div className="brand-badge">식약처 공시 데이터 기반</div>
               <h1 className="brand-title">
-                영양제 바꿀 때마다<br />
-                <span>내 고민 유형별 성분 정보 한눈에</span>
+                영양제 고를 때 마다<br />
+                내 고민 유형별 성분 정보가<br />
+                <span>한눈에</span>
               </h1>
               <p className="brand-desc">
                 대한민국 식품의약품안전처(MFDS)의 건강기능식품 고시 데이터를 바탕으로, 건강 고민 유형에 맞는 관련 성분 정보와 섭취 주의사항을 안내합니다. 의학적 진단이나 처방을 대체하지 않으며, 섭취 전 전문가 상담을 권장합니다.
