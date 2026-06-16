@@ -1598,25 +1598,9 @@ input:checked + .slider:before {
    DESKTOP WIDE & RESPONSIVE LAYOUTS
    ========================================================== */
 
-/* Responsive category grid column layout overrides */
+/* Responsive category grid column layout overrides - Stacked vertically for optimal readability */
 .category-grid {
-    display: grid;
     grid-template-columns: 1fr !important;
-    gap: 12px;
-}
-
-/* Tablet Overrides */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-/* Desktop Wide Overrides */
-@media (min-width: 1025px) {
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-    }
 }
 
 /* 2-Column Desktop Grid Wrap */
