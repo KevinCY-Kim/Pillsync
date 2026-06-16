@@ -840,6 +840,410 @@ function App() {
     syn.ingredients.every(ingId => matchedIngredientsList.some(m => m.id === ingId))
   );
 
+  // Reusable rendering module for the main app contents (used in both desktop 2-column & emulator mode)
+  const renderAppScreen = () => {
+    return (
+      <div className="app-screen">
+        <div className="app-nav">
+          <button 
+            className="back-btn" 
+            onClick={handleBack} 
+            style={{ visibility: (activeScreen !== 'home') ? 'visible' : 'hidden' }}
+          >
+            <i className="fa-solid fa-chevron-left"></i>
+          </button>
+          <div className="app-title">필싱크 (PillSync)</div>
+          <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button 
+              onClick={handleInstallApp}
+              style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
+              title="즐겨찾기 가이드"
+            >
+              <i className="fa-solid fa-star"></i>
+            </button>
+            <i className="fa-regular fa-bell"></i>
+          </div>
+        </div>
+
+        {/* Dynamic screen content routing based on state */}
+        <div className="screen-content">
+          
+          {/* 1. HOME SCREEN */}
+          {activeScreen === 'home' && (
+            <div className="animate-fade">
+              <div className="welcome-box">
+                {!isAppInstalled && !hideBadgeState && (
+                  <div 
+                    className="bookmark-welcome-badge animate-pulse-subtle" 
+                    onClick={handleInstallApp}
+                    style={{ justifyContent: 'space-between', display: 'inline-flex', width: 'fit-content' }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                      <span className="sparkle-icon">✨</span>
+                      <span>홈 화면에 추가하고 편하게 방문하기</span>
+                      <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.65rem' }}></i>
+                    </span>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const hideDays = 30;
+                        const expiryTime = Date.now() + hideDays * 24 * 60 * 60 * 1000;
+                        localStorage.setItem('pillsync_hide_badge_until', expiryTime.toString());
+                        setHideBadgeState(true);
+                        showToast("즐겨찾기 안내가 30일간 숨겨집니다.");
+                      }}
+                      style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', padding: '0 4px', marginLeft: '8px', display: 'flex', alignItems: 'center' }}
+                      title="30일 동안 숨기기"
+                    >
+                      <i className="fa-solid fa-xmark" style={{ fontSize: '0.75rem' }}></i>
+                    </button>
+                  </div>
+                )}
+                <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양 성분 정보</span> 안내</h2>
+                <p>질병 진단이나 처방이 아닌, 식약처 고시 기능성 데이터에 기반하여 건강 고민 유형별 관련 성분 정보를 안내합니다. 구체적인 섭취 여부는 전문가와 상담하시기 바랍니다.</p>
+              </div>
+
+              <div className="section-tag">건강 고민 선택</div>
+              <div className="category-grid" style={{ marginTop: '12px' }}>
+                {categories.map(cat => (
+                  <div 
+                    key={cat.id} 
+                    className={`category-card ${cat.class || ''}`} 
+                    onClick={() => handleSelectCategory(cat.id)}
+                  >
+                    <div className="icon-wrapper">
+                      <i className={`fa-solid ${cat.icon}`}></i>
+                    </div>
+                    <div className="info">
+                      <h3>{cat.name}</h3>
+                      <p>{cat.desc}</p>
+                    </div>
+                    <div className="arrow">
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 2. QUESTIONNAIRE SCREEN */}
+          {activeScreen === 'survey' && selectedCategory && (
+            <div className="question-box">
+              <div className="section-tag">{selectedCategory.name} 분석</div>
+              <div className="question-title" style={{ marginTop: '8px' }}>
+                현재 몸에서 느껴지는 불편한 증상을 모두 선택해주세요. (중복 선택 가능)
+              </div>
+
+              <div className="options-list">
+                {currentSymptoms.map(sym => {
+                  const isSelected = selectedSymptomIds.includes(sym.id);
+                  return (
+                    <div 
+                      key={sym.id} 
+                      className={`option-btn ${isSelected ? 'selected' : ''}`} 
+                      onClick={() => handleToggleSymptom(sym.id)}
+                    >
+                      <span>{sym.text}</span>
+                      <i className="fa-solid fa-check"></i>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <button 
+                className="submit-survey-btn" 
+                disabled={selectedSymptomIds.length === 0} 
+                onClick={handleSubmitSurvey}
+                style={{ width: '100%' }}
+              >
+                성분 정보 안내 시작 <i className="fa-solid fa-wand-magic-sparkles"></i>
+              </button>
+            </div>
+          )}
+
+          {/* 3. RESULT SCREEN */}
+          {activeScreen === 'result' && selectedCategory && (
+            <div className="animate-fade">
+              <div className="result-header">
+                <div className="result-badge">식약처 고시 데이터 기반 안내</div>
+                <h3>고민 유형별 관련 영양 성분 안내</h3>
+                <p>{selectedCategory.name} 고민 유형 기준 관련 성분 정보입니다. 섭취 전 전문가 상담을 권장합니다.</p>
+              </div>
+
+              {!isAppInstalled && (
+                <div 
+                  className="bookmark-welcome-badge animate-pulse-subtle"
+                  onClick={handleInstallApp}
+                  style={{
+                    background: 'rgba(139, 92, 246, 0.12)',
+                    border: '1px solid rgba(139, 92, 246, 0.25)',
+                    borderRadius: '12px',
+                    padding: '12px 14px',
+                    marginTop: '12px',
+                    marginBottom: '4px',
+                    fontSize: '0.78rem',
+                    color: '#DDD6FE',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                    width: '100%',
+                    textAlign: 'left'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, lineHeight: '1.45' }}>
+                    <span style={{ fontSize: '0.95rem' }}>📌</span>
+                    <span><strong>이 진단 결과를 나중에 다시 편하게 보려면</strong><br />지금 홈 화면에 바로 추가해 두세요!</span>
+                  </span>
+                  <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', color: 'var(--color-primary)', marginLeft: '6px' }}></i>
+                </div>
+              )}
+
+              <div className="section-tag">식약처 기능성 원료 분석</div>
+              <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
+                {matchedIngredientsList.map(ing => {
+                  const isWarningChecked = !!checkedWarnings[ing.id];
+                  const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
+                  const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
+
+                  const isHighDose = targetIng.high_dose_ratio && !targetIng.high_dose_ratio.includes("100%");
+                  const percentMatch = targetIng.high_dose_ratio ? targetIng.high_dose_ratio.match(/([\d,]+)%/) : null;
+                  const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
+                  const displayPercent = Math.min(rawPercent, 100);
+                  const isGuideOpen = !!openGuides[targetIng.id];
+
+                  return (
+                    <div key={ing.id} className="ingredient-item">
+                      <div className="swapped-header">
+                        <div className="ing-name">
+                          <i className="fa-solid fa-capsules"></i> {targetIng.name}
+                        </div>
+                        {isWarningChecked && hasAlternative && (
+                          <span className="badge-alternative animate-fade">
+                            <i className="fa-solid fa-triangle-exclamation"></i> 대안 성분 참고 안내
+                          </span>
+                        )}
+                      </div>
+                      <div className="ing-desc">{targetIng.desc}</div>
+
+                      {/* 식약처 일일 권장량 및 충족율 게이지 */}
+                      {targetIng.kfda_daily_intake && (
+                        <div className="intake-meta">
+                          <div className="intake-row">
+                            <span className="intake-label">식약처 하루 권장량</span>
+                            <span className="intake-val">{targetIng.kfda_daily_intake}</span>
+                          </div>
+                          {targetIng.high_dose_ratio && (
+                            <>
+                              <div className="intake-row">
+                                <span className="intake-label">고함량 충족율</span>
+                                <span className={`intake-val ${isHighDose ? 'high-dose' : ''}`}>
+                                  {targetIng.high_dose_ratio}
+                                </span>
+                              </div>
+                              <div className="progress-container">
+                                <div 
+                                  className={`progress-bar ${isHighDose ? 'high-dose-fill' : ''}`} 
+                                  style={{ width: `${displayPercent}%` }}
+                                ></div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
+
+                      {/* 대안 추천 상세 사유 출력 */}
+                      {isWarningChecked && hasAlternative && ing.alternative_reason && (
+                        <div className="alternative-reason-box animate-fade">
+                          <div className="alternative-reason-title">
+                            <i className="fa-solid fa-circle-info"></i> 대안 성분 참고 정보
+                          </div>
+                          <div className="alternative-reason-desc">{ing.alternative_reason}</div>
+                        </div>
+                      )}
+
+                      {/* 고함량 메리트 & 부작용 사전 가이드 아코디언 */}
+                      {(targetIng.high_dose_effect || targetIng.side_effects || targetIng.intake_tip) && (
+                        <div className="details-toggle">
+                          <button className="details-header" onClick={() => toggleGuide(targetIng.id)}>
+                            <span>섭취 메리트 & 부작용 가이드</span>
+                            <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                          </button>
+                          {isGuideOpen && (
+                            <div className="details-body animate-fade">
+                              {targetIng.high_dose_effect && (
+                                <div className="info-block">
+                                  <div className="info-block-title benefit">
+                                    <i className="fa-solid fa-circle-check"></i> 고함량 섭취 메리트
+                                  </div>
+                                  <p>{targetIng.high_dose_effect}</p>
+                                </div>
+                              )}
+                              {targetIng.side_effects && (
+                                <div className="info-block">
+                                  <div className="info-block-title warning">
+                                    <i className="fa-solid fa-triangle-exclamation"></i> 발생 가능한 부작용
+                                  </div>
+                                  <p>{targetIng.side_effects}</p>
+                                </div>
+                              )}
+                              {targetIng.intake_tip && (
+                                <div className="info-block">
+                                  <div className="info-block-title tip">
+                                    <i className="fa-solid fa-lightbulb"></i> 권장 복용 팁
+                                  </div>
+                                  <p>{targetIng.intake_tip}</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* 기저 질환 / 부작용 트리거 체크박스 */}
+                      {ing.warning_trigger_text && (
+                        <div>
+                          <div
+                            className="alternative-trigger-box"
+                            onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
+                          >
+                            <input
+                              type="checkbox"
+                              className="alternative-checkbox"
+                              checked={isWarningChecked}
+                              onChange={() => {}}
+                            />
+                            <span className="alternative-label">{ing.warning_trigger_text}</span>
+                          </div>
+                          <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
+                            ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 3a. 식약처 고시 기반 시너지 추천 패키지 */}
+              {activeSynergies.length > 0 && (
+                <div className="animate-fade" style={{ marginTop: '16px' }}>
+                  <div className="section-tag">식약처 고시 데이터 기반 복합 성분 참고 정보</div>
+                  <div className="synergy-list" style={{ marginTop: '8px' }}>
+                    {activeSynergies.map(syn => (
+                      <div key={syn.id} className="synergy-card">
+                        <div className="synergy-glow"></div>
+                        <div className="synergy-title-row">
+                          <div className="synergy-title">
+                            <i className="fa-solid fa-wand-magic-sparkles"></i>
+                            {syn.name}
+                          </div>
+                        </div>
+                        <div className="synergy-badge-row">
+                          {syn.ingredients.map(ingId => (
+                            <span key={ingId} className="synergy-ingredient-badge">
+                              💊 {ingId}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="synergy-desc-text" style={{ fontWeight: '700', color: 'var(--color-secondary)', marginBottom: '4px' }}>
+                          시너지 효과: {syn.synergy_effect}
+                        </div>
+                        <div className="synergy-desc-text">
+                          {syn.recommendation_reason}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="fda-box" style={{ marginTop: '16px' }}>
+                <i className="fa-solid fa-circle-info"></i>
+                <div>본 안내는 식약처 기능성 원료 고시 데이터를 참조한 정보 제공 목적의 서비스이며, 특정 제품·성분의 효능·효과를 보장하거나 의학적 진단·처방을 대체하지 않습니다. 건강기능식품 섭취 전 전문 의료인 또는 약사와 반드시 상담하시기 바랍니다.</div>
+              </div>
+
+              <button 
+                className="kfda-open-btn animate-fade" 
+                onClick={() => setIsKfdaModalOpen(true)}
+              >
+                <i className="fa-solid fa-file-shield"></i> 식약처 고시 데이터 기반 부작용 & 대안 성분 참고 정보 보기
+              </button>
+
+              <div className="section-tag">쿠팡 관련 상품 안내</div>
+              <p style={{ fontSize: '0.65rem', color: '#6B7280', margin: '4px 0 8px', padding: '0 2px' }}>
+                ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요.
+              </p>
+              <div className="product-grid" style={{ marginTop: '4px' }}>
+                {matchedIngredientsList.map(ing => {
+                  const isWarningChecked = !!checkedWarnings[ing.id];
+                  const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
+                  const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
+
+                  const productsList = coupangProducts[targetIng.keyword] || defaultMockProducts;
+                  return productsList.map((prod, idx) => {
+                    const redirectUrl = targetIng.coupang_link || `https://www.coupang.com/np/search?q=${encodeURIComponent(targetIng.keyword)}`;
+                    return (
+                      <a
+                        key={`${ing.id}-${targetIng.id}-${idx}`}
+                        href={redirectUrl}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="product-card"
+                      >
+                        <div className="prod-img-box">
+                          <img src={prod.img} alt={prod.title} />
+                        </div>
+                        <div className="prod-info">
+                          <div>
+                            <span className="prod-brand">{prod.brand}</span>
+                            <div className="prod-title">{prod.title}</div>
+                            <div className="prod-meta">
+                              <span className="rating"><i className="fa-solid fa-star"></i> {prod.rating}</span>
+                              <span className="review-count">({prod.reviews.toLocaleString()}개 상품평)</span>
+                            </div>
+                          </div>
+                          <div className="price-row">
+                            <span className="prod-price">{prod.price.toLocaleString()}원</span>
+                            <span className="buy-btn">
+                              <i className="fa-solid fa-shopping-cart"></i> 쿠팡 최저가
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  });
+                })}
+              </div>
+
+              <button className="reset-btn" onClick={handleReset} style={{ width: '100%', marginBottom: '70px' }}>
+                <i className="fa-solid fa-house"></i> 건강고민 다시 선택
+              </button>
+            </div>
+          )}
+        </div>
+
+        {activeScreen === 'result' && (
+          <>
+            {!isAppInstalled && !hideBadgeState && (
+              <div className="bookmark-floating-bar animate-fade">
+                <div className="floating-text">💡 영양제 새로 바꿀 때마다 바로 검사하기</div>
+                <button className="floating-btn" onClick={handleInstallApp}>
+                  <i className="fa-solid fa-mobile-screen"></i> {deferredPrompt ? '폰 화면에 즉시 앱 추가 (1초)' : '폰 화면에 즐겨찾기 추가 (3초)'}
+                </button>
+              </div>
+            )}
+            <div className="coupang-partners-disclaimer">
+              이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className={`app-container ${isMobileDevice ? 'is-mobile-device' : ''} ${!showAdminPanel ? 'hide-admin-layout' : ''}`}>
       {/* Background Orbs */}
@@ -898,429 +1302,83 @@ function App() {
       {/* Dynamic Content Grid */}
       <main className={`content-grid ${!showAdminPanel || isMobileDevice ? 'single-column' : ''}`}>
         
-        {/* LEFT: Simulated mobile preview */}
-        <section className="device-section">
-          <div className="section-title">
-            <i className="fa-solid fa-mobile-screen-button"></i> 모바일 서비스 화면
-          </div>
+        {/* 일반 PC 와이드 접속이고 어드민이 꺼져있을 때: 2단 분할 프리미엄 레이아웃 */}
+        {!isMobileDevice && !showAdminPanel ? (
+          <div className="pillsync-desktop-layout animate-fade">
+            {/* 좌측: 브랜딩 및 신뢰 영역 */}
+            <section className="pillsync-brand-panel animate-fade">
+              <div className="brand-badge">식약처 공시 데이터 기반</div>
+              <h1 className="brand-title">
+                영양제 바꿀 때마다<br />
+                <span>3초 만에 과다복용 체크</span>
+              </h1>
+              <p className="brand-desc">
+                대한민국 식품의약품안전처(MFDS)의 건강기능식품 고시 정보를 기반으로 영양 성분 배합 상태를 자가진단합니다. 과다복용 부작용과 체질 맞춤형 대안 성분을 팩트 데이터로 투명하게 보여드립니다.
+              </p>
 
-          <div className="mobile-frame">
-            {/* System Status Bar - Render only on desktop emulator, not on real mobile devices */}
-            {!isMobileDevice && (
-              <div className="status-bar">
-                <span className="time">{systemTime}</span>
-                <div className="icons">
-                  <i className="fa-solid fa-signal" style={{marginRight: '4px'}}></i>
-                  <i className="fa-solid fa-wifi" style={{marginRight: '4px'}}></i>
-                  <i className="fa-solid fa-battery-three-quarters"></i>
+              <div className="trust-points">
+                <div className="trust-point">
+                  <div className="point-icon"><i className="fa-solid fa-file-shield"></i></div>
+                  <div className="point-info">
+                    <h4>식약처 고시 공식 데이터 준수</h4>
+                    <p>건강기능식품 공전 및 식약처 인허가 성분 수치를 직관적인 충족 게이지로 제공합니다.</p>
+                  </div>
+                </div>
+                <div className="trust-point">
+                  <div className="point-icon"><i className="fa-solid fa-triangle-exclamation"></i></div>
+                  <div className="point-info">
+                    <h4>부작용 유발 원료 필터링</h4>
+                    <p>기저 질환 체크를 통해 복통, 설사, 두통을 일으킬 수 있는 유해 자극 성분을 미리 대안 추천합니다.</p>
+                  </div>
                 </div>
               </div>
-            )}
 
-            {/* Simulated App Navigation Bar */}
-            <div className="app-screen">
-              <div className="app-nav">
-                <button 
-                  className="back-btn" 
-                  onClick={handleBack} 
-                  style={{ visibility: (activeScreen !== 'home') ? 'visible' : 'hidden' }}
-                >
-                  <i className="fa-solid fa-chevron-left"></i>
-                </button>
-                <div className="app-title">필싱크 (PillSync)</div>
-                <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <button 
-                    onClick={handleInstallApp}
-                    style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
-                    title="즐겨찾기 가이드"
-                  >
+              {!isAppInstalled && !hideBadgeState && (
+                <div className="desktop-pwa-cta-card animate-pulse-subtle" onClick={handleInstallApp}>
+                  <div className="cta-icon">
                     <i className="fa-solid fa-star"></i>
-                  </button>
-                  <i className="fa-regular fa-bell"></i>
+                  </div>
+                  <div className="cta-info">
+                    <h4>PillSync 바탕화면 앱 추가</h4>
+                    <p>언제든지 바탕화면에서 3초 만에 바로 진단할 수 있도록 바로가기를 간편 등록하세요.</p>
+                  </div>
+                  <i className="fa-solid fa-chevron-right cta-arrow"></i>
                 </div>
-              </div>
-
-              {/* Dynamic screen content routing based on state */}
-              <div className="screen-content">
-                
-                {/* 1. HOME SCREEN */}
-                {activeScreen === 'home' && (
-                  <div className="animate-fade">
-                    <div className="welcome-box">
-                      {!isAppInstalled && !hideBadgeState && (
-                        <div 
-                          className="bookmark-welcome-badge animate-pulse-subtle" 
-                          onClick={handleInstallApp}
-                          style={{ justifyContent: 'space-between', display: 'inline-flex', width: 'fit-content' }}
-                        >
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                            <span className="sparkle-icon">✨</span>
-                            <span>홈 화면에 추가하고 편하게 방문하기</span>
-                            <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.65rem' }}></i>
-                          </span>
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const hideDays = 30;
-                              const expiryTime = Date.now() + hideDays * 24 * 60 * 60 * 1000;
-                              localStorage.setItem('pillsync_hide_badge_until', expiryTime.toString());
-                              setHideBadgeState(true);
-                              showToast("즐겨찾기 안내가 30일간 숨겨집니다.");
-                            }}
-                            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', padding: '0 4px', marginLeft: '8px', display: 'flex', alignItems: 'center' }}
-                            title="30일 동안 숨기기"
-                          >
-                            <i className="fa-solid fa-xmark" style={{ fontSize: '0.75rem' }}></i>
-                          </button>
-                        </div>
-                      )}
-                      <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양 성분 정보</span> 안내</h2>
-                      <p>질병 진단이나 처방이 아닌, 식약처 고시 기능성 데이터에 기반하여 건강 고민 유형별 관련 성분 정보를 안내합니다. 구체적인 섭취 여부는 전문가와 상담하시기 바랍니다.</p>
-                    </div>
-
-                    <div className="section-tag">건강 고민 선택</div>
-                    <div className="category-grid" style={{ marginTop: '12px' }}>
-                      {categories.map(cat => (
-                        <div 
-                          key={cat.id} 
-                          className={`category-card ${cat.class || ''}`} 
-                          onClick={() => handleSelectCategory(cat.id)}
-                        >
-                          <div className="icon-wrapper">
-                            <i className={`fa-solid ${cat.icon}`}></i>
-                          </div>
-                          <div className="info">
-                            <h3>{cat.name}</h3>
-                            <p>{cat.desc}</p>
-                          </div>
-                          <div className="arrow">
-                            <i className="fa-solid fa-chevron-right"></i>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* 2. QUESTIONNAIRE SCREEN */}
-                {activeScreen === 'survey' && selectedCategory && (
-                  <div className="question-box">
-                    <div className="section-tag">{selectedCategory.name} 분석</div>
-                    <div className="question-title" style={{ marginTop: '8px' }}>
-                      현재 몸에서 느껴지는 불편한 증상을 모두 선택해주세요. (중복 선택 가능)
-                    </div>
-
-                    <div className="options-list">
-                      {currentSymptoms.map(sym => {
-                        const isSelected = selectedSymptomIds.includes(sym.id);
-                        return (
-                          <div 
-                            key={sym.id} 
-                            className={`option-btn ${isSelected ? 'selected' : ''}`} 
-                            onClick={() => handleToggleSymptom(sym.id)}
-                          >
-                            <span>{sym.text}</span>
-                            <i className="fa-solid fa-check"></i>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <button 
-                      className="submit-survey-btn" 
-                      disabled={selectedSymptomIds.length === 0} 
-                      onClick={handleSubmitSurvey}
-                      style={{ width: '100%' }}
-                    >
-                      성분 정보 안내 시작 <i className="fa-solid fa-wand-magic-sparkles"></i>
-                    </button>
-                  </div>
-                )}
-
-                {/* 3. RESULT SCREEN */}
-                {activeScreen === 'result' && selectedCategory && (
-                  <div className="animate-fade">
-                    <div className="result-header">
-                      <div className="result-badge">식약처 고시 데이터 기반 안내</div>
-                      <h3>고민 유형별 관련 영양 성분 안내</h3>
-                      <p>{selectedCategory.name} 고민 유형 기준 관련 성분 정보입니다. 섭취 전 전문가 상담을 권장합니다.</p>
-                    </div>
-
-                    {!isAppInstalled && (
-                      <div 
-                        className="bookmark-welcome-badge animate-pulse-subtle"
-                        onClick={handleInstallApp}
-                        style={{
-                          background: 'rgba(139, 92, 246, 0.12)',
-                          border: '1px solid rgba(139, 92, 246, 0.25)',
-                          borderRadius: '12px',
-                          padding: '12px 14px',
-                          marginTop: '12px',
-                          marginBottom: '4px',
-                          fontSize: '0.78rem',
-                          color: '#DDD6FE',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: '8px',
-                          width: '100%',
-                          textAlign: 'left'
-                        }}
-                      >
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, lineHeight: '1.45' }}>
-                          <span style={{ fontSize: '0.95rem' }}>📌</span>
-                          <span><strong>이 진단 결과를 나중에 다시 편하게 보려면</strong><br />지금 홈 화면에 바로 추가해 두세요!</span>
-                        </span>
-                        <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', color: 'var(--color-primary)', marginLeft: '6px' }}></i>
-                      </div>
-                    )}
-
-                    <div className="section-tag">식약처 기능성 원료 분석</div>
-                    <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
-                      {matchedIngredientsList.map(ing => {
-                        const isWarningChecked = !!checkedWarnings[ing.id];
-                        const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
-                        const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
-
-                        const isHighDose = targetIng.high_dose_ratio && !targetIng.high_dose_ratio.includes("100%");
-                        const percentMatch = targetIng.high_dose_ratio ? targetIng.high_dose_ratio.match(/([\d,]+)%/) : null;
-                        const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
-                        const displayPercent = Math.min(rawPercent, 100);
-                        const isGuideOpen = !!openGuides[targetIng.id];
-
-                        return (
-                          <div key={ing.id} className="ingredient-item">
-                            <div className="swapped-header">
-                              <div className="ing-name">
-                                <i className="fa-solid fa-capsules"></i> {targetIng.name}
-                              </div>
-                              {isWarningChecked && hasAlternative && (
-                                <span className="badge-alternative animate-fade">
-                                  <i className="fa-solid fa-triangle-exclamation"></i> 대안 성분 참고 안내
-                                </span>
-                              )}
-                            </div>
-                            <div className="ing-desc">{targetIng.desc}</div>
-
-                            {/* 식약처 일일 권장량 및 충족율 게이지 */}
-                            {targetIng.kfda_daily_intake && (
-                              <div className="intake-meta">
-                                <div className="intake-row">
-                                  <span className="intake-label">식약처 하루 권장량</span>
-                                  <span className="intake-val">{targetIng.kfda_daily_intake}</span>
-                                </div>
-                                {targetIng.high_dose_ratio && (
-                                  <>
-                                    <div className="intake-row">
-                                      <span className="intake-label">고함량 충족율</span>
-                                      <span className={`intake-val ${isHighDose ? 'high-dose' : ''}`}>
-                                        {targetIng.high_dose_ratio}
-                                      </span>
-                                    </div>
-                                    <div className="progress-container">
-                                      <div 
-                                        className={`progress-bar ${isHighDose ? 'high-dose-fill' : ''}`} 
-                                        style={{ width: `${displayPercent}%` }}
-                                      ></div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            )}
-
-                            {/* 대안 추천 상세 사유 출력 */}
-                            {isWarningChecked && hasAlternative && ing.alternative_reason && (
-                              <div className="alternative-reason-box animate-fade">
-                                <div className="alternative-reason-title">
-                                  <i className="fa-solid fa-circle-info"></i> 대안 성분 참고 정보
-                                </div>
-                                <div className="alternative-reason-desc">{ing.alternative_reason}</div>
-                              </div>
-                            )}
-
-                            {/* 고함량 메리트 & 부작용 사전 가이드 아코디언 */}
-                            {(targetIng.high_dose_effect || targetIng.side_effects || targetIng.intake_tip) && (
-                              <div className="details-toggle">
-                                <button className="details-header" onClick={() => toggleGuide(targetIng.id)}>
-                                  <span>섭취 메리트 & 부작용 가이드</span>
-                                  <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
-                                </button>
-                                {isGuideOpen && (
-                                  <div className="details-body animate-fade">
-                                    {targetIng.high_dose_effect && (
-                                      <div className="info-block">
-                                        <div className="info-block-title benefit">
-                                          <i className="fa-solid fa-circle-check"></i> 고함량 섭취 메리트
-                                        </div>
-                                        <p>{targetIng.high_dose_effect}</p>
-                                      </div>
-                                    )}
-                                    {targetIng.side_effects && (
-                                      <div className="info-block">
-                                        <div className="info-block-title warning">
-                                          <i className="fa-solid fa-triangle-exclamation"></i> 발생 가능한 부작용
-                                        </div>
-                                        <p>{targetIng.side_effects}</p>
-                                      </div>
-                                    )}
-                                    {targetIng.intake_tip && (
-                                      <div className="info-block">
-                                        <div className="info-block-title tip">
-                                          <i className="fa-solid fa-lightbulb"></i> 권장 복용 팁
-                                        </div>
-                                        <p>{targetIng.intake_tip}</p>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            {/* 기저 질환 / 부작용 트리거 체크박스 */}
-                            {ing.warning_trigger_text && (
-                              <div>
-                                <div
-                                  className="alternative-trigger-box"
-                                  onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    className="alternative-checkbox"
-                                    checked={isWarningChecked}
-                                    onChange={() => {}}
-                                  />
-                                  <span className="alternative-label">{ing.warning_trigger_text}</span>
-                                </div>
-                                <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
-                                  ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* 3a. 식약처 고시 기반 시너지 추천 패키지 */}
-                    {activeSynergies.length > 0 && (
-                      <div className="animate-fade" style={{ marginTop: '16px' }}>
-                        <div className="section-tag">식약처 고시 데이터 기반 복합 성분 참고 정보</div>
-                        <div className="synergy-list" style={{ marginTop: '8px' }}>
-                          {activeSynergies.map(syn => (
-                            <div key={syn.id} className="synergy-card">
-                              <div className="synergy-glow"></div>
-                              <div className="synergy-title-row">
-                                <div className="synergy-title">
-                                  <i className="fa-solid fa-wand-magic-sparkles"></i>
-                                  {syn.name}
-                                </div>
-                              </div>
-                              <div className="synergy-badge-row">
-                                {syn.ingredients.map(ingId => (
-                                  <span key={ingId} className="synergy-ingredient-badge">
-                                    💊 {ingId}
-                                  </span>
-                                ))}
-                              </div>
-                              <div className="synergy-desc-text" style={{ fontWeight: '700', color: 'var(--color-secondary)', marginBottom: '4px' }}>
-                                시너지 효과: {syn.synergy_effect}
-                              </div>
-                              <div className="synergy-desc-text">
-                                {syn.recommendation_reason}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="fda-box" style={{ marginTop: '16px' }}>
-                      <i className="fa-solid fa-circle-info"></i>
-                      <div>본 안내는 식약처 기능성 원료 고시 데이터를 참조한 정보 제공 목적의 서비스이며, 특정 제품·성분의 효능·효과를 보장하거나 의학적 진단·처방을 대체하지 않습니다. 건강기능식품 섭취 전 전문 의료인 또는 약사와 반드시 상담하시기 바랍니다.</div>
-                    </div>
-
-                    <button 
-                      className="kfda-open-btn animate-fade" 
-                      onClick={() => setIsKfdaModalOpen(true)}
-                    >
-                      <i className="fa-solid fa-file-shield"></i> 식약처 고시 데이터 기반 부작용 & 대안 성분 참고 정보 보기
-                    </button>
-
-                    <div className="section-tag">쿠팡 관련 상품 안내</div>
-                    <p style={{ fontSize: '0.65rem', color: '#6B7280', margin: '4px 0 8px', padding: '0 2px' }}>
-                      ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요.
-                    </p>
-                    <div className="product-grid" style={{ marginTop: '4px' }}>
-                      {matchedIngredientsList.map(ing => {
-                        const isWarningChecked = !!checkedWarnings[ing.id];
-                        const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
-                        const targetIng = (isWarningChecked && hasAlternative) ? { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] } : ing;
-
-                        const productsList = coupangProducts[targetIng.keyword] || defaultMockProducts;
-                        return productsList.map((prod, idx) => {
-                          const redirectUrl = targetIng.coupang_link || `https://www.coupang.com/np/search?q=${encodeURIComponent(targetIng.keyword)}`;
-                          return (
-                            <a
-                              key={`${ing.id}-${targetIng.id}-${idx}`}
-                              href={redirectUrl}
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="product-card"
-                            >
-                              <div className="prod-img-box">
-                                <img src={prod.img} alt={prod.title} />
-                              </div>
-                              <div className="prod-info">
-                                <div>
-                                  <span className="prod-brand">{prod.brand}</span>
-                                  <div className="prod-title">{prod.title}</div>
-                                  <div className="prod-meta">
-                                    <span className="rating"><i className="fa-solid fa-star"></i> {prod.rating}</span>
-                                    <span className="review-count">({prod.reviews.toLocaleString()}개 상품평)</span>
-                                  </div>
-                                </div>
-                                <div className="price-row">
-                                  <span className="prod-price">{prod.price.toLocaleString()}원</span>
-                                  <span className="buy-btn">
-                                    <i className="fa-solid fa-shopping-cart"></i> 쿠팡 최저가
-                                  </span>
-                                </div>
-                              </div>
-                            </a>
-                          );
-                        });
-                      })}
-                    </div>
-
-                    <button className="reset-btn" onClick={handleReset} style={{ width: '100%', marginBottom: '70px' }}>
-                      <i className="fa-solid fa-house"></i> 건강고민 다시 선택
-                    </button>
-                  </div>
-                )}
-
-              </div>
-
-              {/* Bottom Sticky Banner (Coupang Disclaimer) */}
-              {activeScreen === 'result' && (
-                <>
-                  {!isAppInstalled && !hideBadgeState && (
-                    <div className="bookmark-floating-bar animate-fade">
-                      <div className="floating-text">💡 영양제 새로 바꿀 때마다 바로 검사하기</div>
-                      <button className="floating-btn" onClick={handleInstallApp}>
-                        <i className="fa-solid fa-mobile-screen"></i> {deferredPrompt ? '폰 화면에 즉시 앱 추가 (1초)' : '폰 화면에 즐겨찾기 추가 (3초)'}
-                      </button>
-                    </div>
-                  )}
-                  <div className="coupang-partners-disclaimer">
-                    이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
-                  </div>
-                </>
               )}
-            </div>
+            </section>
 
+            {/* 우측: 실제 서비스 동작 영역 (폰 모형 테두리 없음!) */}
+            <section className="pillsync-service-panel animate-fade">
+              <div className="web-app-frame">
+                {renderAppScreen()}
+              </div>
+            </section>
           </div>
-        </section>
+        ) : (
+          /* 모바일 기기이거나 어드민 패널이 켜져 있을 때: 기존 에뮬레이터/어드민 레이아웃 유지 */
+          <>
+            <section className="device-section">
+              {!showAdminPanel && (
+                <div className="section-title">
+                  <i className="fa-solid fa-mobile-screen-button"></i> 모바일 서비스 화면
+                </div>
+              )}
+              <div className="mobile-frame">
+                {!isMobileDevice && (
+                  <div className="status-bar">
+                    <span className="time">{systemTime}</span>
+                    <div className="icons">
+                      <i className="fa-solid fa-signal" style={{marginRight: '4px'}}></i>
+                      <i className="fa-solid fa-wifi" style={{marginRight: '4px'}}></i>
+                      <i className="fa-solid fa-battery-three-quarters"></i>
+                    </div>
+                  </div>
+                )}
+                {renderAppScreen()}
+              </div>
+            </section>
+          </>
+        )}
 
         {/* RIGHT: Realtime Database administration view panel */}
         {!isMobileDevice && showAdminPanel && (
