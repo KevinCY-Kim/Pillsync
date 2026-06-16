@@ -195,7 +195,7 @@ const localIngredientsMapping = {
     coupang_link: "https://link.coupang.com/a/eA6dOezLMa",
     kfda_daily_intake: "건조 맥주효모 기준 3,000 mg",
     high_dose_ratio: "3,000 mg (100% 충족)",
-    high_dose_effect: "모발 케라틴을 만드는 18종의 아미노산 원료를 혈액에 대량 공급하여 가늘어짐 and 탈모 방어",
+    high_dose_effect: "모발 케라틴의 원료인 아미노산 18종을 공급하여 모발 건강 전반을 지원합니다.",
     side_effects: "퓨린 함량이 매우 높으므로 통풍 기왕력이 있거나 요산 수치가 높은 분은 관절 통증을 발현합니다.",
     intake_tip: "자연식품에 가까워 소화가 용이하나, 가스나 속 더부룩함을 느낀다면식사 직후 복용하세요.",
     warning_trigger_text: "통풍 기왕력이 있거나 요산 수치가 높아 관절이 자주 붓고 아픕니다.",
