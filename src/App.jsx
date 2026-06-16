@@ -159,7 +159,7 @@ const localIngredientsMapping = {
   },
   "콜레우스포스콜리": {
     name: "콜레우스 포스콜리 추출물",
-    desc: "인도 전통 약재식물 추출물로 제지방량(근육량)은 보존하고 체지방을 감소시키는 기능성을 개별인정받은 원료",
+    desc: "제지방량(근육량)은 보존하고 체지방 감소에 도움을 줄 수 있는 개별인정형 기능성 원료",
     keyword: "콜레우스 포스콜리 포스콜린",
     coupang_link: "https://link.coupang.com/a/eA55qNL8eq",
     kfda_daily_intake: "포스콜린 기준 50 mg",
@@ -173,7 +173,7 @@ const localIngredientsMapping = {
   },
   "시서스": {
     name: "시서스 추출물 (Cissus)",
-    desc: "열대 아시아 자생 식물로 리파아제 활성을 억제하여식사량 조절 및 체지방 감소 기능성을 인정받은 개별인정형 성분",
+    desc: "리파아제 활성을 억제하여 식사량 조절 및 체지방 감소에 도움을 줄 수 있는 개별인정형 기능성 원료",
     keyword: "시서스 가루 다이어트 캡슐",
     coupang_link: "https://link.coupang.com/a/eA57rDuxUW",
     kfda_daily_intake: "시서스 추출물 기준 300 mg",
@@ -327,7 +327,7 @@ const localIngredientsMapping = {
   },
   "감태 추출물": {
     name: "감태 추출물 (디엑콜)",
-    desc: "제주 청정 해역 감태에서 추출한 플로로탄닌 성분으로 수면의 질 개선에 도움을 줄 수 있는 개별인정 원료",
+    desc: "감태에서 추출한 플로로탄닌 성분을 함유하여 수면의 질 개선에 도움을 줄 수 있는 개별인정형 기능성 원료",
     keyword: "감태추출물 수면 영양제",
     coupang_link: "https://link.coupang.com/a/eCuX301KE0",
     kfda_daily_intake: "디엑콜 기준 30 mg",
@@ -402,22 +402,22 @@ const initialCoupangProducts = {
     { brand: "솔가 (Solgar)", title: "판토텐산 550mg 고함량 비타민B5, 100식물성캡슐", price: 18200, rating: 4.8, reviews: 6502, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "루테인지아잔틴 복합추출물 추천": [
-    { brand: "안국건강", title: "루테인 지아잔틴 미니 60캡슐", price: 19800, rating: 4.8, reviews: 12503, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "아이클리어", title: "아이클리어 루테인지아잔틴, 30정, 1개", price: 8190, rating: 5.0, reviews: 178465, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "아스타잔틴 헤마토코쿠스 눈피로": [
-    { brand: "뉴트리원", title: "루테인 지아잔틴 164 아스타잔틴 30캡슐", price: 15900, rating: 4.7, reviews: 4892, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "리얼메디온", title: "리얼메디온 초임계 아스타잔틴 플러스 눈건강 헤마토코쿠스, 30정, 1개", price: 7040, rating: 5.0, reviews: 1695, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "rtg 오메가3 고함량": [
-    { brand: "종근당건강", title: "프로메가 알티지 오메가3 듀얼 60캡슐", price: 18900, rating: 4.8, reviews: 32091, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "여에스더", title: "여에스더 초임계 알티지 오메가3 1020mg, 30정, 3박스", price: 26740, rating: 5.0, reviews: 5071, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "은행잎 추출물 징코 빌로바": [
-    { brand: "네이처메이드", title: "징코 빌로바 은행잎 추출물 120mg, 100캡슐", price: 21500, rating: 4.6, reviews: 3402, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "GNM자연의품격", title: "GNM자연의품격 징코 빌로바11, 30정, 2개", price: 15580, rating: 5.0, reviews: 1209, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "감태추출물 수면 영양제": [
-    { brand: "휴럼", title: "제주 감태추출물 수면 건강 60정", price: 28000, rating: 4.6, reviews: 1803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "뉴트리디데이", title: "뉴트리디데이 감태 드림 타블렛 영양제, 90정, 1개", price: 10900, rating: 4.5, reviews: 3340, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "락티움 수면제 대용 추천": [
-    { brand: "수면미학", title: "락티움 수면 건강 솔루션 30정", price: 24500, rating: 4.7, reviews: 2901, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "GNM자연의품격", title: "GNM 수면건강엔 락티움 마그네슘 비타민B, 30정, 1개", price: 25380, rating: 4.5, reviews: 470, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ]
 };
 
