@@ -1204,7 +1204,38 @@ function App() {
                       </div>
                       <div className="ing-desc">{targetIng.desc}</div>
 
-                      {/* 식약처 일일 권장량 및 충족율 게이지 */}
+                      {/* 기저 질환 / 부작용 트리거 체크박스 — 체크 시 바로 아래로 대안 안내가 이어지도록 먼저 배치 */}
+                      {ing.warning_trigger_text && (
+                        <div>
+                          <div
+                            className="alternative-trigger-box"
+                            onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
+                          >
+                            <input
+                              type="checkbox"
+                              className="alternative-checkbox"
+                              checked={isWarningChecked}
+                              onChange={() => {}}
+                            />
+                            <span className="alternative-label">{ing.warning_trigger_text}</span>
+                          </div>
+                          <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
+                            ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* 대안 추천 상세 사유 출력 — 체크박스 바로 다음에 이어지도록 배치 */}
+                      {isWarningChecked && hasAlternative && ing.alternative_reason && (
+                        <div className="alternative-reason-box animate-fade">
+                          <div className="alternative-reason-title">
+                            <i className="fa-solid fa-circle-info"></i> 대안 성분 참고 정보
+                          </div>
+                          <div className="alternative-reason-desc">{ing.alternative_reason}</div>
+                        </div>
+                      )}
+
+                      {/* 식약처 일일 권장량 및 충족율 게이지 (대안 선택 시 대안 성분 기준으로 자동 전환) */}
                       {targetIng.kfda_daily_intake && (
                         <div className="intake-meta">
                           <div className="intake-row">
@@ -1220,23 +1251,13 @@ function App() {
                                 </span>
                               </div>
                               <div className="progress-container">
-                                <div 
-                                  className={`progress-bar ${isHighDose ? 'high-dose-fill' : ''}`} 
+                                <div
+                                  className={`progress-bar ${isHighDose ? 'high-dose-fill' : ''}`}
                                   style={{ width: `${displayPercent}%` }}
                                 ></div>
                               </div>
                             </>
                           )}
-                        </div>
-                      )}
-
-                      {/* 대안 추천 상세 사유 출력 */}
-                      {isWarningChecked && hasAlternative && ing.alternative_reason && (
-                        <div className="alternative-reason-box animate-fade">
-                          <div className="alternative-reason-title">
-                            <i className="fa-solid fa-circle-info"></i> 대안 성분 참고 정보
-                          </div>
-                          <div className="alternative-reason-desc">{ing.alternative_reason}</div>
                         </div>
                       )}
 
@@ -1275,27 +1296,6 @@ function App() {
                               )}
                             </div>
                           )}
-                        </div>
-                      )}
-
-                      {/* 기저 질환 / 부작용 트리거 체크박스 */}
-                      {ing.warning_trigger_text && (
-                        <div>
-                          <div
-                            className="alternative-trigger-box"
-                            onClick={() => setCheckedWarnings(prev => ({ ...prev, [ing.id]: !prev[ing.id] }))}
-                          >
-                            <input
-                              type="checkbox"
-                              className="alternative-checkbox"
-                              checked={isWarningChecked}
-                              onChange={() => {}}
-                            />
-                            <span className="alternative-label">{ing.warning_trigger_text}</span>
-                          </div>
-                          <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
-                            ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
-                          </p>
                         </div>
                       )}
                     </div>
