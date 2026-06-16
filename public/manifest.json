@@ -9,12 +9,12 @@
       "sizes": "any"
     },
     {
-      "src": "pillsync_icon.png",
+      "src": "pillsync_icon_192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "pillsync_icon.png",
+      "src": "pillsync_icon_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

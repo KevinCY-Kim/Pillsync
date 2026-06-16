@@ -2,7 +2,9 @@ const CACHE_NAME = 'pillsync-v1';
 const ASSETS = [
   '/',
   '/index.html',
-  '/favicon.svg'
+  '/favicon.svg',
+  '/pillsync_icon_192.png',
+  '/pillsync_icon_512.png'
 ];
 
 // Install Service Worker and cache essential assets
