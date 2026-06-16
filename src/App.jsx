@@ -658,10 +658,12 @@ function App() {
 
 
   // Toggle guide details for ingredients
+  // 기본값은 펼침(true) 상태입니다. 부작용 등 안전 고지 정보를 클릭 없이 바로 볼 수 있도록 하고,
+  // 정보량이 많다고 느끼는 사용자를 위해 접을 수 있는 옵션만 남겨둡니다.
   const toggleGuide = (ingId) => {
     setOpenGuides(prev => ({
       ...prev,
-      [ingId]: !prev[ingId]
+      [ingId]: prev[ingId] === false ? true : false
     }));
   };
 
@@ -1186,7 +1188,7 @@ function App() {
                   const percentMatch = targetIng.high_dose_ratio ? targetIng.high_dose_ratio.match(/([\d,]+)%/) : null;
                   const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
                   const displayPercent = Math.min(rawPercent, 100);
-                  const isGuideOpen = !!openGuides[targetIng.id];
+                  const isGuideOpen = openGuides[targetIng.id] !== false; // 기본값 펼침
 
                   return (
                     <div key={ing.id} className="ingredient-item">
