@@ -453,7 +453,10 @@ function App() {
   }, []);
 
   const handleInstallApp = () => {
-    if (deferredPrompt) {
+    // 모바일(특히 삼성 인터넷)에서는 WebAPK 설치가 Play Protect "안전하지 않은 앱 차단됨" 경고를
+    // 유발하고, 사용자에게 '설치' 강요로 느껴져 거부감을 준다. 모바일은 설치 프롬프트를 띄우지 않고
+    // 홈 화면 즐겨찾기(바로가기) 추가 가이드만 노출한다. 데스크톱은 경고가 없으므로 기존 원클릭 유지.
+    if (deferredPrompt && !isMobileDevice) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
@@ -857,7 +860,7 @@ function App() {
             <button 
               onClick={handleInstallApp}
               style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
-              title="즐겨찾기 가이드"
+              title={isMobileDevice ? "홈 화면에 추가" : "바탕화면에 추가"}
             >
               <i className="fa-solid fa-star"></i>
             </button>
@@ -1231,7 +1234,7 @@ function App() {
               <div className="bookmark-floating-bar animate-fade">
                 <div className="floating-text">💡 영양제 새로 바꿀 때마다 바로 검사하기</div>
                 <button className="floating-btn" onClick={handleInstallApp}>
-                  <i className="fa-solid fa-mobile-screen"></i> {deferredPrompt ? '폰 화면에 즉시 앱 추가 (1초)' : '폰 화면에 즐겨찾기 추가 (3초)'}
+                  <i className="fa-solid fa-mobile-screen"></i> {(deferredPrompt && !isMobileDevice) ? '폰 화면에 즉시 앱 추가 (1초)' : '폰 화면에 즐겨찾기 추가 (3초)'}
                 </button>
               </div>
             )}
@@ -2009,7 +2012,7 @@ function BookmarkGuideModal({ isOpen, onClose }) {
                 <div className="guide-step">
                   <div className="step-num">2</div>
                   <div className="step-text">
-                    메뉴 리스트에서 <strong>'홈 화면에 추가'</strong> (또는 <strong>'앱 설치'</strong>) 항목을 찾아 탭합니다.
+                    메뉴 리스트에서 <strong>'홈 화면에 추가'</strong> 항목을 찾아 탭합니다.
                   </div>
                 </div>
                 <div className="guide-step">
