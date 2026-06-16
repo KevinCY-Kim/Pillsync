@@ -357,49 +357,49 @@ const localIngredientsMapping = {
 
 const initialCoupangProducts = {
   "밀크씨슬 실리마린 직구": [
-    { brand: "나우푸드 (Now Foods)", title: "실리마린 밀크씨슬 추출물 300mg, 200베지캡슐", price: 18450, rating: 4.8, reviews: 24502, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "나우푸드", title: "나우푸드 실리마린 밀크 시슬 추출물 300mg 베지 캡슐, 100정, 1개", price: 18940, rating: 5.0, reviews: 18116, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "고함량 비타민B 컴플렉스": [
-    { brand: "솔가 (Solgar)", title: "B-콤플렉스 100 메가용량, 100식물성캡슐", price: 22400, rating: 4.9, reviews: 8402, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "고려은단", title: "고려은단 메가도스 B 비타민 컴플렉스 51g, 60정, 1개", price: 17900, rating: 5.0, reviews: 8880, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "홍경천 로디올라 스트레스": [
-    { brand: "라이프 익스텐션", title: "로디올라 홍경천 추출물 250mg, 60베지캡슐", price: 15700, rating: 4.6, reviews: 3890, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "Airboy", title: "Airboy 유기농 홍경천 농축 추출물, 60정, 1개", price: 16880, rating: 5.0, reviews: 5, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "홍삼정 에브리타임 스틱": [
-    { brand: "정관장", title: "홍삼정 에브리타임 스틱형 10ml x 30포", price: 74200, rating: 4.9, reviews: 12402, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "풍년보감", title: "풍년보감 6년근 고려홍삼정 에브리데이100, 15g, 100개", price: 24680, rating: 5.0, reviews: 18065, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "나우푸드 L테아닌 200mg": [
-    { brand: "나우푸드 (Now Foods)", title: "L-테아닌 200mg 더블 스트렝스, 120베지캡슐", price: 21900, rating: 4.7, reviews: 5491, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "뉴트리코스트", title: "뉴트리코스트 L-테아닌 200mg 캡슐, 120정, 1개", price: 16250, rating: 5.0, reviews: 954, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "가르시니아 HCA 다이어트": [
-    { brand: "에버비키니", title: "콜레올로지 컷팅 가르시니아 HCA 더블 112정 (4주분)", price: 26900, rating: 4.7, reviews: 14201, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
+    { brand: "뉴트리디데이", title: "뉴트리디데이 가르시니아 1000, 112정, 1개", price: 12900, rating: 4.5, reviews: 17504, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
   ],
   "녹차카테킨 다이어트보조제": [
-    { brand: "그린몬스터", title: "다이어트 스페셜 2인1 카테킨 플러스 90정 (30일분)", price: 13400, rating: 4.6, reviews: 9283, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
+    { brand: "그린몬스터", title: "그린몬스터 다이어트 녹차카테킨 플러스 28정, 1개", price: 13800, rating: 4.5, reviews: 23014, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
   ],
   "콜레우스 포스콜리 포스콜린": [
-    { brand: "푸드올로지", title: "콜레올로지 빨간통 다이어트 콜레우스 포스콜리 60정", price: 35800, rating: 4.8, reviews: 45091, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "랩온랩", title: "랩온랩 20배 고농축 더레드 빨간 콜레우스 포스콜리 추출 캡슐, 60정, 1개", price: 12800, rating: 4.5, reviews: 2079, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "시서스 가루 다이어트 캡슐": [
-    { brand: "해외직구", title: "시서스 추출물 1000mg 고농축 120캡슐", price: 28900, rating: 4.6, reviews: 3102, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
+    { brand: "마이라이프", title: "마이라이프 시서스 2500, 240정, 1개", price: 28980, rating: 4.5, reviews: 10468, img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=150&auto=format&fit=crop&q=60" }
   ],
   "L카르니틴 1000mg 추천": [
-    { brand: "나우푸드 (Now Foods)", title: "L-카르니틴 1000mg 고함량, 100타블렛", price: 23100, rating: 4.8, reviews: 9403, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "나우푸드", title: "나우푸드 L-카르니틴 500mg 베지 캡슐 비건 글루텐 프리, 60정, 1개", price: 18970, rating: 5.0, reviews: 211, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "비오틴 5000mcg 고함량": [
-    { brand: "솔가 (Solgar)", title: "고함량 비오틴 5000mcg, 100식물성캡슐", price: 16500, rating: 4.9, reviews: 19803, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
+    { brand: "나우푸드", title: "나우푸드 비오틴 5000mcg 베지 캡슐 비건, 120정, 1개", price: 13490, rating: 5.0, reviews: 17042, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
   ],
   "국산 맥주효모 환 대용량": [
-    { brand: "자연의품격", title: "유기농 국산 맥주효모 환 3g x 30포", price: 14900, rating: 4.8, reviews: 4322, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "내츄럴플러스", title: "내츄럴플러스 맥주효모 비오틴, 120정, 1개", price: 11280, rating: 4.5, reviews: 7900, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "아연 영양제 징크": [
-    { brand: "나우푸드 (Now Foods)", title: "글루코네이트 아연 50mg, 250정", price: 9800, rating: 4.8, reviews: 18239, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "나우푸드", title: "나우푸드 아연 50mg, 250정, 1개", price: 14400, rating: 4.5, reviews: 23197, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "L시스틴 500mg 직구": [
-    { brand: "나우푸드 (Now Foods)", title: "L-시스틴 500mg (L-Cystine 아미노산), 100정", price: 14500, rating: 4.7, reviews: 11094, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
+    { brand: "솔가", title: "솔가 L-시스테인 500mg 베지터블 캡슐, 90정, 1개", price: 17100, rating: 4.5, reviews: 471, img: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=150&auto=format&fit=crop&q=60" }
   ],
   "판토텐산 550mg 추천": [
-    { brand: "솔가 (Solgar)", title: "판토텐산 550mg 고함량 비타민B5, 100식물성캡슐", price: 18200, rating: 4.8, reviews: 6502, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
+    { brand: "재로우", title: "재로우 펜토텐산 B5 500mg 캡슐, 100정, 1개", price: 18130, rating: 4.5, reviews: 16766, img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=150&auto=format&fit=crop&q=60" }
   ],
   "루테인지아잔틴 복합추출물 추천": [
     { brand: "아이클리어", title: "아이클리어 루테인지아잔틴, 30정, 1개", price: 8190, rating: 5.0, reviews: 178465, img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=150&auto=format&fit=crop&q=60" }
