@@ -818,6 +818,8 @@ function App() {
   const handleSelectCategory = (catId) => {
     setCurrentCategoryId(catId);
     setSelectedSymptomIds([]);
+    setCheckedWarnings({});
+    setOpenGuides({});
     setActiveScreen('survey');
   };
 
@@ -834,6 +836,9 @@ function App() {
     if (activeScreen === 'survey') {
       setActiveScreen('home');
       setCurrentCategoryId(null);
+      setSelectedSymptomIds([]);
+      setCheckedWarnings({});
+      setOpenGuides({});
     } else if (activeScreen === 'result') {
       setActiveScreen('survey');
     }
@@ -843,6 +848,8 @@ function App() {
     setActiveScreen('home');
     setCurrentCategoryId(null);
     setSelectedSymptomIds([]);
+    setCheckedWarnings({});
+    setOpenGuides({});
   };
 
   // Submit survey and calculate results
