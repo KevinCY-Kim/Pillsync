@@ -2012,7 +2012,7 @@ function BookmarkGuideModal({ isOpen, onClose }) {
                 <div className="guide-step">
                   <div className="step-num">2</div>
                   <div className="step-text">
-                    메뉴 리스트에서 <strong>'홈 화면에 추가'</strong> 항목을 찾아 탭합니다.
+                    메뉴 리스트에서 <strong>'홈 화면에 추가'</strong>를 탭합니다. (삼성 인터넷은 <strong>'현재 페이지 추가'</strong> 누른 뒤 <strong>'홈 화면'</strong> 선택)
                   </div>
                 </div>
                 <div className="guide-step">
