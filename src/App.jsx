@@ -642,7 +642,11 @@ function App() {
           >
             <i className="fa-solid fa-chevron-left"></i>
           </button>
-          <div className="app-title">필싱크 (PillSync)</div>
+          <div
+            className="app-title"
+            onClick={() => { setActiveScreen('home'); setCurrentCategoryId(null); }}
+            style={{ cursor: 'pointer' }}
+          >필싱크 (PillSync)</div>
           <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button 
               onClick={handleInstallApp}
