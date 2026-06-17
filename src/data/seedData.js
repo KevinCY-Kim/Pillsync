@@ -14,12 +14,12 @@
 // ==========================================================
 
 export const localCategories = [
-  { id: 1, name: "피로 개선", desc: "만성 피로와 활력 저하 고민 유형별 관련 성분 안내", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
-  { id: 2, name: "다이어트", desc: "체지방 감소와 탄수화물 조절 고민 유형별 관련 성분 안내", icon: "fa-person-running", class: "cat-diet" },
-  { id: 3, name: "탈모 & 모발 건강", desc: "모근 약화와 모발 건강 고민 유형별 관련 성분 안내", icon: "fa-feather", class: "cat-hair" },
-  { id: 4, name: "눈 건강", desc: "침침함과 눈 피로 고민 유형별 관련 성분 안내", icon: "fa-eye", class: "cat-eye" },
-  { id: 5, name: "혈행 개선", desc: "혈액 순환과 중성지질 고민 유형별 관련 성분 안내", icon: "fa-heartbeat", class: "cat-blood" },
-  { id: 6, name: "수면 & 스트레스", desc: "잠 못 드는 밤과 누적된 긴장 고민 유형별 관련 성분 안내", icon: "fa-moon", class: "cat-sleep" }
+  { id: 1, name: "피로 개선", desc: "과로·번아웃으로 지친 분 맞춤형", icon: "fa-battery-three-quarters", class: "cat-fatigue" },
+  { id: 2, name: "다이어트", desc: "체중·체지방이 고민인 분 맞춤형", icon: "fa-person-running", class: "cat-diet" },
+  { id: 3, name: "탈모 & 모발 건강", desc: "머리숱·모근 약화가 걱정인 분 맞춤형", icon: "fa-feather", class: "cat-hair" },
+  { id: 4, name: "눈 건강", desc: "화면 피로·눈 침침함이 고민인 분 맞춤형", icon: "fa-eye", class: "cat-eye" },
+  { id: 5, name: "혈행 개선", desc: "혈액 순환·손발 냉감이 고민인 분 맞춤형", icon: "fa-heartbeat", class: "cat-blood" },
+  { id: 6, name: "수면 & 스트레스", desc: "잠 못 드는 밤·긴장 완화가 필요한 분 맞춤형", icon: "fa-moon", class: "cat-sleep" }
 ];
 
 export const localSymptoms = [

@@ -677,7 +677,7 @@ function App() {
                     </button>
                   </div>
                 )}
-                <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>영양 성분 정보</span> 안내</h2>
+                <h2>내 건강 고민 유형에 맞는<br/><span style={{ color: 'var(--color-primary)' }}>내 맞춤 영양 솔루션</span></h2>
                 <p>질병 진단이나 처방이 아닌, 식약처 고시 기능성 데이터에 기반하여 건강 고민 유형별 관련 성분 정보를 안내합니다. 구체적인 섭취 여부는 전문가와 상담하시기 바랍니다.</p>
               </div>
 
@@ -745,7 +745,7 @@ function App() {
             <div className="animate-fade">
               <div className="result-header">
                 <div className="result-badge">식약처 고시 데이터 기반 안내</div>
-                <h3>고민 유형별 관련 영양 성분 안내</h3>
+                <h3>나를 위한 맞춤 영양 정보</h3>
                 <p>{selectedCategory.name} 고민 유형 기준 관련 성분 정보입니다. 섭취 전 전문가 상담을 권장합니다.</p>
               </div>
 
@@ -1073,7 +1073,7 @@ function App() {
               </div>
             )}
           </div>
-          <p className="subtitle">식약처 고시 데이터 기반 건강 고민 유형별 영양 성분 안내 플랫폼</p>
+          <p className="subtitle">식약처 고시 데이터 기반 건강 고민 맞춤형 영양 솔루션</p>
         </header>
       )}
 
