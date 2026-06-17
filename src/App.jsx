@@ -645,8 +645,17 @@ function App() {
           <div
             className="app-title"
             onClick={() => { setActiveScreen('home'); setCurrentCategoryId(null); }}
-            style={{ cursor: 'pointer' }}
-          >필싱크 (PillSync)</div>
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            <i className="fa-solid fa-prescription-bottle-medical" style={{
+              fontSize: '1.1rem',
+              background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 2px 4px rgba(139, 92, 246, 0.4))'
+            }}></i>
+            <span>Pill<span style={{ color: 'var(--color-secondary)' }}>Sync</span></span>
+          </div>
           <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button 
               onClick={handleInstallApp}
