@@ -293,12 +293,12 @@ UPDATE ingredients_mapping SET alternative_ingredient_id = 'L-테아닌' WHERE i
 
 -- 3c. Categories
 INSERT INTO categories (id, name, description, icon_class) VALUES
-(1, '피로 개선', '만성 피로와 활력 저하 고민 유형별 관련 성분 안내', 'fa-battery-three-quarters'),
-(2, '다이어트', '체지방 감소와 탄수화물 조절 고민 유형별 관련 성분 안내', 'fa-person-running'),
-(3, '탈모 & 모발 건강', '모근 약화와 모발 건강 고민 유형별 관련 성분 안내', 'fa-feather'),
-(4, '눈 건강', '침침함과 눈 피로 고민 유형별 관련 성분 안내', 'fa-eye'),
-(5, '혈행 개선', '혈액 순환과 중성지질 고민 유형별 관련 성분 안내', 'fa-heartbeat'),
-(6, '수면 & 스트레스', '잠 못 드는 밤과 누적된 긴장 고민 유형별 관련 성분 안내', 'fa-moon')
+(1, '피로 개선', '과로·번아웃으로 지친 분 맞춤형', 'fa-battery-three-quarters'),
+(2, '다이어트', '체중·체지방이 고민인 분 맞춤형', 'fa-person-running'),
+(3, '탈모 & 모발 건강', '머리숱·모근 약화가 걱정인 분 맞춤형', 'fa-feather'),
+(4, '눈 건강', '화면 피로·눈 침침함이 고민인 분 맞춤형', 'fa-eye'),
+(5, '혈행 개선', '혈액 순환·손발 냉감이 고민인 분 맞춤형', 'fa-heartbeat'),
+(6, '수면 & 스트레스', '잠 못 드는 밤·긴장 완화가 필요한 분 맞춤형', 'fa-moon')
 ON CONFLICT (id) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,
