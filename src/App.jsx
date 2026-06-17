@@ -613,9 +613,21 @@ function App() {
   const currentSymptoms = symptoms.filter(s => s.category_id === currentCategoryId);
   const matchedIngredientsList = getMatchedIngredients();
 
-  // Calculate matching synergies based on user selections
-  const activeSynergies = synergyCombinations.filter(syn => 
-    syn.ingredients.every(ingId => matchedIngredientsList.some(m => m.id === ingId))
+  // Build effective ingredient list after applying warning-triggered substitutions
+  const effectiveIngredientsList = matchedIngredientsList.map(ing => {
+    const isWarningChecked = !!checkedWarnings[ing.id];
+    const hasAlternative = ing.alternative_ingredient_id && ingredientsMapping[ing.alternative_ingredient_id];
+    if (isWarningChecked && hasAlternative) {
+      return { id: ing.alternative_ingredient_id, ...ingredientsMapping[ing.alternative_ingredient_id] };
+    }
+    return ing;
+  });
+
+  // Calculate matching synergies based on effective ingredient list (post-substitution)
+  // If a warning-triggered swap removes an ingredient from a booster, that booster is deactivated;
+  // a new alternative combo in synergyCombinations may activate instead.
+  const activeSynergies = synergyCombinations.filter(syn =>
+    syn.ingredients.every(ingId => effectiveIngredientsList.some(m => m.id === ingId))
   );
 
   // Reusable rendering module for the main app contents (used in both desktop 2-column & emulator mode)
