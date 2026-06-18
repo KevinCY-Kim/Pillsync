@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { track } from '@vercel/analytics';
 
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { localCategories, localSymptoms, localIngredientsMapping, localSynergyCombinations } from './data/seedData';
@@ -380,7 +381,7 @@ function App() {
           name: i.name,
           desc: localIng.desc || i.fda_functional_summary || i.desc || "",
           keyword: i.coupang_search_keyword || i.keyword || "",
-          coupang_link: i.coupang_link || null,
+          coupang_link: i.coupang_link || localIng.coupang_link || null,
           kfda_daily_intake: i.kfda_daily_intake || "",
           high_dose_ratio: i.high_dose_ratio || "",
           high_dose_effect: localIng.high_dose_effect || i.high_dose_effect || "",
@@ -992,9 +993,23 @@ function App() {
                       <a
                         key={`${ing.id}-${targetIng.id}-${idx}`}
                         href={redirectUrl}
-                        target="_blank" 
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="product-card"
+                        onClick={(e) => {
+                          // 쿠팡 카드 클릭을 Vercel 커스텀 이벤트로 측정 → "카드를 눌렀는지" 자체를
+                          // 쿠팡 집계와 별개로 확인 가능(눌렀는데 안 열림 vs 아예 안 누름 구분).
+                          const ua = navigator.userAgent || '';
+                          const isInAppBrowser = /Instagram|Threads|FBAN|FBAV|Line\/|KAKAOTALK|NAVER\(inapp|DaumApps|everytimeApp|Snapchat|TikTok/i.test(ua);
+                          track('coupang_click', { ingredient: targetIng.id, inApp: isInAppBrowser });
+                          // 쓰레드/인스타/카카오 등 인앱 브라우저는 target="_blank"(새 탭)를
+                          // 차단하는 경우가 많아 탭해도 아무 동작이 없을 수 있음.
+                          // 인앱 웹뷰로 감지되면 같은 탭으로 강제 이동시켜 클릭 유실을 방지.
+                          if (isInAppBrowser) {
+                            e.preventDefault();
+                            window.location.href = redirectUrl;
+                          }
+                        }}
                       >
                         <div className="prod-img-box">
                           <img src={prod.img} alt={prod.title} />
