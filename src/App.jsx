@@ -269,7 +269,33 @@ function App() {
   const [editProdImg, setEditProdImg] = useState('');
   const [isSavingLink, setIsSavingLink] = useState(false);
 
-
+  // 쿠팡 카드 클릭을 우리 Supabase(click_logs)에 직접 기록 → Vercel Pro 없이 클릭 집계.
+  // keepalive:true 로 페이지가 같은 탭으로 이동(인앱)해도 요청이 유실되지 않도록 보장.
+  const logCoupangClick = (ingredientId, link, isInApp) => {
+    try {
+      if (!isSupabaseConfigured) return;
+      const url = import.meta.env.VITE_SUPABASE_URL;
+      const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      fetch(`${url}/rest/v1/click_logs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({
+          ingredient_id: ingredientId,
+          coupang_link: link,
+          is_in_app: isInApp,
+          user_agent: navigator.userAgent || ''
+        }),
+        keepalive: true
+      }).catch(() => {});
+    } catch {
+      /* 로깅 실패는 사용자 흐름에 영향 주지 않음 */
+    }
+  };
 
   // Toggle guide details for ingredients
   // 기본값은 펼침(true) 상태입니다. 부작용 등 안전 고지 정보를 클릭 없이 바로 볼 수 있도록 하고,
@@ -1091,6 +1117,8 @@ function App() {
                           // 쿠팡 집계와 별개로 확인 가능(눌렀는데 안 열림 vs 아예 안 누름 구분).
                           const ua = navigator.userAgent || '';
                           const isInAppBrowser = /Instagram|Threads|FBAN|FBAV|Line\/|KAKAOTALK|NAVER\(inapp|DaumApps|everytimeApp|Snapchat|TikTok/i.test(ua);
+                          // 우리 Supabase에 클릭 기록(무료 집계) + Vercel 이벤트(Pro 시 사용)
+                          logCoupangClick(targetIng.id, redirectUrl, isInAppBrowser);
                           track('coupang_click', { ingredient: targetIng.id, inApp: isInAppBrowser });
                           // 쓰레드/인스타/카카오 등 인앱 브라우저는 target="_blank"(새 탭)를
                           // 차단하는 경우가 많아 탭해도 아무 동작이 없을 수 있음.
