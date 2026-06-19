@@ -258,6 +258,17 @@ function App() {
   const [newIngredientDesc, setNewIngredientDesc] = useState('');
   const [newCoupangKeyword, setNewCoupangKeyword] = useState('');
 
+  // Admin: 링크/제품 매칭 관리 탭 상태
+  const [editIngredientKey, setEditIngredientKey] = useState('');
+  const [editCoupangLink, setEditCoupangLink] = useState('');
+  const [editProdBrand, setEditProdBrand] = useState('');
+  const [editProdTitle, setEditProdTitle] = useState('');
+  const [editProdPrice, setEditProdPrice] = useState('');
+  const [editProdRating, setEditProdRating] = useState('');
+  const [editProdReviews, setEditProdReviews] = useState('');
+  const [editProdImg, setEditProdImg] = useState('');
+  const [isSavingLink, setIsSavingLink] = useState(false);
+
 
 
   // Toggle guide details for ingredients
@@ -592,6 +603,85 @@ function App() {
     setActiveAdminTab('db-view');
     setActiveScreen('home');
     setCurrentCategoryId(null);
+  };
+
+  // Admin: 성분 선택 시 현재 링크/제품 정보를 폼에 로드
+  const handleSelectEditIngredient = (key) => {
+    setEditIngredientKey(key);
+    const ing = ingredientsMapping[key];
+    if (!ing) {
+      setEditCoupangLink('');
+      setEditProdBrand(''); setEditProdTitle(''); setEditProdPrice('');
+      setEditProdRating(''); setEditProdReviews(''); setEditProdImg('');
+      return;
+    }
+    setEditCoupangLink(ing.coupang_link || '');
+    const prod = (coupangProducts[ing.keyword] || [])[0] || {};
+    setEditProdBrand(prod.brand || '');
+    setEditProdTitle(prod.title || '');
+    setEditProdPrice(prod.price != null ? String(prod.price) : '');
+    setEditProdRating(prod.rating != null ? String(prod.rating) : '');
+    setEditProdReviews(prod.reviews != null ? String(prod.reviews) : '');
+    setEditProdImg(prod.img || '');
+  };
+
+  // Admin: 링크/제품 매칭 저장 (링크는 Supabase 영구 저장, 제품 표시정보는 로컬 반영)
+  const handleSaveLinkProduct = async (e) => {
+    e.preventDefault();
+    if (!editIngredientKey) {
+      alert("먼저 성분을 선택하세요.");
+      return;
+    }
+    const ing = ingredientsMapping[editIngredientKey];
+    if (!ing) return;
+    const keyword = ing.keyword;
+    const link = editCoupangLink.trim();
+
+    // 쿠팡 파트너스 표준 형식 검증 (https://link.coupang.com/a/XXXX)
+    if (link && !/^https:\/\/link\.coupang\.com\/a\/[A-Za-z0-9]+/.test(link)) {
+      const proceed = window.confirm(
+        "입력한 링크가 표준 쿠팡 파트너스 형식(https://link.coupang.com/a/...)이 아닙니다.\n" +
+        "이 형식이 아니면 수수료가 집계되지 않을 수 있습니다. 그래도 저장할까요?"
+      );
+      if (!proceed) return;
+    }
+
+    // 로컬 상태 즉시 반영
+    setIngredientsMapping(prev => ({
+      ...prev,
+      [editIngredientKey]: { ...prev[editIngredientKey], coupang_link: link || null }
+    }));
+    setCoupangProducts(prev => ({
+      ...prev,
+      [keyword]: [{
+        brand: editProdBrand,
+        title: editProdTitle,
+        price: Number(String(editProdPrice).replace(/,/g, '')) || 0,
+        rating: Number(editProdRating) || 0,
+        reviews: Number(String(editProdReviews).replace(/,/g, '')) || 0,
+        img: editProdImg
+      }]
+    }));
+
+    // Supabase 연결 시 링크를 영구 저장 (ingredients_mapping.coupang_link)
+    if (dbMode === "Supabase Connected") {
+      setIsSavingLink(true);
+      try {
+        const { error } = await supabase
+          .from('ingredients_mapping')
+          .update({ coupang_link: link || null })
+          .eq('id', editIngredientKey);
+        if (error) throw error;
+        showToast(`'${editIngredientKey}' 링크가 Supabase에 영구 저장되었습니다.\n(제품 표시정보는 로컬 반영)`);
+      } catch (err) {
+        console.error("[PillSync] 링크 저장 오류:", err);
+        alert(`Supabase 링크 저장 중 오류가 발생했습니다: ${err.message || err}`);
+      } finally {
+        setIsSavingLink(false);
+      }
+    } else {
+      showToast(`'${editIngredientKey}' 링크/제품 정보가 로컬에 반영되었습니다.\n(로컬 모드는 새로고침 시 초기화됩니다)`);
+    }
   };
 
   // Gather selected ingredients based on symptoms
@@ -1215,11 +1305,17 @@ function App() {
               >
                 <i className="fa-solid fa-table"></i> DB 스키마 뷰어
               </button>
-              <button 
+              <button
                 className={`tab-btn ${activeAdminTab === 'add-category' ? 'active' : ''}`}
                 onClick={() => setActiveAdminTab('add-category')}
               >
                 <i className="fa-solid fa-plus-circle"></i> 신규 카테고리 추가
+              </button>
+              <button
+                className={`tab-btn ${activeAdminTab === 'manage-link' ? 'active' : ''}`}
+                onClick={() => setActiveAdminTab('manage-link')}
+              >
+                <i className="fa-solid fa-link"></i> 링크/제품 관리
               </button>
             </div>
 
@@ -1451,10 +1547,118 @@ function App() {
               </div>
             )}
 
+            {/* TAB 3: 링크/제품 매칭 관리 */}
+            {activeAdminTab === 'manage-link' && (
+              <div className="tab-content active">
+                <form className="admin-form" onSubmit={handleSaveLinkProduct}>
+
+                  <div className="form-group">
+                    <label>관리할 성분 선택</label>
+                    <select
+                      value={editIngredientKey}
+                      onChange={e => handleSelectEditIngredient(e.target.value)}
+                      required
+                    >
+                      <option value="" disabled>— 성분을 선택하세요 —</option>
+                      {Object.keys(ingredientsMapping).map(key => (
+                        <option key={key} value={key}>
+                          {key} ({ingredientsMapping[key].name})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {editIngredientKey && (
+                    <>
+                      <div className="form-group">
+                        <label>쿠팡 검색 키워드 (제품 매칭 키 · 읽기 전용)</label>
+                        <input
+                          type="text"
+                          value={ingredientsMapping[editIngredientKey]?.keyword || ''}
+                          readOnly
+                          style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                        />
+                      </div>
+
+                      <div className="divider">쿠팡 파트너스 수익화 링크</div>
+
+                      <div className="form-group">
+                        <label>쿠팡 파트너스 링크 (https://link.coupang.com/a/...)</label>
+                        <input
+                          type="text"
+                          placeholder="https://link.coupang.com/a/XXXXXXXX"
+                          value={editCoupangLink}
+                          onChange={e => setEditCoupangLink(e.target.value)}
+                        />
+                        {editCoupangLink && (
+                          <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                            {/^https:\/\/link\.coupang\.com\/a\/[A-Za-z0-9]+/.test(editCoupangLink.trim()) ? (
+                              <span style={{ fontSize: '0.7rem', color: '#34D399' }}>
+                                <i className="fa-solid fa-circle-check"></i> 표준 파트너스 형식 확인됨
+                              </span>
+                            ) : (
+                              <span style={{ fontSize: '0.7rem', color: '#F87171' }}>
+                                <i className="fa-solid fa-triangle-exclamation"></i> 표준 형식이 아님 — 수수료 집계 안 될 수 있음
+                              </span>
+                            )}
+                            <a
+                              href={editCoupangLink.trim()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ fontSize: '0.7rem', color: 'var(--color-primary)' }}
+                            >
+                              <i className="fa-solid fa-up-right-from-square"></i> 링크 테스트 열기
+                            </a>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="divider">상품 표시 정보 (카드에 노출 · 로컬 반영)</div>
+
+                      <div className="form-group">
+                        <label>브랜드</label>
+                        <input type="text" placeholder="예: 나우푸드" value={editProdBrand} onChange={e => setEditProdBrand(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>상품명</label>
+                        <input type="text" placeholder="예: 실리마린 밀크씨슬 300mg, 100정" value={editProdTitle} onChange={e => setEditProdTitle(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>가격 (원)</label>
+                        <input type="number" placeholder="예: 18940" value={editProdPrice} onChange={e => setEditProdPrice(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>평점 (0~5)</label>
+                        <input type="number" step="0.1" min="0" max="5" placeholder="예: 4.8" value={editProdRating} onChange={e => setEditProdRating(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>리뷰 수</label>
+                        <input type="number" placeholder="예: 18116" value={editProdReviews} onChange={e => setEditProdReviews(e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>이미지 URL</label>
+                        <input type="text" placeholder="https://..." value={editProdImg} onChange={e => setEditProdImg(e.target.value)} />
+                      </div>
+
+                      <p style={{ fontSize: '0.68rem', color: '#9CA3AF', marginTop: '4px' }}>
+                        ※ <strong>링크</strong>는 {dbMode === "Supabase Connected" ? "Supabase에 영구 저장됩니다." : "현재 로컬 모드 — 새로고침 시 초기화됩니다 (영구 저장하려면 Supabase 연결 필요)."}<br />
+                        ※ <strong>상품 표시 정보</strong>(브랜드/가격 등)는 DB 테이블이 없어 로컬에만 반영되며 새로고침 시 초기화됩니다.
+                      </p>
+
+                      <button type="submit" className="submit-btn" style={{ width: '100%', marginTop: '16px' }} disabled={isSavingLink}>
+                        <i className="fa-solid fa-save"></i> {isSavingLink ? "저장 중..." : "링크/제품 매칭 저장"}
+                      </button>
+                    </>
+                  )}
+
+                </form>
+              </div>
+            )}
+
           </div>
         </section>
         )}
- 
+
       </main>
 
       {/* Decorative page footer */}
