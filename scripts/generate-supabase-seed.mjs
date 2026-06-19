@@ -67,6 +67,35 @@ function buildSynergyCombinationsInsert() {
     .join(',\n');
 }
 
+// RLS 정책 생성: 공개(anon)는 읽기만, 쓰기(INSERT/UPDATE/DELETE)는 인증된 관리자만.
+// 과거에 존재하던 공개 쓰기 정책은 명시적으로 DROP 하여 안전하게 회수한다.
+function buildRlsPolicies() {
+  const tables = [
+    'categories',
+    'ingredients_mapping',
+    'symptoms',
+    'synergy_combinations',
+    'synergy_ingredients',
+  ];
+  return tables
+    .map(
+      (t) => `-- ${t}: 공개 읽기 + 인증 쓰기
+DROP POLICY IF EXISTS "Allow public read access for ${t}" ON ${t};
+CREATE POLICY "Allow public read access for ${t}" ON ${t} FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
+DROP POLICY IF EXISTS "Allow public insert access for ${t}" ON ${t};
+DROP POLICY IF EXISTS "Allow public update access for ${t}" ON ${t};
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for ${t}" ON ${t};
+CREATE POLICY "Allow authenticated insert for ${t}" ON ${t} FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for ${t}" ON ${t};
+CREATE POLICY "Allow authenticated update for ${t}" ON ${t} FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for ${t}" ON ${t};
+CREATE POLICY "Allow authenticated delete for ${t}" ON ${t} FOR DELETE TO authenticated USING (true);`
+    )
+    .join('\n\n');
+}
+
 function buildSynergyIngredientsInsert() {
   const pairs = [];
   localSynergyCombinations.forEach((s) => {
@@ -141,8 +170,11 @@ CREATE TABLE IF NOT EXISTS synergy_ingredients (
     PRIMARY KEY (synergy_id, ingredient_id)
 );
 
--- 2. Enable Row Level Security (RLS) for public read/write access
+-- 2. Row Level Security (RLS): 공개(anon)는 읽기만, 쓰기는 인증된 관리자만
 -- ALTER TABLE ... ENABLE ROW LEVEL SECURITY는 이미 활성화된 상태에서 재실행해도 에러가 나지 않습니다.
+-- ※ 쓰기 권한은 Supabase Auth로 로그인한 관리자(authenticated)에게만 부여됩니다.
+--   - Supabase 대시보드 → Authentication → Providers/Settings 에서 "Allow new sign-ups"를 OFF 하고,
+--     관리자 계정은 대시보드에서 수동 생성하세요(공개 가입을 막아야 authenticated == 관리자가 됩니다).
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ingredients_mapping ENABLE ROW LEVEL SECURITY;
 ALTER TABLE symptoms ENABLE ROW LEVEL SECURITY;
@@ -150,30 +182,7 @@ ALTER TABLE synergy_combinations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE synergy_ingredients ENABLE ROW LEVEL SECURITY;
 
 -- 정책은 DROP POLICY IF EXISTS 후 재생성하여 "policy already exists" 에러 없이 재실행 가능하게 합니다.
-DROP POLICY IF EXISTS "Allow public read access for categories" ON categories;
-CREATE POLICY "Allow public read access for categories" ON categories FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Allow public insert access for categories" ON categories;
-CREATE POLICY "Allow public insert access for categories" ON categories FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public read access for ingredients_mapping" ON ingredients_mapping;
-CREATE POLICY "Allow public read access for ingredients_mapping" ON ingredients_mapping FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Allow public insert access for ingredients_mapping" ON ingredients_mapping;
-CREATE POLICY "Allow public insert access for ingredients_mapping" ON ingredients_mapping FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public read access for symptoms" ON symptoms;
-CREATE POLICY "Allow public read access for symptoms" ON symptoms FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Allow public insert access for symptoms" ON symptoms;
-CREATE POLICY "Allow public insert access for symptoms" ON symptoms FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public read access for synergy_combinations" ON synergy_combinations;
-CREATE POLICY "Allow public read access for synergy_combinations" ON synergy_combinations FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Allow public insert access for synergy_combinations" ON synergy_combinations;
-CREATE POLICY "Allow public insert access for synergy_combinations" ON synergy_combinations FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public read access for synergy_ingredients" ON synergy_ingredients;
-CREATE POLICY "Allow public read access for synergy_ingredients" ON synergy_ingredients FOR SELECT USING (true);
-DROP POLICY IF EXISTS "Allow public insert access for synergy_ingredients" ON synergy_ingredients;
-CREATE POLICY "Allow public insert access for synergy_ingredients" ON synergy_ingredients FOR INSERT WITH CHECK (true);
+${buildRlsPolicies()}
 
 -- 3. Upsert Seed Data (src/data/seedData.js 에서 자동 생성됨)
 -- 3a. Ingredients

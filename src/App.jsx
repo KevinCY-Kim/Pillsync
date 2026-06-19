@@ -269,6 +269,17 @@ function App() {
   const [editProdImg, setEditProdImg] = useState('');
   const [isSavingLink, setIsSavingLink] = useState(false);
 
+  // Admin 인증 상태 (Supabase Auth). 쓰기 작업은 로그인한 관리자만 가능.
+  const [adminSession, setAdminSession] = useState(null);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const isAdminAuthed = !!adminSession;
+  // 쓰기 UI 노출 조건: 인증된 관리자거나, DB를 건드리지 않는 로컬 모드(오프라인/개발).
+  // 실제 Supabase 쓰기는 핸들러의 인증 가드 + RLS로 별도 차단된다.
+  const canUseAdminWrites = isAdminAuthed || dbMode !== "Supabase Connected";
+
   // 쿠팡 카드 클릭을 우리 Supabase(click_logs)에 직접 기록 → Vercel Pro 없이 클릭 집계.
   // keepalive:true 로 페이지가 같은 탭으로 이동(인앱)해도 요청이 유실되지 않도록 보장.
   const logCoupangClick = (ingredientId, link, isInApp) => {
@@ -464,6 +475,45 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Supabase Auth 세션 추적: 새로고침해도 세션이 유지되고(localStorage), 로그인/로그아웃이 즉시 반영된다.
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) return;
+    supabase.auth.getSession().then(({ data }) => setAdminSession(data?.session ?? null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAdminSession(session);
+    });
+    return () => sub?.subscription?.unsubscribe();
+  }, []);
+
+  // 관리자 로그인 (Supabase Auth 이메일/비밀번호)
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+    if (!isSupabaseConfigured || !supabase) {
+      setLoginError('Supabase가 설정되지 않아 로그인할 수 없습니다.');
+      return;
+    }
+    setIsLoggingIn(true);
+    setLoginError('');
+    const { error } = await supabase.auth.signInWithPassword({
+      email: loginEmail.trim(),
+      password: loginPassword,
+    });
+    setIsLoggingIn(false);
+    if (error) {
+      setLoginError('로그인 실패: ' + (error.message || '이메일/비밀번호를 확인하세요.'));
+      return;
+    }
+    setLoginPassword('');
+    showToast('관리자 로그인 완료');
+  };
+
+  // 관리자 로그아웃
+  const handleAdminLogout = async () => {
+    if (supabase) await supabase.auth.signOut();
+    setAdminSession(null);
+    showToast('로그아웃되었습니다.');
+  };
+
   // Switch to category questionnaire
   const handleSelectCategory = (catId) => {
     setCurrentCategoryId(catId);
@@ -515,6 +565,10 @@ function App() {
 
     // 1. SUPABASE CONNECTION MODE
     if (dbMode === "Supabase Connected") {
+      if (!isAdminAuthed) {
+        alert('관리자 로그인이 필요합니다. 우측 관리자 패널에서 로그인하세요.');
+        return;
+      }
       try {
         showToast("Supabase 클라우드에 저장하는 중...");
 
@@ -578,8 +632,10 @@ function App() {
 
     // 2. LOCAL OFFLINE MODE
     } else {
-      const newCatId = categories.length + 1;
-      const newSymptomId = 100 * newCatId + 1;
+      // 길이 기반(length+1)은 카테고리 삭제·재정렬 시 기존 ID와 충돌할 수 있으므로
+      // 현재 최댓값+1로 새 ID를 발급해 시드 예약 ID(예: 601~605)와의 충돌을 방지한다.
+      const newCatId = (categories.length ? Math.max(...categories.map(c => c.id)) : 0) + 1;
+      const newSymptomId = (symptoms.length ? Math.max(...symptoms.map(s => s.id)) : 0) + 1;
 
       // Insert locally
       const newCategoryObj = {
@@ -699,6 +755,10 @@ function App() {
 
     // Supabase 연결 시 링크를 영구 저장 (ingredients_mapping.coupang_link)
     if (dbMode === "Supabase Connected") {
+      if (!isAdminAuthed) {
+        alert('관리자 로그인이 필요합니다. 우측 관리자 패널에서 로그인하세요.');
+        return;
+      }
       setIsSavingLink(true);
       try {
         const { error } = await supabase
@@ -1368,14 +1428,41 @@ function App() {
           </div>
 
           <div className="admin-card">
+            {/* 관리자 인증 바 (Supabase Auth). 쓰기 기능은 로그인 후에만 노출/동작한다. */}
+            {isAdminAuthed ? (
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'10px', padding:'10px 12px', marginBottom:'12px', background:'rgba(16,185,129,0.12)', border:'1px solid rgba(16,185,129,0.3)', borderRadius:'10px', fontSize:'0.8rem' }}>
+                <span style={{ color:'#6EE7B7' }}><i className="fa-solid fa-circle-check"></i> 관리자 로그인됨{adminSession?.user?.email ? ` · ${adminSession.user.email}` : ''}</span>
+                <button type="button" onClick={handleAdminLogout} style={{ background:'transparent', border:'1px solid rgba(16,185,129,0.4)', color:'#6EE7B7', borderRadius:'8px', padding:'5px 12px', cursor:'pointer', fontSize:'0.75rem' }}>
+                  <i className="fa-solid fa-right-from-bracket"></i> 로그아웃
+                </button>
+              </div>
+            ) : isSupabaseConfigured && (
+              <form onSubmit={handleAdminLogin} style={{ padding:'14px', marginBottom:'12px', background:'rgba(139,92,246,0.08)', border:'1px solid rgba(139,92,246,0.22)', borderRadius:'12px' }}>
+                <div style={{ fontSize:'0.85rem', fontWeight:600, color:'#DDD6FE', marginBottom:'4px' }}>
+                  <i className="fa-solid fa-lock"></i> 관리자 로그인
+                </div>
+                <p style={{ fontSize:'0.72rem', color:'#A78BDA', margin:'0 0 10px' }}>
+                  DB 쓰기(카테고리 추가·링크 저장)는 로그인 후 사용할 수 있습니다. 읽기 전용 뷰어는 로그인 없이 확인 가능합니다.
+                </p>
+                <input type="email" required placeholder="관리자 이메일" value={loginEmail} onChange={(e)=>setLoginEmail(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize:'0.8rem' }} />
+                <input type="password" required placeholder="비밀번호" value={loginPassword} onChange={(e)=>setLoginPassword(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize:'0.8rem' }} />
+                {loginError && <div style={{ fontSize:'0.72rem', color:'#FCA5A5', marginBottom:'8px' }}>{loginError}</div>}
+                <button type="submit" disabled={isLoggingIn} className="next-btn" style={{ width:'100%', padding:'9px', fontSize:'0.8rem', opacity:isLoggingIn?0.6:1 }}>
+                  {isLoggingIn ? '로그인 중…' : '로그인'}
+                </button>
+              </form>
+            )}
+
             {/* Tab navigation */}
             <div className="tab-header">
-              <button 
+              <button
                 className={`tab-btn ${activeAdminTab === 'db-view' ? 'active' : ''}`}
                 onClick={() => setActiveAdminTab('db-view')}
               >
                 <i className="fa-solid fa-table"></i> DB 스키마 뷰어
               </button>
+              {canUseAdminWrites && (
+                <>
               <button
                 className={`tab-btn ${activeAdminTab === 'add-category' ? 'active' : ''}`}
                 onClick={() => setActiveAdminTab('add-category')}
@@ -1388,6 +1475,8 @@ function App() {
               >
                 <i className="fa-solid fa-link"></i> 링크/제품 관리
               </button>
+                </>
+              )}
             </div>
 
             {/* TAB 1: DB SCHEMA VIEWER */}
@@ -1523,7 +1612,7 @@ function App() {
             )}
 
             {/* TAB 2: ADD DYNAMIC CATEGORY & LINKINGS */}
-            {activeAdminTab === 'add-category' && (
+            {canUseAdminWrites && activeAdminTab === 'add-category' && (
               <div className="tab-content active">
                 <form className="admin-form" onSubmit={handleAddCategorySubmit}>
                   
@@ -1619,7 +1708,7 @@ function App() {
             )}
 
             {/* TAB 3: 링크/제품 매칭 관리 */}
-            {activeAdminTab === 'manage-link' && (
+            {canUseAdminWrites && activeAdminTab === 'manage-link' && (
               <div className="tab-content active">
                 <form className="admin-form" onSubmit={handleSaveLinkProduct}>
 
