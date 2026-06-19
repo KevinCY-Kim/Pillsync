@@ -58,8 +58,11 @@ CREATE TABLE IF NOT EXISTS synergy_ingredients (
     PRIMARY KEY (synergy_id, ingredient_id)
 );
 
--- 2. Enable Row Level Security (RLS) for public read/write access
+-- 2. Row Level Security (RLS): 공개(anon)는 읽기만, 쓰기는 인증된 관리자만
 -- ALTER TABLE ... ENABLE ROW LEVEL SECURITY는 이미 활성화된 상태에서 재실행해도 에러가 나지 않습니다.
+-- ※ 쓰기 권한은 Supabase Auth로 로그인한 관리자(authenticated)에게만 부여됩니다.
+--   - Supabase 대시보드 → Authentication → Providers/Settings 에서 "Allow new sign-ups"를 OFF 하고,
+--     관리자 계정은 대시보드에서 수동 생성하세요(공개 가입을 막아야 authenticated == 관리자가 됩니다).
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ingredients_mapping ENABLE ROW LEVEL SECURITY;
 ALTER TABLE symptoms ENABLE ROW LEVEL SECURITY;
@@ -67,30 +70,75 @@ ALTER TABLE synergy_combinations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE synergy_ingredients ENABLE ROW LEVEL SECURITY;
 
 -- 정책은 DROP POLICY IF EXISTS 후 재생성하여 "policy already exists" 에러 없이 재실행 가능하게 합니다.
+-- categories: 공개 읽기 + 인증 쓰기
 DROP POLICY IF EXISTS "Allow public read access for categories" ON categories;
 CREATE POLICY "Allow public read access for categories" ON categories FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
 DROP POLICY IF EXISTS "Allow public insert access for categories" ON categories;
-CREATE POLICY "Allow public insert access for categories" ON categories FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow public update access for categories" ON categories;
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for categories" ON categories;
+CREATE POLICY "Allow authenticated insert for categories" ON categories FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for categories" ON categories;
+CREATE POLICY "Allow authenticated update for categories" ON categories FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for categories" ON categories;
+CREATE POLICY "Allow authenticated delete for categories" ON categories FOR DELETE TO authenticated USING (true);
 
+-- ingredients_mapping: 공개 읽기 + 인증 쓰기
 DROP POLICY IF EXISTS "Allow public read access for ingredients_mapping" ON ingredients_mapping;
 CREATE POLICY "Allow public read access for ingredients_mapping" ON ingredients_mapping FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
 DROP POLICY IF EXISTS "Allow public insert access for ingredients_mapping" ON ingredients_mapping;
-CREATE POLICY "Allow public insert access for ingredients_mapping" ON ingredients_mapping FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow public update access for ingredients_mapping" ON ingredients_mapping;
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for ingredients_mapping" ON ingredients_mapping;
+CREATE POLICY "Allow authenticated insert for ingredients_mapping" ON ingredients_mapping FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for ingredients_mapping" ON ingredients_mapping;
+CREATE POLICY "Allow authenticated update for ingredients_mapping" ON ingredients_mapping FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for ingredients_mapping" ON ingredients_mapping;
+CREATE POLICY "Allow authenticated delete for ingredients_mapping" ON ingredients_mapping FOR DELETE TO authenticated USING (true);
 
+-- symptoms: 공개 읽기 + 인증 쓰기
 DROP POLICY IF EXISTS "Allow public read access for symptoms" ON symptoms;
 CREATE POLICY "Allow public read access for symptoms" ON symptoms FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
 DROP POLICY IF EXISTS "Allow public insert access for symptoms" ON symptoms;
-CREATE POLICY "Allow public insert access for symptoms" ON symptoms FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow public update access for symptoms" ON symptoms;
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for symptoms" ON symptoms;
+CREATE POLICY "Allow authenticated insert for symptoms" ON symptoms FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for symptoms" ON symptoms;
+CREATE POLICY "Allow authenticated update for symptoms" ON symptoms FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for symptoms" ON symptoms;
+CREATE POLICY "Allow authenticated delete for symptoms" ON symptoms FOR DELETE TO authenticated USING (true);
 
+-- synergy_combinations: 공개 읽기 + 인증 쓰기
 DROP POLICY IF EXISTS "Allow public read access for synergy_combinations" ON synergy_combinations;
 CREATE POLICY "Allow public read access for synergy_combinations" ON synergy_combinations FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
 DROP POLICY IF EXISTS "Allow public insert access for synergy_combinations" ON synergy_combinations;
-CREATE POLICY "Allow public insert access for synergy_combinations" ON synergy_combinations FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow public update access for synergy_combinations" ON synergy_combinations;
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for synergy_combinations" ON synergy_combinations;
+CREATE POLICY "Allow authenticated insert for synergy_combinations" ON synergy_combinations FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for synergy_combinations" ON synergy_combinations;
+CREATE POLICY "Allow authenticated update for synergy_combinations" ON synergy_combinations FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for synergy_combinations" ON synergy_combinations;
+CREATE POLICY "Allow authenticated delete for synergy_combinations" ON synergy_combinations FOR DELETE TO authenticated USING (true);
 
+-- synergy_ingredients: 공개 읽기 + 인증 쓰기
 DROP POLICY IF EXISTS "Allow public read access for synergy_ingredients" ON synergy_ingredients;
 CREATE POLICY "Allow public read access for synergy_ingredients" ON synergy_ingredients FOR SELECT USING (true);
+-- [보안] 과거 공개 쓰기 정책 회수
 DROP POLICY IF EXISTS "Allow public insert access for synergy_ingredients" ON synergy_ingredients;
-CREATE POLICY "Allow public insert access for synergy_ingredients" ON synergy_ingredients FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow public update access for synergy_ingredients" ON synergy_ingredients;
+-- 인증된 관리자(Supabase Auth)만 쓰기 허용
+DROP POLICY IF EXISTS "Allow authenticated insert for synergy_ingredients" ON synergy_ingredients;
+CREATE POLICY "Allow authenticated insert for synergy_ingredients" ON synergy_ingredients FOR INSERT TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated update for synergy_ingredients" ON synergy_ingredients;
+CREATE POLICY "Allow authenticated update for synergy_ingredients" ON synergy_ingredients FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated delete for synergy_ingredients" ON synergy_ingredients;
+CREATE POLICY "Allow authenticated delete for synergy_ingredients" ON synergy_ingredients FOR DELETE TO authenticated USING (true);
 
 -- 3. Upsert Seed Data (src/data/seedData.js 에서 자동 생성됨)
 -- 3a. Ingredients
