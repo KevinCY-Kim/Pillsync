@@ -106,9 +106,19 @@ VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_PUBLIC_KEY
 npm run dev
 ```
 
-### 4) 어드민 패널 활성화
-어드민 백오피스 조절 뷰를 데스크톱 화면에 노출하고 싶다면 로컬 기동 주소 뒤에 쿼리 스트링을 붙여 진입합니다:
-> `http://localhost:5173/?admin=true`
+### 4) 어드민 패널 활성화 및 관리자 설정 (Developer Admin Panel)
+PillSync는 실시간 DB 레코드 관리 및 쿠팡 파트너스 링크 수정 등을 위해 데스크톱 화면 전용 백오피스 어드민 패널을 내장하고 있습니다.
+
+*   **접속 방법**: 서비스 도메인 또는 로컬 기동 주소 뒤에 쿼리 스트링 `?admin=true`를 붙여서 진입합니다.
+    *   **로컬 개발 환경**: [http://localhost:5173/?admin=true](http://localhost:5173/?admin=true)
+    *   **배포(프로덕션) 환경**: `https://[PillSync 배포 도메인]/?admin=true`
+*   **접속 조건**: 화면 너비가 넓은 **PC(데스크톱/노트북) 브라우저**에서만 관리자 패널이 노출됩니다. (화면 너비 768px 이하 또는 모바일 기기로 접속 시에는 모바일 에뮬레이터 화면만 표시되고 패널은 자동으로 숨김 처리됩니다.)
+*   **주요 기능**:
+    1.  **DB 스키마 뷰어**: Supabase의 주요 테이블(`categories`, `symptoms`, `ingredients_mapping`, `synergy_combinations`) 데이터 상태를 실시간 테이블로 시각화해 조회합니다.
+    2.  **신규 카테고리 추가**: 새로운 건강 고민 카테고리, 설문 질문 문구, 매칭되는 신규 영양제 성분 정보를 폼 입력 한 번으로 데이터베이스에 동시 적재합니다.
+    3.  **링크/제품 관리**: 
+        *   성분을 선택하여 개별 카드에 매핑된 쿠팡 파트너스 단축 링크(`https://link.coupang.com/a/...`)를 손쉽게 등록 및 수정할 수 있습니다.
+        *   입력된 링크는 Supabase `ingredients_mapping.coupang_link` 컬럼에 실시간으로 반영/저장되어 배포 서버에 즉시 업데이트됩니다.
 
 ### 5) 프로덕션 빌드
 ```bash
