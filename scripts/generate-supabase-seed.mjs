@@ -57,7 +57,7 @@ function buildCategoriesInsert() {
 
 function buildSymptomsInsert() {
   return localSymptoms
-    .map((s) => `(${s.category_id}, ${sqlStr(s.text)}, ${sqlStr(s.ingredient_id)})`)
+    .map((s) => `(${s.id}, ${s.category_id}, ${sqlStr(s.text)}, ${sqlStr(s.ingredient_id)})`)
     .join(',\n');
 }
 
@@ -213,8 +213,11 @@ SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
 -- 증상만 삭제 후 재삽입합니다. 관리자 패널에서 추가한 다른 카테고리의 증상은 영향받지 않습니다.
 DELETE FROM symptoms WHERE category_id IN (${categoryIds});
 
-INSERT INTO symptoms (category_id, symptom_text, matched_ingredient_id) VALUES
+INSERT INTO symptoms (id, category_id, symptom_text, matched_ingredient_id) VALUES
 ${buildSymptomsInsert()};
+
+-- Reset Serial sequence for auto-increment to continue correctly after manual IDs insertion
+SELECT setval('symptoms_id_seq', (SELECT MAX(id) FROM symptoms));
 
 -- 3e. Synergy Combinations
 INSERT INTO synergy_combinations (id, name, synergy_effect, recommendation_reason) VALUES
