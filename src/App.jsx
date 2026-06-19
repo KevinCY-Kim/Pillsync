@@ -430,6 +430,14 @@ function App() {
         };
       });
 
+      // 방어: Supabase가 오류 없이 빈/부분 응답을 줘도(콜드스타트·RLS 누락 등)
+      // 정상 로컬 데이터를 빈 값으로 덮어써 빈 화면이 나는 것을 막는다.
+      if (transformedCategories.length === 0 || transformedSymptoms.length === 0) {
+        console.warn("[PillSync] Supabase returned empty categories/symptoms. Keeping local data to avoid blank screen.");
+        setDbMode("Local DB (Empty Cloud)");
+        return;
+      }
+
       setCategories(transformedCategories);
       setSymptoms(transformedSymptoms);
       setIngredientsMapping(transformedIngredientsMapping);
@@ -921,6 +929,39 @@ function App() {
                 </div>
               )}
 
+              {matchedIngredientsList.length === 0 ? (
+                <div
+                  className="animate-fade"
+                  style={{
+                    background: 'rgba(139, 92, 246, 0.08)',
+                    border: '1px solid rgba(139, 92, 246, 0.2)',
+                    borderRadius: '14px',
+                    padding: '28px 20px',
+                    margin: '16px 0',
+                    textAlign: 'center',
+                    color: '#C4B5FD'
+                  }}
+                >
+                  <div style={{ fontSize: '1.6rem', marginBottom: '10px' }}>
+                    <i className="fa-solid fa-arrows-rotate"></i>
+                  </div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#E9E5FF', marginBottom: '6px' }}>
+                    영양 정보를 불러오는 중이에요
+                  </div>
+                  <p style={{ fontSize: '0.78rem', lineHeight: 1.55, color: '#A78BDA', margin: '0 0 16px' }}>
+                    데이터 동기화가 끝나지 않았거나 매칭된 성분을 찾지 못했어요.<br />
+                    잠시 후 다시 시도하거나 건강고민을 다시 선택해 주세요.
+                  </p>
+                  <button
+                    className="next-btn"
+                    style={{ width: 'auto', padding: '10px 22px', fontSize: '0.82rem' }}
+                    onClick={() => loadDatabase(false)}
+                  >
+                    <i className="fa-solid fa-rotate-right"></i> 다시 시도
+                  </button>
+                </div>
+              ) : (
+              <>
               <div className="section-tag">식약처 기능성 원료 분석</div>
               <div className="ingredient-analysis-card" style={{ marginTop: '8px' }}>
                 {matchedIngredientsList.map(ing => {
@@ -1153,6 +1194,8 @@ function App() {
                   });
                 })}
               </div>
+              </>
+              )}
 
               <button className="reset-btn" onClick={handleReset} style={{ width: '100%', marginBottom: '70px' }}>
                 <i className="fa-solid fa-house"></i> 건강고민 다시 선택

@@ -76,6 +76,7 @@ function buildSynergyIngredientsInsert() {
 }
 
 const categoryIds = localCategories.map((c) => c.id).join(', ');
+const symptomIds = localSymptoms.map((s) => s.id).join(', ');
 const synergyIds = localSynergyCombinations.map((s) => s.id).join(', ');
 
 const { rows: ingredientRows, updates: ingredientUpdates } = buildIngredientsInsert();
@@ -210,8 +211,11 @@ SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
 
 -- 3d. Symptoms
 -- symptoms는 자연키가 없어 ON CONFLICT를 쓸 수 없으므로, 이 시드가 관리하는 카테고리(${categoryIds})의
--- 증상만 삭제 후 재삽입합니다. 관리자 패널에서 추가한 다른 카테고리의 증상은 영향받지 않습니다.
-DELETE FROM symptoms WHERE category_id IN (${categoryIds});
+-- 증상을 삭제 후 명시적 ID로 재삽입합니다. 관리자 패널에서 추가한 다른 카테고리의 증상은 영향받지 않습니다.
+-- 추가로, 시드가 예약한 증상 ID(${symptomIds})를 점유한 행도 함께 비워 PK 충돌(중복 키)로 인한
+-- INSERT 하드 실패를 방지합니다. 이 ID 블록은 시드 전용 예약 영역입니다
+-- (관리자 신규 증상은 setval 이후 시퀀스가 발급하는 더 큰 ID를 받습니다).
+DELETE FROM symptoms WHERE category_id IN (${categoryIds}) OR id IN (${symptomIds});
 
 INSERT INTO symptoms (id, category_id, symptom_text, matched_ingredient_id) VALUES
 ${buildSymptomsInsert()};
