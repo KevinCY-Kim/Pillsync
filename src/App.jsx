@@ -1116,7 +1116,7 @@ function App() {
                           // 쿠팡 카드 클릭을 Vercel 커스텀 이벤트로 측정 → "카드를 눌렀는지" 자체를
                           // 쿠팡 집계와 별개로 확인 가능(눌렀는데 안 열림 vs 아예 안 누름 구분).
                           const ua = navigator.userAgent || '';
-                          const isInAppBrowser = /Instagram|Threads|FBAN|FBAV|Line\/|KAKAOTALK|NAVER\(inapp|DaumApps|everytimeApp|Snapchat|TikTok/i.test(ua);
+                          const isInAppBrowser = /Instagram|Threads|FBAN|FBAV|Line\/|KAKAOTALK|NAVER\(inapp|DaumApps|everytimeApp|Snapchat|TikTok|YouTube|Twitter/i.test(ua);
                           // 우리 Supabase에 클릭 기록(무료 집계) + Vercel 이벤트(Pro 시 사용)
                           logCoupangClick(targetIng.id, redirectUrl, isInAppBrowser);
                           track('coupang_click', { ingredient: targetIng.id, inApp: isInAppBrowser });
