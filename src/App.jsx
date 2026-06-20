@@ -835,12 +835,13 @@ function App() {
     return (
       <div className="app-screen">
         <div className="app-nav">
-          <button 
-            className="back-btn" 
-            onClick={handleBack} 
+          <button
+            className="back-btn"
+            onClick={handleBack}
+            aria-label="뒤로 가기"
             style={{ visibility: (activeScreen !== 'home') ? 'visible' : 'hidden' }}
           >
-            <i className="fa-solid fa-chevron-left"></i>
+            <i className="fa-solid fa-chevron-left" aria-hidden="true"></i>
           </button>
           <div
             className="app-title"
@@ -848,7 +849,7 @@ function App() {
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
             <i className="fa-solid fa-prescription-bottle-medical" style={{
-              fontSize: '1.1rem',
+              fontSize: 'var(--fs-lg)',
               background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent))',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -869,12 +870,13 @@ function App() {
             </button>
             <button
               onClick={handleInstallApp}
-              style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
+              aria-label={isMobileDevice ? "홈 화면에 추가" : "바탕화면에 추가"}
+              style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: 'var(--fs-lg)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
               title={isMobileDevice ? "홈 화면에 추가" : "바탕화면에 추가"}
             >
-              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star" aria-hidden="true"></i>
             </button>
-            <i className="fa-regular fa-bell"></i>
+            <i className="fa-regular fa-bell" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -894,7 +896,7 @@ function App() {
                     <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                       <span className="sparkle-icon">✨</span>
                       <span>홈 화면에 추가하고 편하게 방문하기</span>
-                      <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.65rem' }}></i>
+                      <i className="fa-solid fa-chevron-right" style={{ fontSize: 'var(--fs-xs)' }}></i>
                     </span>
                     <button 
                       onClick={(e) => {
@@ -908,7 +910,7 @@ function App() {
                       style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', padding: '0 4px', marginLeft: '8px', display: 'flex', alignItems: 'center' }}
                       title="30일 동안 숨기기"
                     >
-                      <i className="fa-solid fa-xmark" style={{ fontSize: '0.75rem' }}></i>
+                      <i className="fa-solid fa-xmark" style={{ fontSize: 'var(--fs-sm)' }}></i>
                     </button>
                   </div>
                 )}
@@ -995,7 +997,7 @@ function App() {
                     padding: '12px 14px',
                     marginTop: '12px',
                     marginBottom: '4px',
-                    fontSize: '0.78rem',
+                    fontSize: 'var(--fs-sm)',
                     color: '#DDD6FE',
                     cursor: 'pointer',
                     display: 'flex',
@@ -1007,10 +1009,10 @@ function App() {
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, lineHeight: '1.45' }}>
-                    <span style={{ fontSize: '0.95rem' }}>📌</span>
+                    <span style={{ fontSize: 'var(--fs-base)' }}>📌</span>
                     <span><strong>이 진단 결과를 나중에 다시 편하게 보려면</strong><br />지금 홈 화면에 바로 추가해 두세요!</span>
                   </span>
-                  <i className="fa-solid fa-chevron-right" style={{ fontSize: '0.7rem', color: 'var(--color-primary)', marginLeft: '6px' }}></i>
+                  <i className="fa-solid fa-chevron-right" style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-primary)', marginLeft: '6px' }}></i>
                 </div>
               )}
 
@@ -1030,16 +1032,16 @@ function App() {
                   <div style={{ fontSize: '1.6rem', marginBottom: '10px' }}>
                     <i className="fa-solid fa-arrows-rotate"></i>
                   </div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 600, color: '#E9E5FF', marginBottom: '6px' }}>
+                  <div style={{ fontSize: 'var(--fs-base)', fontWeight: 600, color: '#E9E5FF', marginBottom: '6px' }}>
                     영양 정보를 불러오는 중이에요
                   </div>
-                  <p style={{ fontSize: '0.78rem', lineHeight: 1.55, color: '#A78BDA', margin: '0 0 16px' }}>
+                  <p style={{ fontSize: 'var(--fs-sm)', lineHeight: 1.55, color: '#A78BDA', margin: '0 0 16px' }}>
                     데이터 동기화가 끝나지 않았거나 매칭된 성분을 찾지 못했어요.<br />
                     잠시 후 다시 시도하거나 건강고민을 다시 선택해 주세요.
                   </p>
                   <button
                     className="next-btn"
-                    style={{ width: 'auto', padding: '10px 22px', fontSize: '0.82rem' }}
+                    style={{ width: 'auto', padding: '10px 22px', fontSize: 'var(--fs-sm)' }}
                     onClick={() => loadDatabase(false)}
                   >
                     <i className="fa-solid fa-rotate-right"></i> 다시 시도
@@ -1455,24 +1457,24 @@ function App() {
           <div className="admin-card">
             {/* 관리자 인증 바 (Supabase Auth). 쓰기 기능은 로그인 후에만 노출/동작한다. */}
             {isAdminAuthed ? (
-              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'10px', padding:'10px 12px', marginBottom:'12px', background:'rgba(16,185,129,0.12)', border:'1px solid rgba(16,185,129,0.3)', borderRadius:'10px', fontSize:'0.8rem' }}>
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'10px', padding:'10px 12px', marginBottom:'12px', background:'rgba(16,185,129,0.12)', border:'1px solid rgba(16,185,129,0.3)', borderRadius:'10px', fontSize: 'var(--fs-sm)' }}>
                 <span style={{ color:'#6EE7B7' }}><i className="fa-solid fa-circle-check"></i> 관리자 로그인됨{adminSession?.user?.email ? ` · ${adminSession.user.email}` : ''}</span>
-                <button type="button" onClick={handleAdminLogout} style={{ background:'transparent', border:'1px solid rgba(16,185,129,0.4)', color:'#6EE7B7', borderRadius:'8px', padding:'5px 12px', cursor:'pointer', fontSize:'0.75rem' }}>
+                <button type="button" onClick={handleAdminLogout} style={{ background:'transparent', border:'1px solid rgba(16,185,129,0.4)', color:'#6EE7B7', borderRadius:'8px', padding:'5px 12px', cursor:'pointer', fontSize: 'var(--fs-sm)' }}>
                   <i className="fa-solid fa-right-from-bracket"></i> 로그아웃
                 </button>
               </div>
             ) : isSupabaseConfigured && (
               <form onSubmit={handleAdminLogin} style={{ padding:'14px', marginBottom:'12px', background:'rgba(139,92,246,0.08)', border:'1px solid rgba(139,92,246,0.22)', borderRadius:'12px' }}>
-                <div style={{ fontSize:'0.85rem', fontWeight:600, color:'#DDD6FE', marginBottom:'4px' }}>
+                <div style={{ fontSize: 'var(--fs-base)', fontWeight:600, color:'#DDD6FE', marginBottom:'4px' }}>
                   <i className="fa-solid fa-lock"></i> 관리자 로그인
                 </div>
-                <p style={{ fontSize:'0.72rem', color:'#A78BDA', margin:'0 0 10px' }}>
+                <p style={{ fontSize: 'var(--fs-xs)', color:'#A78BDA', margin:'0 0 10px' }}>
                   DB 쓰기(카테고리 추가·링크 저장)는 로그인 후 사용할 수 있습니다. 읽기 전용 뷰어는 로그인 없이 확인 가능합니다.
                 </p>
-                <input type="email" required placeholder="관리자 이메일" value={loginEmail} onChange={(e)=>setLoginEmail(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize:'0.8rem' }} />
-                <input type="password" required placeholder="비밀번호" value={loginPassword} onChange={(e)=>setLoginPassword(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize:'0.8rem' }} />
-                {loginError && <div style={{ fontSize:'0.72rem', color:'#FCA5A5', marginBottom:'8px' }}>{loginError}</div>}
-                <button type="submit" disabled={isLoggingIn} className="next-btn" style={{ width:'100%', padding:'9px', fontSize:'0.8rem', opacity:isLoggingIn?0.6:1 }}>
+                <input type="email" required placeholder="관리자 이메일" value={loginEmail} onChange={(e)=>setLoginEmail(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize: 'var(--fs-sm)' }} />
+                <input type="password" required placeholder="비밀번호" value={loginPassword} onChange={(e)=>setLoginPassword(e.target.value)} style={{ width:'100%', boxSizing:'border-box', marginBottom:'8px', padding:'9px 10px', borderRadius:'8px', border:'1px solid rgba(255,255,255,0.15)', background:'rgba(0,0,0,0.2)', color:'#fff', fontSize: 'var(--fs-sm)' }} />
+                {loginError && <div style={{ fontSize: 'var(--fs-xs)', color:'#FCA5A5', marginBottom:'8px' }}>{loginError}</div>}
+                <button type="submit" disabled={isLoggingIn} className="next-btn" style={{ width:'100%', padding:'9px', fontSize: 'var(--fs-sm)', opacity:isLoggingIn?0.6:1 }}>
                   {isLoggingIn ? '로그인 중…' : '로그인'}
                 </button>
               </form>
@@ -1778,11 +1780,11 @@ function App() {
                         {editCoupangLink && (
                           <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                             {/^https:\/\/link\.coupang\.com\/a\/[A-Za-z0-9]+/.test(editCoupangLink.trim()) ? (
-                              <span style={{ fontSize: '0.7rem', color: '#34D399' }}>
+                              <span style={{ fontSize: 'var(--fs-xs)', color: '#34D399' }}>
                                 <i className="fa-solid fa-circle-check"></i> 표준 파트너스 형식 확인됨
                               </span>
                             ) : (
-                              <span style={{ fontSize: '0.7rem', color: '#F87171' }}>
+                              <span style={{ fontSize: 'var(--fs-xs)', color: '#F87171' }}>
                                 <i className="fa-solid fa-triangle-exclamation"></i> 표준 형식이 아님 — 수수료 집계 안 될 수 있음
                               </span>
                             )}
@@ -1790,7 +1792,7 @@ function App() {
                               href={editCoupangLink.trim()}
                               target="_blank"
                               rel="noopener noreferrer"
-                              style={{ fontSize: '0.7rem', color: 'var(--color-primary)' }}
+                              style={{ fontSize: 'var(--fs-xs)', color: 'var(--color-primary)' }}
                             >
                               <i className="fa-solid fa-up-right-from-square"></i> 링크 테스트 열기
                             </a>
@@ -1825,7 +1827,7 @@ function App() {
                         <input type="text" placeholder="https://..." value={editProdImg} onChange={e => setEditProdImg(e.target.value)} />
                       </div>
 
-                      <p style={{ fontSize: '0.68rem', color: '#9CA3AF', marginTop: '4px' }}>
+                      <p style={{ fontSize: 'var(--fs-xs)', color: '#9CA3AF', marginTop: '4px' }}>
                         ※ <strong>링크</strong>는 {dbMode === "Supabase Connected" ? "Supabase에 영구 저장됩니다." : "현재 로컬 모드 — 새로고침 시 초기화됩니다 (영구 저장하려면 Supabase 연결 필요)."}<br />
                         ※ <strong>상품 표시 정보</strong>(브랜드/가격 등)는 DB 테이블이 없어 로컬에만 반영되며 새로고침 시 초기화됩니다.
                       </p>
@@ -2106,8 +2108,8 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping, matchedIngredien
           <div className="kfda-modal-title">
             <i className="fa-solid fa-file-shield"></i> 식약처 고시 데이터 기반 부작용 & 대안 성분 참고 정보
           </div>
-          <button className="kfda-modal-close" onClick={onClose}>
-            <i className="fa-solid fa-xmark"></i>
+          <button className="kfda-modal-close" onClick={onClose} aria-label="닫기">
+            <i className="fa-solid fa-xmark" aria-hidden="true"></i>
           </button>
         </div>
         <div className="kfda-modal-body">
@@ -2161,7 +2163,7 @@ function KfdaReportModal({ isOpen, onClose, ingredientsMapping, matchedIngredien
                           <span className="kfda-ing-detail-value">
                             <strong>{item.alternative}</strong> 로의 스왑 추천
                           </span>
-                          <span className="kfda-ing-detail-value" style={{ fontSize: '0.68rem', color: '#9CA3AF', marginTop: '2px' }}>
+                          <span className="kfda-ing-detail-value" style={{ fontSize: 'var(--fs-xs)', color: '#9CA3AF', marginTop: '2px' }}>
                             {item.altReason}
                           </span>
                         </div>
@@ -2219,8 +2221,8 @@ function BookmarkGuideModal({ isOpen, onClose }) {
           <div className="bookmark-modal-title">
             <i className="fa-solid fa-star" style={{ color: '#FBBF24' }}></i> PillSync 즐겨찾기 추가
           </div>
-          <button className="bookmark-modal-close" onClick={onClose}>
-            <i className="fa-solid fa-xmark"></i>
+          <button className="bookmark-modal-close" onClick={onClose} aria-label="닫기">
+            <i className="fa-solid fa-xmark" aria-hidden="true"></i>
           </button>
         </div>
 
