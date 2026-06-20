@@ -1,7 +1,7 @@
 # PillSync (필싱크) 💊
 > **식약처 고시 데이터 기반 건강기능식품 성분 매칭 및 분석 플랫폼**
 
-### 🔗 [라이브 서비스 바로가기 (Live Demo Link)](https://pillsync-ten.vercel.app/)
+### 🔗 실제 라이브 서비스 사이트 바로가기: [https://pillsync-ten.vercel.app/](https://pillsync-ten.vercel.app/)
 
 PillSync는 대한민국 식품의약품안전처(MFDS)의 기능성 고시 데이터를 참조하여 사용자의 건강 고민에 맞는 최적의 영양소 정보를 매칭하고, 기저 질환 보유 여부에 따른 안전한 대안 성분을 안내하는 프리미엄 다크 모드 하이브리드 웹 애플리케이션입니다.
 
@@ -119,7 +119,7 @@ PillSync는 실시간 DB 레코드 관리 및 쿠팡 파트너스 링크 수정 
 
 *   **접속 방법**: 서비스 도메인 또는 로컬 기동 주소 뒤에 쿼리 스트링 `?admin=true`를 붙여서 진입합니다.
     *   **로컬 개발 환경**: [http://localhost:5173/?admin=true](http://localhost:5173/?admin=true)
-    *   **배포(프로덕션) 환경**: `https://[PillSync 배포 도메인]/?admin=true`
+    *   **배포(프로덕션) 환경**: [https://pillsync-ten.vercel.app/?admin=true](https://pillsync-ten.vercel.app/?admin=true)
 *   **접속 조건**: 화면 너비가 넓은 **PC(데스크톱/노트북) 브라우저**에서만 관리자 패널이 노출됩니다. (화면 너비 768px 이하 또는 모바일 기기로 접속 시에는 모바일 에뮬레이터 화면만 표시되고 패널은 자동으로 숨김 처리됩니다.)
 *   **보안 및 인증 정책 (Row Level Security)**:
     - 외부 공격자에 의한 무단 DB 변조 및 쿠팡 링크 유출을 철저히 예방하기 위해, 모든 테이블의 쓰기(`INSERT/UPDATE/DELETE`) 동작은 **Supabase Auth로 로그인된 인증 유저(authenticated)**에게만 제한됩니다.
