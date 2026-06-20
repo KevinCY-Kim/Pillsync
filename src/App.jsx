@@ -329,7 +329,8 @@ function App() {
   const toggleGuide = (ingId) => {
     setOpenGuides(prev => ({
       ...prev,
-      [ingId]: prev[ingId] === false ? true : false
+      // 기본값(미정의)은 접힘 → 첫 탭에서 펼침
+      [ingId]: prev[ingId] === true ? false : true
     }));
   };
 
@@ -1060,7 +1061,7 @@ function App() {
                   const percentMatch = targetIng.high_dose_ratio ? targetIng.high_dose_ratio.match(/([\d,]+)%/) : null;
                   const rawPercent = percentMatch ? parseInt(percentMatch[1].replace(/,/g, ''), 10) : 100;
                   const displayPercent = Math.min(rawPercent, 100);
-                  const isGuideOpen = openGuides[targetIng.id] !== false; // 기본값 펼침
+                  const isGuideOpen = openGuides[targetIng.id] === true; // 기본값 접힘(밀도 완화)
 
                   return (
                     <div key={ing.id} className="ingredient-item">
@@ -1136,9 +1137,16 @@ function App() {
                       {/* 고함량 메리트 & 부작용 사전 가이드 아코디언 */}
                       {(targetIng.high_dose_effect || targetIng.side_effects || targetIng.intake_tip) && (
                         <div className="details-toggle">
-                          <button className="details-header" onClick={() => toggleGuide(targetIng.id)}>
-                            <span>섭취 메리트 & 부작용 가이드</span>
-                            <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                          <button
+                            className="details-header"
+                            onClick={() => toggleGuide(targetIng.id)}
+                            aria-expanded={isGuideOpen}
+                          >
+                            <span><i className="fa-solid fa-lightbulb" aria-hidden="true"></i> 섭취 메리트 & 부작용 가이드</span>
+                            <span className="details-toggle-hint">
+                              {isGuideOpen ? '접기' : '펼쳐보기'}
+                              <i className={`fa-solid ${isGuideOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} aria-hidden="true"></i>
+                            </span>
                           </button>
                           {isGuideOpen && (
                             <div className="details-body animate-fade">
@@ -1376,7 +1384,7 @@ function App() {
               <div className="brand-badge">식약처 공시 데이터 기반</div>
               <h1 className="brand-title">
                 영양제 고를 때 마다<br />
-                내 고민 유형별 성분 정보가<br />
+                내 고민 유형별<br />성분 정보가<br />
                 <span>한눈에</span>
               </h1>
               <p className="brand-desc">

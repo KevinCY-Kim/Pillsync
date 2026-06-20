@@ -1094,15 +1094,27 @@ tr:hover td {
     justify-content: space-between;
     align-items: center;
     color: var(--text-muted);
-    font-size: var(--fs-xs);
+    font-size: var(--fs-sm);    /* 기본 접힘 상태의 주요 탭 컨트롤 → 약간 키움 */
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-smooth);
+    gap: 8px;
 }
 
 .details-header:hover {
     color: var(--text-main);
     background: rgba(255, 255, 255, 0.04);
+}
+
+/* 펼치기/접기 힌트 — 접힌 상태가 탭 가능함을 분명히 안내 */
+.details-toggle-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    color: var(--color-accent);
 }
 
 .details-body {
