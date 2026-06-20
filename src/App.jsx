@@ -1384,7 +1384,7 @@ function App() {
               <div className="brand-badge">식약처 공시 데이터 기반</div>
               <h1 className="brand-title">
                 영양제 고를 때 마다<br />
-                내 고민 유형별 성분 정보가<br />
+                내 고민 유형별<br />성분 정보가<br />
                 <span>한눈에</span>
               </h1>
               <p className="brand-desc">
