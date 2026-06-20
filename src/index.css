@@ -16,7 +16,12 @@
     /* ── Readability tokens (Phase 1) ───────────────────────────
        다크 테마 기준: 대비를 높이려면 보조 텍스트를 "더 밝게" 한다.
        (라이트 테마처럼 "더 진한 회색"으로 가면 오히려 안 보인다.) */
-    --fs-sm: 0.85rem;            /* 깨알/면책 문구 하한 ≈ 13.6px */
+    /* 타입 스케일 토큰 (rem 기준 → 토글 시 <html> 확대로 함께 커진다) */
+    --fs-xs: 0.78rem;           /* 12.5px — 최소 가독 하한(배지·메타·면책) */
+    --fs-sm: 0.85rem;           /* 13.6px — 보조/캡션 */
+    --fs-base: 0.95rem;         /* 15.2px — 본문/강조 */
+    --fs-lg: 1.15rem;           /* 18.4px — 카드/섹션 제목 */
+    --fs-xl: 1.4rem;            /* 22.4px — 화면 제목 */
     --touch-min: 44px;          /* 최소 터치 타깃 */
     --text-faint: #9CA3AF;      /* 기존 #6B7280(대비 ~3.6:1, AA 미달) → AA 통과 회색 */
 }
@@ -123,7 +128,7 @@ body {
     background: rgba(139, 92, 246, 0.15);
     border: 1px solid rgba(139, 92, 246, 0.3);
     color: #A78BFA;
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     padding: 0.2rem 0.6rem;
     border-radius: 10px;
     font-weight: 600;
@@ -147,7 +152,7 @@ body {
 
 .subtitle {
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
     font-weight: 300;
 }
 
@@ -166,7 +171,7 @@ body {
 }
 
 .section-title {
-    font-size: 1.25rem;
+    font-size: var(--fs-xl);
     font-weight: 600;
     margin-bottom: 1.2rem;
     display: flex;
@@ -208,7 +213,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.85);
     background: #0d1221;
@@ -237,10 +242,13 @@ body {
     background: none;
     border: none;
     color: var(--text-main);
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    flex-shrink: 0;              /* flex 컨테이너(app-nav)에서 찌그러지지 않게 → 터치 타깃 보장 */
+    width: var(--touch-min);     /* 32px → 44px(기본)/48px(큰 글씨) */
+    height: var(--touch-min);
+    min-width: var(--touch-min); /* flex 사이징에 눌리지 않도록 최소치 고정 */
+    min-height: var(--touch-min);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -254,13 +262,13 @@ body {
 
 .app-title {
     font-weight: 700;
-    font-size: 1.05rem;
+    font-size: var(--fs-lg);
     letter-spacing: -0.3px;
 }
 
 .app-actions {
     color: var(--text-muted);
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
 }
 
 /* App Main Content Inside Phone */
@@ -292,7 +300,7 @@ body {
     background: rgba(22, 28, 45, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 10px 14px;
-    font-size: 0.78rem;         /* 0.68rem(10.9px) → 12.5px */
+    font-size: var(--fs-sm);         /* 0.68rem(10.9px) → 12.5px */
     color: #9CA3AF;
     line-height: 1.5;
     text-align: center;
@@ -306,19 +314,19 @@ body {
 }
 
 .welcome-box h2 {
-    font-size: 1.35rem;
+    font-size: var(--fs-xl);
     font-weight: 800;
     margin-bottom: 6px;
 }
 
 .welcome-box p {
-    font-size: 0.82rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
     line-height: 1.4;
 }
 
 .section-tag {
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -359,7 +367,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: var(--fs-lg);
 }
 
 .category-card.cat-diet .icon-wrapper {
@@ -418,19 +426,19 @@ body {
 }
 
 .category-card h3 {
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     font-weight: 700;
     margin-bottom: 2px;
 }
 
 .category-card p {
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
 }
 
 .category-card .arrow {
     color: rgba(255, 255, 255, 0.2);
-    font-size: 0.85rem;
+    font-size: var(--fs-base);
     transition: var(--transition-smooth);
 }
 
@@ -445,7 +453,7 @@ body {
 }
 
 .question-title {
-    font-size: 1.05rem;
+    font-size: var(--fs-lg);
     font-weight: 700;
     line-height: 1.4;
     margin-bottom: 16px;
@@ -467,7 +475,7 @@ body {
     border-radius: 12px;
     color: var(--text-main);
     text-align: left;
-    font-size: 0.85rem;
+    font-size: var(--fs-base);
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition-smooth);
@@ -505,7 +513,7 @@ body {
     border-radius: 12px;
     color: white;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: var(--fs-base);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -540,7 +548,7 @@ body {
     background: rgba(16, 185, 129, 0.15);
     border: 1px solid rgba(16, 185, 129, 0.3);
     color: #34D399;
-    font-size: 0.68rem;
+    font-size: var(--fs-xs);
     padding: 3px 10px;
     border-radius: 20px;
     font-weight: 700;
@@ -551,13 +559,13 @@ body {
 }
 
 .result-header h3 {
-    font-size: 1.15rem;
+    font-size: var(--fs-lg);
     font-weight: 800;
     margin-bottom: 4px;
 }
 
 .result-header p {
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
 }
 
@@ -584,7 +592,7 @@ body {
 }
 
 .ing-name {
-    font-size: 0.9rem;
+    font-size: var(--fs-base);
     font-weight: 700;
     color: var(--color-secondary);
     display: flex;
@@ -594,7 +602,7 @@ body {
 }
 
 .ing-desc {
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     color: #E5E7EB;
     line-height: 1.45;
 }
@@ -605,7 +613,7 @@ body {
     border: 1px dashed rgba(59, 130, 246, 0.25);
     border-radius: 12px;
     padding: 12px;
-    font-size: 0.7rem;
+    font-size: var(--fs-xs);
     color: #93C5FD;
     line-height: 1.4;
     display: flex;
@@ -613,7 +621,7 @@ body {
 }
 
 .fda-box i {
-    font-size: 0.9rem;
+    font-size: var(--fs-base);
     margin-top: 2px;
 }
 
@@ -667,13 +675,13 @@ body {
 }
 
 .prod-brand {
-    font-size: 0.65rem;
+    font-size: var(--fs-xs);
     color: var(--text-muted);
     font-weight: 600;
 }
 
 .prod-title {
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     line-height: 1.3;
     color: #F3F4F6;
@@ -688,7 +696,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.7rem;
+    font-size: var(--fs-xs);
 }
 
 .rating {
@@ -708,7 +716,7 @@ body {
 }
 
 .prod-price {
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     font-weight: 800;
     color: #F43F5E; /* Rose */
 }
@@ -717,7 +725,7 @@ body {
     background: #0073e6;
     color: white;
     border: none;
-    font-size: 0.68rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 6px;
@@ -738,7 +746,7 @@ body {
     padding: 12px;
     border-radius: 12px;
     font-weight: 600;
-    font-size: 0.82rem;
+    font-size: var(--fs-sm);
     cursor: pointer;
     transition: var(--transition-smooth);
     display: flex;
@@ -777,7 +785,7 @@ body {
     padding: 1.1rem;
     color: var(--text-muted);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -823,7 +831,7 @@ body {
 }
 
 .db-table-card h4 {
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     font-weight: 700;
     color: #A78BFA;
     margin-bottom: 10px;
@@ -839,7 +847,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     text-align: left;
 }
 
@@ -875,7 +883,7 @@ tr:hover td {
     background: rgba(59, 130, 246, 0.15);
     border: 1px solid rgba(59, 130, 246, 0.3);
     color: #93C5FD;
-    font-size: 0.7rem;
+    font-size: var(--fs-xs);
     padding: 2px 6px;
     border-radius: 4px;
     font-family: monospace;
@@ -895,7 +903,7 @@ tr:hover td {
 }
 
 .form-group label {
-    font-size: 0.85rem;
+    font-size: var(--fs-base);
     font-weight: 600;
     color: #D1D5DB;
 }
@@ -908,7 +916,7 @@ tr:hover td {
     padding: 12px 14px;
     border-radius: 10px;
     color: var(--text-main);
-    font-size: 0.85rem;
+    font-size: var(--fs-base);
     outline: none;
     transition: var(--transition-smooth);
 }
@@ -921,7 +929,7 @@ tr:hover td {
 }
 
 .divider {
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     color: var(--color-primary);
     text-transform: uppercase;
@@ -938,7 +946,7 @@ tr:hover td {
     border-radius: 10px;
     color: white;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -957,7 +965,7 @@ tr:hover td {
 .footer {
     text-align: center;
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     margin-top: 1rem;
     border-top: 1px solid var(--border-color);
     padding-top: 1.5rem;
@@ -991,16 +999,16 @@ tr:hover td {
     gap: 8px;
     color: var(--color-secondary);
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     margin-bottom: 6px;
 }
 
 .toast-header i {
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
 }
 
 .custom-toast p {
-    font-size: 0.82rem;
+    font-size: var(--fs-sm);
     color: #E5E7EB;
     line-height: 1.4;
     white-space: pre-line;
@@ -1031,7 +1039,7 @@ tr:hover td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
 }
 
 .intake-label {
@@ -1078,6 +1086,7 @@ tr:hover td {
 
 .details-header {
     width: 100%;
+    min-height: var(--touch-min);    /* 터치 타깃 ≥44px */
     background: none;
     border: none;
     padding: 8px 12px;
@@ -1085,7 +1094,7 @@ tr:hover td {
     justify-content: space-between;
     align-items: center;
     color: var(--text-muted);
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-smooth);
@@ -1106,7 +1115,7 @@ tr:hover td {
 }
 
 .info-block {
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     line-height: 1.4;
 }
 
@@ -1168,7 +1177,7 @@ tr:hover td {
 }
 
 .synergy-title {
-    font-size: 0.88rem;
+    font-size: var(--fs-base);
     font-weight: 800;
     color: #F3F4F6;
     display: flex;
@@ -1187,14 +1196,14 @@ tr:hover td {
     background: rgba(139, 92, 246, 0.15);
     border: 1px solid rgba(139, 92, 246, 0.3);
     color: #DDD6FE;
-    font-size: 0.65rem;
+    font-size: var(--fs-xs);
     padding: 2px 8px;
     border-radius: 6px;
     font-weight: 600;
 }
 
 .synergy-desc-text {
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     color: #D1D5DB;
     line-height: 1.45;
 }
@@ -1214,6 +1223,7 @@ tr:hover td {
 /* Alternative Recommendation UI */
 .alternative-trigger-box {
     margin-top: 10px;
+    min-height: var(--touch-min);    /* 체크박스 묶음 전체가 탭 영역 → ≥44px */
     background: rgba(251, 146, 60, 0.05); /* Soft orange transparent */
     border: 1px dashed rgba(251, 146, 60, 0.25);
     border-radius: 10px;
@@ -1231,14 +1241,15 @@ tr:hover td {
 }
 
 .alternative-checkbox {
-    width: 14px;
-    height: 14px;
+    width: 20px;                 /* 14px → 20px (가시성·탭 보조) */
+    height: 20px;
+    flex-shrink: 0;
     accent-color: #FB923C;
     cursor: pointer;
 }
 
 .alternative-label {
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 600;
     color: #FDBA74;
     user-select: none;
@@ -1249,7 +1260,7 @@ tr:hover td {
     background: rgba(251, 146, 60, 0.15) !important;
     border: 1px solid rgba(251, 146, 60, 0.35) !important;
     color: #FB923C !important;
-    font-size: 0.65rem;
+    font-size: var(--fs-xs);
     padding: 2px 8px;
     border-radius: 20px;
     font-weight: 700;
@@ -1263,7 +1274,7 @@ tr:hover td {
     border-left: 3px solid #FB923C;
     padding: 8px 12px;
     border-radius: 0 8px 8px 0;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     line-height: 1.45;
 }
 
@@ -1328,7 +1339,7 @@ tr:hover td {
 }
 
 .kfda-modal-title {
-    font-size: 1.05rem;
+    font-size: var(--fs-lg);
     font-weight: 800;
     color: #FB923C;
     display: flex;
@@ -1341,10 +1352,12 @@ tr:hover td {
     background: none;
     border: none;
     color: var(--text-muted);
-    font-size: 1.35rem;
+    font-size: var(--fs-xl);
     cursor: pointer;
     transition: var(--transition-smooth);
     padding: 4px 8px;
+    min-width: var(--touch-min);     /* 터치 타깃 ≥44px */
+    min-height: var(--touch-min);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1363,7 +1376,7 @@ tr:hover td {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     line-height: 1.55;
     color: #E5E7EB;
 }
@@ -1374,7 +1387,7 @@ tr:hover td {
     border-radius: 12px;
     padding: 14px;
     color: #F87171;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     line-height: 1.5;
 }
 
@@ -1394,7 +1407,7 @@ tr:hover td {
     justify-content: space-between;
     color: #9CA3AF;
     text-decoration: none;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     padding: 2px 0;
     transition: var(--transition-smooth);
 }
@@ -1416,7 +1429,7 @@ tr:hover td {
 .kfda-category-title {
     font-weight: 800;
     color: #F3F4F6;
-    font-size: 0.88rem;
+    font-size: var(--fs-base);
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -1449,11 +1462,11 @@ tr:hover td {
 .kfda-ing-name {
     font-weight: 700;
     color: #FFFFFF;
-    font-size: 0.82rem;
+    font-size: var(--fs-sm);
 }
 
 .kfda-ing-badge {
-    font-size: 0.65rem;
+    font-size: var(--fs-xs);
     padding: 2px 6px;
     border-radius: 8px;
     font-weight: 600;
@@ -1475,7 +1488,7 @@ tr:hover td {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
 }
 
 .kfda-ing-detail-row {
@@ -1499,7 +1512,7 @@ tr:hover td {
 }
 
 .kfda-ing-link {
-    font-size: 0.68rem;
+    font-size: var(--fs-xs);
     color: #FB923C;
     text-decoration: none;
     font-weight: 600;
@@ -1517,7 +1530,7 @@ tr:hover td {
     border-radius: 14px;
     padding: 14px;
     color: #FB923C;
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -1555,7 +1568,7 @@ tr:hover td {
 }
 
 .admin-toggle-label {
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     color: var(--text-muted);
 }
@@ -1693,7 +1706,7 @@ input:checked + .slider:before {
     background: rgba(16, 185, 129, 0.15);
     border: 1px solid rgba(16, 185, 129, 0.3);
     color: #34D399;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     padding: 0.25rem 0.65rem;
     border-radius: 99px;
     font-weight: 700;
@@ -1718,7 +1731,7 @@ input:checked + .slider:before {
 }
 
 .pillsync-brand-panel .brand-desc {
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     color: var(--text-muted);
     line-height: 1.65;
 }
@@ -1747,20 +1760,20 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: var(--fs-lg);
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.05);
 }
 
 .trust-point .point-info h4 {
-    font-size: 0.95rem;
+    font-size: var(--fs-base);
     font-weight: 700;
     color: #fff;
     margin-bottom: 2px;
 }
 
 .trust-point .point-info p {
-    font-size: 0.82rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
     line-height: 1.45;
 }
@@ -1788,7 +1801,7 @@ input:checked + .slider:before {
 }
 
 .desktop-pwa-cta-card .cta-icon {
-    font-size: 1.35rem;
+    font-size: var(--fs-xl);
     color: #FBBF24;
     display: flex;
     align-items: center;
@@ -1800,21 +1813,21 @@ input:checked + .slider:before {
 }
 
 .desktop-pwa-cta-card .cta-info h4 {
-    font-size: 0.9rem;
+    font-size: var(--fs-base);
     font-weight: 700;
     color: #fff;
     margin-bottom: 2px;
 }
 
 .desktop-pwa-cta-card .cta-info p {
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
     line-height: 1.35;
 }
 
 .desktop-pwa-cta-card .cta-arrow {
     color: rgba(255, 255, 255, 0.3);
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     transition: var(--transition-smooth);
 }
 
@@ -1876,7 +1889,7 @@ input:checked + .slider:before {
     border-radius: 99px;
     background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(16, 185, 129, 0.12));
     border: 1px solid rgba(139, 92, 246, 0.25);
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 600;
     color: #DDD6FE;
     cursor: pointer;
@@ -1893,7 +1906,7 @@ input:checked + .slider:before {
 }
 
 .bookmark-welcome-badge .sparkle-icon {
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     color: #FBBF24;
 }
 
@@ -1932,7 +1945,7 @@ input:checked + .slider:before {
 }
 
 .bookmark-floating-bar .floating-text {
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     color: #A78BFA;
     text-align: center;
@@ -1946,7 +1959,7 @@ input:checked + .slider:before {
     border-radius: 10px;
     color: white;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1962,7 +1975,7 @@ input:checked + .slider:before {
 }
 
 .bookmark-floating-bar .floating-btn i {
-    font-size: 0.9rem;
+    font-size: var(--fs-base);
 }
 
 /* Bookmark Guide Modal */
@@ -2003,7 +2016,7 @@ input:checked + .slider:before {
 }
 
 .bookmark-modal-title {
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
     font-weight: 800;
     color: #fff;
     display: flex;
@@ -2015,10 +2028,10 @@ input:checked + .slider:before {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.05);
     color: var(--text-muted);
-    font-size: 1rem;
+    font-size: var(--fs-lg);
     cursor: pointer;
-    width: 28px;
-    height: 28px;
+    width: var(--touch-min);     /* 28px → 44px (터치 타깃) */
+    height: var(--touch-min);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2032,7 +2045,7 @@ input:checked + .slider:before {
 }
 
 .bookmark-intro-text {
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     color: var(--text-muted);
     line-height: 1.5;
 }
@@ -2054,7 +2067,7 @@ input:checked + .slider:before {
     padding: 8px 12px;
     color: var(--text-muted);
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     cursor: pointer;
     border-radius: 8px;
     display: flex;
@@ -2102,7 +2115,7 @@ input:checked + .slider:before {
     border-radius: 50%;
     background: var(--color-primary);
     color: white;
-    font-size: 0.7rem;
+    font-size: var(--fs-xs);
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -2112,7 +2125,7 @@ input:checked + .slider:before {
 }
 
 .step-text {
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     color: #E5E7EB;
     line-height: 1.5;
 }
@@ -2132,7 +2145,7 @@ input:checked + .slider:before {
     border-radius: 8px;
     padding: 8px 12px;
     margin-top: 8px;
-    font-size: 0.75rem;
+    font-size: var(--fs-sm);
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -2144,7 +2157,7 @@ kbd {
     border-radius: 4px;
     padding: 1px 5px;
     font-family: monospace;
-    font-size: 0.7rem;
+    font-size: var(--fs-xs);
     color: #fff;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
 }
@@ -2162,7 +2175,7 @@ kbd {
     border-radius: 12px;
     color: white;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: var(--fs-base);
     cursor: pointer;
     transition: var(--transition-smooth);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
@@ -2211,7 +2224,7 @@ kbd {
     background: rgba(139, 92, 246, 0.12);
     border: 1px solid rgba(139, 92, 246, 0.3);
     color: #C4B5FD;
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     padding: 5px 10px;
     border-radius: 9px;
@@ -2237,12 +2250,13 @@ kbd {
    (참고: 킥오프 브리프의 예시값 #4B5563 은 라이트 테마 기준이라 다크에선 반대로 작용 → 밝은 값으로 적용) */
 html[data-senior="true"] {
     font-size: 18.5px;          /* 16px → 18.5px : 모든 rem ≈ 1.16배 확대 */
+    /* 커스텀 프로퍼티는 루트(html)에 정의해야 모든 후손에서 var() 치환이 일관되게 적용된다 */
+    --text-muted: #D1D5DB;      /* 보조 텍스트 밝게 (대비 ↑) */
+    --text-faint: #D1D5DB;
+    --touch-min: 48px;          /* 터치 타깃 44 → 48px */
 }
 
 html[data-senior="true"] body {
-    --text-muted: #D1D5DB;      /* 보조 텍스트 밝게 (대비 ↑) */
-    --text-faint: #D1D5DB;
-    --touch-min: 48px;
     line-height: 1.65;
 }
 
