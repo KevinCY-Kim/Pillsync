@@ -107,6 +107,21 @@ function App() {
   const [systemTime, setSystemTime] = useState("12:00");
   const [isBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  // "큰 글씨"(읽기 편한 모드) 토글 — 기본 OFF, localStorage 저장.
+  // data-senior 속성은 아래 useEffect에서 <html>에 부여하여 모든 rem 기반 텍스트를 일괄 확대한다.
+  const [seniorMode, setSeniorMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('pillsync_senior_mode') === 'true';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute('data-senior', seniorMode ? 'true' : 'false');
+    localStorage.setItem('pillsync_senior_mode', seniorMode ? 'true' : 'false');
+  }, [seniorMode]);
   
   // 1. 하이브리드 앱 설치 여부 감지 (Standalone 미디어 쿼리 + LocalStorage 백업)
   const [isAppInstalled, setIsAppInstalled] = useState(() => {
@@ -842,7 +857,17 @@ function App() {
             <span>Pill<span style={{ color: 'var(--color-secondary)' }}>Sync</span></span>
           </div>
           <div className="app-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button 
+            <button
+              type="button"
+              className="senior-toggle-btn"
+              onClick={() => setSeniorMode(prev => !prev)}
+              aria-pressed={seniorMode}
+              title={seniorMode ? "큰 글씨 모드 끄기" : "글씨를 크게 보기"}
+            >
+              <i className="fa-solid fa-text-height"></i>
+              <span>큰 글씨{seniorMode ? ' ✓' : ''}</span>
+            </button>
+            <button
               onClick={handleInstallApp}
               style={{ background: 'none', border: 'none', color: '#FBBF24', fontSize: '1.05rem', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px', marginRight: '4px' }}
               title={isMobileDevice ? "홈 화면에 추가" : "바탕화면에 추가"}
@@ -1064,7 +1089,7 @@ function App() {
                             />
                             <span className="alternative-label">{ing.warning_trigger_text}</span>
                           </div>
-                          <p style={{ fontSize: '0.62rem', color: '#6B7280', marginTop: '4px', padding: '0 4px' }}>
+                          <p className="legal-fineprint" style={{ marginTop: '4px', padding: '0 4px' }}>
                             ※ 위 정보는 브라우저 내에서만 처리되며 서버에 저장·전송되지 않습니다. 기저질환이 있는 경우 섭취 전 반드시 전문의와 상담하시기 바랍니다.
                           </p>
                         </div>
@@ -1194,7 +1219,7 @@ function App() {
               </button>
 
               <div className="section-tag">쿠팡 관련 상품 안내</div>
-              <p style={{ fontSize: '0.65rem', color: '#6B7280', margin: '4px 0 8px', padding: '0 2px' }}>
+              <p className="legal-fineprint" style={{ margin: '4px 0 8px', padding: '0 2px' }}>
                 ※ 아래 상품 정보(가격·리뷰)는 예시 데이터이며 실제와 다를 수 있습니다. 링크 클릭 시 쿠팡 페이지에서 실제 정보를 확인하세요.
               </p>
               <div className="product-grid" style={{ marginTop: '4px' }}>

@@ -12,6 +12,18 @@
     --phone-bg: #0d1221;
     --shadow-premium: 0 12px 40px rgba(0, 0, 0, 0.5);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ── Readability tokens (Phase 1) ───────────────────────────
+       다크 테마 기준: 대비를 높이려면 보조 텍스트를 "더 밝게" 한다.
+       (라이트 테마처럼 "더 진한 회색"으로 가면 오히려 안 보인다.) */
+    --fs-sm: 0.85rem;            /* 깨알/면책 문구 하한 ≈ 13.6px */
+    --touch-min: 44px;          /* 최소 터치 타깃 */
+    --text-faint: #9CA3AF;      /* 기존 #6B7280(대비 ~3.6:1, AA 미달) → AA 통과 회색 */
+}
+
+/* 루트(html) 폰트 크기 = 모든 rem의 기준. 토글 시 이 값만 키우면 앱 전체가 일괄 확대된다. */
+html {
+    font-size: 16px;
 }
 
 /* Global Reset */
@@ -28,6 +40,7 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    line-height: 1.6;           /* 기본 줄간격 상향 (시니어 가독 권장 1.5+) */
 }
 
 /* Background Glowing Orbs */
@@ -279,12 +292,12 @@ body {
     background: rgba(22, 28, 45, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 10px 14px;
-    font-size: 0.68rem;
+    font-size: 0.78rem;         /* 0.68rem(10.9px) → 12.5px */
     color: #9CA3AF;
-    line-height: 1.35;
+    line-height: 1.5;
     text-align: center;
     z-index: 9;
-    font-weight: 300;
+    font-weight: 400;           /* 300(thin)은 작은 글씨에서 흐릿 → 400 */
 }
 
 /* Dynamic Screen Elements */
@@ -2177,4 +2190,59 @@ kbd {
 }
 
 
+/* ==========================================================
+   READABILITY / "큰 글씨" 모드 (Phase 1)
+   - 기본(토글 OFF)에서도 깨알 면책·예시 문구의 크기·대비를 보정한다.
+   - 토글 ON 시 html[data-senior="true"] 한 곳에서 앱 전체를 일괄 확대한다.
+   ========================================================== */
+
+/* 깨알 면책/예시 문구 공통 클래스 (기존 인라인 0.62~0.65rem + #6B7280 대체) */
+.legal-fineprint {
+    font-size: var(--fs-sm);    /* 9.9~10.4px → 13.6px */
+    color: var(--text-faint);   /* #6B7280(AA 미달) → #9CA3AF(AA 통과) */
+    line-height: 1.5;
+}
+
+/* 토글 버튼 (app-nav 안, 텍스트 라벨 병기 — 아이콘 단독 X) */
+.senior-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: #C4B5FD;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: var(--touch-min);
+    transition: var(--transition-smooth);
+}
+
+.senior-toggle-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    color: #fff;
+}
+
+.senior-toggle-btn[aria-pressed="true"] {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: rgba(16, 185, 129, 0.45);
+    color: #6EE7B7;
+}
+
+/* ── 토글 ON: 루트 한 곳에서 전체 확대 + 보조 텍스트 밝게 ──────────
+   다크 테마이므로 대비를 높이려면 muted/faint 를 "더 밝게" 한다.
+   (참고: 킥오프 브리프의 예시값 #4B5563 은 라이트 테마 기준이라 다크에선 반대로 작용 → 밝은 값으로 적용) */
+html[data-senior="true"] {
+    font-size: 18.5px;          /* 16px → 18.5px : 모든 rem ≈ 1.16배 확대 */
+}
+
+html[data-senior="true"] body {
+    --text-muted: #D1D5DB;      /* 보조 텍스트 밝게 (대비 ↑) */
+    --text-faint: #D1D5DB;
+    --touch-min: 48px;
+    line-height: 1.65;
+}
 
